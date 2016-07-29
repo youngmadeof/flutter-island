@@ -5,7 +5,7 @@ public class BirdMove : MonoBehaviour {
 
     private Rigidbody2D rb2d;
     public float moveSpeed;
-    public float stopSpeed;
+    public float rotateSpeed;
     private bool touchDown1;
     private bool touchDown2;
     private bool touchDown3;
@@ -22,14 +22,14 @@ public class BirdMove : MonoBehaviour {
 
     void CheckTouch3() {
         touchDown1 = false;
-        Debug.Log(touchDown3);
+        
     }
 
 	void Start () {
 
         rb2d = GetComponent<Rigidbody2D>();
         moveSpeed = 0.1f;
-        stopSpeed = (moveSpeed) / 10f;
+        rotateSpeed = 0.1f;
         touchDown1 = false;
         Debug.Log(touchDown1);
         touchDown2 = false;
@@ -52,17 +52,19 @@ public class BirdMove : MonoBehaviour {
         Vector2 treePos3 = new Vector2(3.65f, 2.75f);
 
         currentPos = transform.position;
+
+
         
-
         if (touchDown1 == false){
-
+            Debug.Log(touchDown3);
             Vector2 dir1 = (treePos1 - currentPos);
-            rb2d.velocity += (dir1).normalized * moveSpeed;
-            rb2d.velocity = dir1;
+            rb2d.velocity += (dir1).normalized * moveSpeed / Time.deltaTime;
+            rb2d.velocity = (dir1);
 
             Debug.Log(currentPos);
             Debug.Log(treePos1);
             if (Vector2.Distance(currentPos, treePos1) <=0.1f){
+                rb2d.MoveRotation(60);
                 Invoke("CheckTouch1", 2);
             }
 
@@ -76,8 +78,11 @@ public class BirdMove : MonoBehaviour {
             rb2d.velocity += (dir2).normalized * moveSpeed;
             rb2d.velocity = dir2;
             Debug.Log(currentPos);
+
             if (Vector2.Distance(currentPos, treePos2) < 0.1f){
-                Invoke("CheckTouch2", 3);
+                rb2d.MoveRotation(-70);
+                Invoke("CheckTouch2", 2);
+
             }
 
 
@@ -92,7 +97,8 @@ public class BirdMove : MonoBehaviour {
             Debug.Log(currentPos);
 
             if (Vector2.Distance(currentPos, treePos3) < 0.1f){
-                Invoke("CheckTouch3", 3);
+                rb2d.MoveRotation(166);
+                Invoke("CheckTouch3", 2);
 
             }
 
