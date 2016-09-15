@@ -12,19 +12,19 @@ public class BirdMove : MonoBehaviour
     void CheckTouch1()
     {
         touchDown1 = true;
-        Debug.Log(touchDown1);
+
     }
 
     void CheckTouch2()
     {
         touchDown2 = true;
-        Debug.Log(touchDown2);
+
     }
 
     void CheckTouch3()
     {
         touchDown1 = false;
-        Debug.Log(touchDown1);
+        touchDown2 = false;
 
     }
 
@@ -32,25 +32,10 @@ public class BirdMove : MonoBehaviour
     private GameObject tree1;
     private GameObject tree2;
 
-    void Start()
+    public bool gotYerButt;
+
+    void BirdyGo()
     {
-
-        rb2d = GetComponent<Rigidbody2D>();
-        touchDown1 = false;
-        Debug.Log(touchDown1);
-        touchDown2 = false;
-        Debug.Log(touchDown2);
-
-        tree = GameObject.Find("Tree");
-        tree1 = GameObject.Find("Tree (1)");
-        tree2 = GameObject.Find("Tree (2)");
-
-    }
-
-    void FixedUpdate()
-    {
-
-
         Vector2 currentPos = new Vector2();
 
         Vector2 treePos1 = tree.transform.position;
@@ -61,25 +46,20 @@ public class BirdMove : MonoBehaviour
 
         currentPos = transform.position;
 
-
-
-
         if (touchDown1 == false)
         {
-            Debug.Log(touchDown1);
+            Debug.Log("first loop");
             Vector2 dir1 = (treePos2 - currentPos);
             rb2d.velocity += (dir1) * moveSpeed / Time.deltaTime;
             rb2d.velocity = (dir1);
 
-            Debug.Log(currentPos);
-            Debug.Log(treePos2);
             if (Vector2.Distance(currentPos, treePos2) <= 0.1f)
             {
-                Invoke("CheckTouch1", 2);
                 float angle = Mathf.Atan2(treePos1.y, treePos1.x) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
                 Debug.Log(angle);
-                //rb2d.MoveRotation(60);
+
+                Invoke("CheckTouch1", 2);
 
             }
 
@@ -87,22 +67,25 @@ public class BirdMove : MonoBehaviour
         }
 
 
-
         if (touchDown1 == true)
         {
+            Debug.Log("second loop");
             Vector2 dir2 = (treePos3 - currentPos);
             rb2d.velocity += (dir2).normalized * moveSpeed;
             rb2d.velocity = dir2;
-            Debug.Log(currentPos);
+
 
             if (Vector2.Distance(currentPos, treePos3) < 0.1f)
             {
                 //rb2d.MoveRotation(-70);
-                Invoke("CheckTouch2", 2);
+
                 float angle = Mathf.Atan2(treePos2.y, treePos2.x) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
+                Invoke("CheckTouch2", 2);
             }
+
+
 
 
         }
@@ -110,23 +93,52 @@ public class BirdMove : MonoBehaviour
 
         if (touchDown2 == true)
         {
+            Debug.Log("third loop");
             Vector2 dir3 = (treePos1 - currentPos);
             rb2d.velocity += (dir3).normalized * moveSpeed;
             rb2d.velocity = dir3;
-            Debug.Log(currentPos);
+
 
             if (Vector2.Distance(currentPos, treePos1) < 0.1f)
             {
 
                 //rb2d.MoveRotation(170);
-                Invoke("CheckTouch3", 2);
+
                 float angle = Mathf.Atan2(treePos3.y, treePos3.x) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                Debug.Log("third loop end");
 
+                Invoke("CheckTouch3", 2);
             }
 
 
+
         }
+
+    }
+
+    void Start()
+    {
+
+        rb2d = GetComponent<Rigidbody2D>();
+        touchDown1 = false;
+        touchDown2 = false;
+        gotYerButt = false;
+        tree = GameObject.Find("Tree");
+        tree1 = GameObject.Find("Tree (1)");
+        tree2 = GameObject.Find("Tree (2)");
+
+    }
+
+    void FixedUpdate()
+    {
+
+
+        if (gotYerButt == false)
+            BirdyGo();
+
+
+
 
 
     }
