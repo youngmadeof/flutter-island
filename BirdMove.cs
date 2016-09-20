@@ -5,27 +5,39 @@ public class BirdMove : MonoBehaviour
 {
 
     private Rigidbody2D rb2d;
-    public float moveSpeed;
+    private float moveSpeed = 1f;
     private bool touchDown1;
     private bool touchDown2;
 
+    private float incrementor = 0;
+
+    //set of co-routines to use for Invoke
     void CheckTouch1()
     {
+
         touchDown1 = true;
+
 
     }
 
     void CheckTouch2()
     {
+
         touchDown2 = true;
 
     }
 
     void CheckTouch3()
     {
+
         touchDown1 = false;
         touchDown2 = false;
 
+    }
+
+    void IncremReset()
+    {
+        incrementor = 0;
     }
 
     private GameObject tree;
@@ -36,56 +48,79 @@ public class BirdMove : MonoBehaviour
 
     void BirdyGo()
     {
-        Vector2 currentPos = new Vector2();
+        Vector3 currentPos = new Vector3();
 
-        Vector2 treePos1 = tree.transform.position;
+        Vector3 treePos1 = tree.transform.position;
 
-        Vector2 treePos2 = tree1.transform.position;
+        Vector3 treePos2 = tree1.transform.position;
 
-        Vector2 treePos3 = tree2.transform.position;
+        Vector3 treePos3 = tree2.transform.position;
+
+        //finding the centre for the arc between tree & tree1
+        Vector3 centre1 = (treePos1 + treePos2) * 0.35f;
+        centre1 -= new Vector3(0, -1, 0);
+        Vector3 oneToTwoRelCentre = treePos1 - centre1;
+        Vector3 twoToOneRelCentre = treePos2 - centre1;
+
+
+        Vector3 centre2 = (treePos2 + treePos3) * 0.15f;
+        centre2 -= new Vector3(0, -1, 0);
+        Vector3 twoToThreeRelCentre = treePos2 - centre2;
+        Vector3 threeToTwoRelCentre = treePos3 - centre2;
+
+        Vector3 centre3 = (treePos3 + treePos1) * -0.35f;
+        centre3 -= new Vector3(0, -1, 0);
+        Vector3 threeToOneRelCentre = treePos3 - centre3;
+        Vector3 oneToThreeRelCentre = treePos1 - centre3;
 
         currentPos = transform.position;
 
         if (touchDown1 == false)
         {
-            Debug.Log("first loop");
-            Vector2 dir1 = (treePos2 - currentPos);
-            rb2d.velocity += (dir1) * moveSpeed / Time.deltaTime;
-            rb2d.velocity = (dir1);
+            incrementor += 0.01f;
+            transform.position = Vector3.Slerp(oneToTwoRelCentre, twoToOneRelCentre, incrementor);
+            transform.position += centre1;
+            rb2d.velocity = (transform.position).normalized;
 
-            if (Vector2.Distance(currentPos, treePos2) <= 0.1f)
+            if (currentPos == treePos2)
             {
+
                 float angle = Mathf.Atan2(treePos1.y, treePos1.x) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-                Debug.Log(angle);
+                //Invoke("CheckTouch1", 2);
+                touchDown1 = true;
+                incrementor = 0;
 
-                Invoke("CheckTouch1", 2);
+
 
             }
-
-
         }
+
 
 
         if (touchDown1 == true)
         {
-            Debug.Log("second loop");
-            Vector2 dir2 = (treePos3 - currentPos);
-            rb2d.velocity += (dir2).normalized * moveSpeed;
-            rb2d.velocity = dir2;
 
 
-            if (Vector2.Distance(currentPos, treePos3) < 0.1f)
+            //rotate to face tree
+
+
+
+            incrementor += 0.01f;
+            transform.position = Vector3.Slerp(twoToThreeRelCentre, threeToTwoRelCentre, incrementor);
+            transform.position += centre2;
+            rb2d.velocity = (transform.position).normalized;
+
+
+            if (currentPos == treePos3)
             {
-                //rb2d.MoveRotation(-70);
 
                 float angle = Mathf.Atan2(treePos2.y, treePos2.x) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-
-                Invoke("CheckTouch2", 2);
+                //Invoke("CheckTouch2", 2);
+                touchDown2 = true;
+                incrementor = 0;
             }
-
-
 
 
         }
@@ -93,22 +128,26 @@ public class BirdMove : MonoBehaviour
 
         if (touchDown2 == true)
         {
-            Debug.Log("third loop");
-            Vector2 dir3 = (treePos1 - currentPos);
-            rb2d.velocity += (dir3).normalized * moveSpeed;
-            rb2d.velocity = dir3;
+
+            incrementor += 0.01f;
+            transform.position = Vector3.Slerp(threeToOneRelCentre, oneToThreeRelCentre, incrementor);
+            transform.position += centre3;
+            rb2d.velocity = (transform.position).normalized;
 
 
-            if (Vector2.Distance(currentPos, treePos1) < 0.1f)
+            if (currentPos == treePos1)
             {
 
-                //rb2d.MoveRotation(170);
 
                 float angle = Mathf.Atan2(treePos3.y, treePos3.x) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-                Debug.Log("third loop end");
 
-                Invoke("CheckTouch3", 2);
+                //Invoke("CheckTouch3", 2);
+                touchDown1 = false;
+                touchDown2 = false;
+                incrementor = 0;
+
+
             }
 
 
@@ -128,9 +167,10 @@ public class BirdMove : MonoBehaviour
         tree1 = GameObject.Find("Tree (1)");
         tree2 = GameObject.Find("Tree (2)");
 
+
     }
 
-    void FixedUpdate()
+    void Update()
     {
 
 
