@@ -1,8 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class BirdMove : MonoBehaviour
-{
+public class BirdMove : MonoBehaviour {
 
     private Rigidbody2D rb2d;
     private float moveSpeed = 1f;
@@ -11,11 +10,14 @@ public class BirdMove : MonoBehaviour
 
     private float incrementor = 0;
 
+    private bool waitBeforeTurn;
+
+
     //set of co-routines to use for Invoke
     void CheckTouch1()
     {
 
-        touchDown1 = true;
+        waitBeforeTurn = true;
 
 
     }
@@ -85,26 +87,26 @@ public class BirdMove : MonoBehaviour
             if (currentPos == treePos2)
             {
 
-                float angle = Mathf.Atan2(treePos1.y, treePos1.x) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-                //Invoke("CheckTouch1", 2);
-                touchDown1 = true;
-                incrementor = 0;
+                Invoke("CheckTouch1", 2);
 
+            if (waitBeforeTurn == true)
+                {
+                    float angle = Mathf.Atan2(treePos1.y, treePos1.x) * Mathf.Rad2Deg;
+                    transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                    incrementor = 0;
+                    touchDown1 = true;
+                    waitBeforeTurn = false;
+                }
 
 
             }
+
         }
 
 
 
         if (touchDown1 == true)
         {
-
-
-            //rotate to face tree
-
-
 
             incrementor += 0.01f;
             transform.position = Vector3.Slerp(twoToThreeRelCentre, threeToTwoRelCentre, incrementor);
@@ -114,12 +116,22 @@ public class BirdMove : MonoBehaviour
 
             if (currentPos == treePos3)
             {
+                Invoke("CheckTouch1", 2);
 
-                float angle = Mathf.Atan2(treePos2.y, treePos2.x) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                if(waitBeforeTurn == true)
+                {
+                    float angle = Mathf.Atan2(treePos2.y, treePos2.x) * Mathf.Rad2Deg;
+                    transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                    incrementor = 0;
+                    touchDown2 = true;
+                    waitBeforeTurn = false;
+
+
+                }
+
+
                 //Invoke("CheckTouch2", 2);
-                touchDown2 = true;
-                incrementor = 0;
+
             }
 
 
@@ -138,14 +150,20 @@ public class BirdMove : MonoBehaviour
             if (currentPos == treePos1)
             {
 
+                Invoke("CheckTouch1", 2);
 
-                float angle = Mathf.Atan2(treePos3.y, treePos3.x) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                if (waitBeforeTurn == true)
+                {
+                    float angle = Mathf.Atan2(treePos3.y, treePos3.x) * Mathf.Rad2Deg;
+                    transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                    touchDown1 = false;
+                    touchDown2 = false;
+                    incrementor = 0;
+
+                }
+
 
                 //Invoke("CheckTouch3", 2);
-                touchDown1 = false;
-                touchDown2 = false;
-                incrementor = 0;
 
 
             }
@@ -156,7 +174,7 @@ public class BirdMove : MonoBehaviour
 
     }
 
-    void Start()
+    void Start ()
     {
 
         rb2d = GetComponent<Rigidbody2D>();
@@ -170,7 +188,7 @@ public class BirdMove : MonoBehaviour
 
     }
 
-    void Update()
+    void Update ()
     {
 
 
