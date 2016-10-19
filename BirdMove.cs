@@ -87,7 +87,6 @@ public class BirdMove : MonoBehaviour
         if (touchDown1 == false)
         {
             incrementor += 0.01f;
-            //startTime = Time.time *0.2f;
             transform.position = Vector3.Slerp(oneToTwoRelCentre, twoToOneRelCentre, incrementor / duration);
             transform.position += centre1;
             rb2d.velocity = (transform.position).normalized;
@@ -118,7 +117,6 @@ public class BirdMove : MonoBehaviour
         {
 
             incrementor += 0.01f;
-            startTime2 = Time.time * 0.2f;
             transform.position = Vector3.Slerp(twoToThreeRelCentre, threeToTwoRelCentre, incrementor / duration);
             transform.position += centre2;
             rb2d.velocity = (transform.position).normalized;
@@ -147,7 +145,7 @@ public class BirdMove : MonoBehaviour
 
         if (touchDown2 == true)
         {
-            duration = 6.5f;
+            duration = 5f;
             incrementor += 0.01f;
             transform.position = Vector3.Slerp(threeToOneRelCentre, oneToThreeRelCentre, incrementor / duration);
             transform.position += centre3;
