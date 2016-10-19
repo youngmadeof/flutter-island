@@ -15,6 +15,8 @@ public class BirdMove : MonoBehaviour
     private bool waitBeforeTurn2;
     private bool waitBeforeTurn3;
 
+    private float duration;
+
 
     //set of functions to use for Invoke wait
     void CheckTouch1()
@@ -43,10 +45,6 @@ public class BirdMove : MonoBehaviour
 
     }
 
-    void IncremReset()
-    {
-        incrementor = 0;
-    }
 
     private GameObject tree;
     private GameObject tree1;
@@ -83,11 +81,14 @@ public class BirdMove : MonoBehaviour
 
         currentPos = transform.position;
 
+        duration = 2f;
+
 
         if (touchDown1 == false)
         {
             incrementor += 0.01f;
-            transform.position = Vector3.Slerp(oneToTwoRelCentre, twoToOneRelCentre, incrementor);
+            //startTime = Time.time *0.2f;
+            transform.position = Vector3.Slerp(oneToTwoRelCentre, twoToOneRelCentre, incrementor / duration);
             transform.position += centre1;
             rb2d.velocity = (transform.position).normalized;
 
@@ -117,7 +118,8 @@ public class BirdMove : MonoBehaviour
         {
 
             incrementor += 0.01f;
-            transform.position = Vector3.Slerp(twoToThreeRelCentre, threeToTwoRelCentre, incrementor);
+            startTime2 = Time.time * 0.2f;
+            transform.position = Vector3.Slerp(twoToThreeRelCentre, threeToTwoRelCentre, incrementor / duration);
             transform.position += centre2;
             rb2d.velocity = (transform.position).normalized;
 
@@ -145,9 +147,9 @@ public class BirdMove : MonoBehaviour
 
         if (touchDown2 == true)
         {
-
+            duration = 6.5f;
             incrementor += 0.01f;
-            transform.position = Vector3.Slerp(threeToOneRelCentre, oneToThreeRelCentre, incrementor);
+            transform.position = Vector3.Slerp(threeToOneRelCentre, oneToThreeRelCentre, incrementor / duration);
             transform.position += centre3;
             rb2d.velocity = (transform.position).normalized;
 
