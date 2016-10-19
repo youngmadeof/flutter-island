@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
-public class BirdMove : MonoBehaviour {
+public class BirdMove : MonoBehaviour
+{
 
     private Rigidbody2D rb2d;
     private float moveSpeed = 1f;
@@ -9,15 +10,18 @@ public class BirdMove : MonoBehaviour {
     private bool touchDown2;
 
     private float incrementor = 0;
+    //wait variables
+    private bool waitBeforeTurn1;
+    private bool waitBeforeTurn2;
+    private bool waitBeforeTurn3;
 
-    private bool waitBeforeTurn;
 
-
-    //set of co-routines to use for Invoke
+    //set of functions to use for Invoke wait
     void CheckTouch1()
     {
 
-        waitBeforeTurn = true;
+        waitBeforeTurn1 = true;
+        Debug.Log("Here we go 1");
 
 
     }
@@ -25,15 +29,17 @@ public class BirdMove : MonoBehaviour {
     void CheckTouch2()
     {
 
-        touchDown2 = true;
+        waitBeforeTurn2 = true;
+        Debug.Log("Here we go 2");
 
     }
 
     void CheckTouch3()
     {
 
-        touchDown1 = false;
-        touchDown2 = false;
+        waitBeforeTurn3 = true;
+        Debug.Log("Here we go 3");
+
 
     }
 
@@ -77,6 +83,7 @@ public class BirdMove : MonoBehaviour {
 
         currentPos = transform.position;
 
+
         if (touchDown1 == false)
         {
             incrementor += 0.01f;
@@ -89,13 +96,14 @@ public class BirdMove : MonoBehaviour {
 
                 Invoke("CheckTouch1", 2);
 
-            if (waitBeforeTurn == true)
+                if (waitBeforeTurn1 == true)
                 {
                     float angle = Mathf.Atan2(treePos1.y, treePos1.x) * Mathf.Rad2Deg;
                     transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
                     incrementor = 0;
                     touchDown1 = true;
-                    waitBeforeTurn = false;
+                    waitBeforeTurn1 = false;
+
                 }
 
 
@@ -116,21 +124,18 @@ public class BirdMove : MonoBehaviour {
 
             if (currentPos == treePos3)
             {
-                Invoke("CheckTouch1", 2);
+                Invoke("CheckTouch2", 2);
 
-                if(waitBeforeTurn == true)
+                if (waitBeforeTurn2 == true)
                 {
                     float angle = Mathf.Atan2(treePos2.y, treePos2.x) * Mathf.Rad2Deg;
                     transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
                     incrementor = 0;
                     touchDown2 = true;
-                    waitBeforeTurn = false;
-
+                    waitBeforeTurn2 = false;
+                    waitBeforeTurn3 = false;
 
                 }
-
-
-                //Invoke("CheckTouch2", 2);
 
             }
 
@@ -150,20 +155,20 @@ public class BirdMove : MonoBehaviour {
             if (currentPos == treePos1)
             {
 
-                Invoke("CheckTouch1", 2);
+                Invoke("CheckTouch3", 2);
 
-                if (waitBeforeTurn == true)
+                if (waitBeforeTurn3 == true)
                 {
                     float angle = Mathf.Atan2(treePos3.y, treePos3.x) * Mathf.Rad2Deg;
                     transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                    incrementor = 0;
+                    waitBeforeTurn3 = false;
+                    waitBeforeTurn1 = false;
+                    waitBeforeTurn2 = false;
                     touchDown1 = false;
                     touchDown2 = false;
-                    incrementor = 0;
 
                 }
-
-
-                //Invoke("CheckTouch3", 2);
 
 
             }
@@ -174,7 +179,7 @@ public class BirdMove : MonoBehaviour {
 
     }
 
-    void Start ()
+    void Start()
     {
 
         rb2d = GetComponent<Rigidbody2D>();
@@ -186,9 +191,10 @@ public class BirdMove : MonoBehaviour {
         tree2 = GameObject.Find("Tree (2)");
 
 
+
     }
 
-    void Update ()
+    void Update()
     {
 
 
