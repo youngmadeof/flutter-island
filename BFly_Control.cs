@@ -4,23 +4,30 @@ using System.Collections;
 public class BFly_Control : MonoBehaviour {
 
     private Rigidbody2D rb2d;
+    private BoxCollider2D bxCol;
 
     public float speed;
 
+  
+    void Start()
+    {
 
-    void Start () 
-	{
 
+        rb2d = GetComponent<Rigidbody2D>();
+        bxCol = GetComponent<BoxCollider2D>();
 
-    rb2d = GetComponent<Rigidbody2D> ();
+      
+
 
     }
 	
 
 	void FixedUpdate ()
 	{
-		
-		float MoveButtY = Input.GetAxisRaw ("Horizontal");
+       
+
+
+        float MoveButtY = Input.GetAxisRaw ("Horizontal");
 		float MoveButtX = Input.GetAxisRaw ("Vertical");
 
 		Vector2 movement = new Vector2 (MoveButtY, MoveButtX);
@@ -63,10 +70,10 @@ public class BFly_Control : MonoBehaviour {
         {
             rb2d.MoveRotation(180);
         }
-        
-          
-        
-	}
+
+
+}
+
 
 
 }

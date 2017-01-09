@@ -1,8 +1,7 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
-public class BirdMove : MonoBehaviour
-{
+public class BirdMove : MonoBehaviour {
 
     private Rigidbody2D rb2d;
     private float moveSpeed = 1f;
@@ -16,23 +15,23 @@ public class BirdMove : MonoBehaviour
     private bool waitBeforeTurn3;
 
     private float duration;
-
-
+    
+     
     //set of functions to use for Invoke wait
     void CheckTouch1()
     {
-
+        
         waitBeforeTurn1 = true;
-        Debug.Log("Here we go 1");
-
-
+        //Debug.Log("Here we go 1");
+             
+        
     }
 
     void CheckTouch2()
     {
 
         waitBeforeTurn2 = true;
-        Debug.Log("Here we go 2");
+        //Debug.Log("Here we go 2");
 
     }
 
@@ -40,12 +39,12 @@ public class BirdMove : MonoBehaviour
     {
 
         waitBeforeTurn3 = true;
-        Debug.Log("Here we go 3");
+        //Debug.Log("Here we go 3");
 
 
     }
 
-
+    
     private GameObject tree;
     private GameObject tree1;
     private GameObject tree2;
@@ -77,8 +76,8 @@ public class BirdMove : MonoBehaviour
         Vector3 centre3 = (treePos3 + treePos1) * -0.35f;
         centre3 -= new Vector3(0, -1, 0);
         Vector3 threeToOneRelCentre = treePos3 - centre3;
-        Vector3 oneToThreeRelCentre = treePos1 - centre3;
-
+        Vector3 oneToThreeRelCentre = treePos1 - centre3; 
+        
         currentPos = transform.position;
 
         duration = 2f;
@@ -87,31 +86,31 @@ public class BirdMove : MonoBehaviour
         if (touchDown1 == false)
         {
             incrementor += 0.01f;
-            transform.position = Vector3.Slerp(oneToTwoRelCentre, twoToOneRelCentre, incrementor / duration);
+            transform.position = Vector3.Slerp(oneToTwoRelCentre, twoToOneRelCentre, incrementor/duration);
             transform.position += centre1;
             rb2d.velocity = (transform.position).normalized;
-
+            
             if (currentPos == treePos2)
             {
-
+                
                 Invoke("CheckTouch1", 2);
-
-                if (waitBeforeTurn1 == true)
+                
+            if (waitBeforeTurn1 == true)
                 {
                     float angle = Mathf.Atan2(treePos1.y, treePos1.x) * Mathf.Rad2Deg;
                     transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
                     incrementor = 0;
                     touchDown1 = true;
                     waitBeforeTurn1 = false;
-
+                    
                 }
-
-
-            }
-
+                              
+                                
+            }         
+              
         }
 
-
+       
 
         if (touchDown1 == true)
         {
@@ -126,7 +125,7 @@ public class BirdMove : MonoBehaviour
             {
                 Invoke("CheckTouch2", 2);
 
-                if (waitBeforeTurn2 == true)
+                if(waitBeforeTurn2 == true)
                 {
                     float angle = Mathf.Atan2(treePos2.y, treePos2.x) * Mathf.Rad2Deg;
                     transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
@@ -134,12 +133,12 @@ public class BirdMove : MonoBehaviour
                     touchDown2 = true;
                     waitBeforeTurn2 = false;
                     waitBeforeTurn3 = false;
-
+                    
                 }
-
+                                                         
             }
 
-
+            
         }
 
 
@@ -147,7 +146,7 @@ public class BirdMove : MonoBehaviour
         {
             duration = 5f;
             incrementor += 0.01f;
-            transform.position = Vector3.Slerp(threeToOneRelCentre, oneToThreeRelCentre, incrementor / duration);
+            transform.position = Vector3.Slerp(threeToOneRelCentre, oneToThreeRelCentre, incrementor/duration);
             transform.position += centre3;
             rb2d.velocity = (transform.position).normalized;
 
@@ -169,17 +168,17 @@ public class BirdMove : MonoBehaviour
                     touchDown2 = false;
 
                 }
-
-
+                                                             
+        
             }
 
-
+            
 
         }
 
     }
 
-    void Start()
+    void Start ()
     {
 
         rb2d = GetComponent<Rigidbody2D>();
@@ -189,12 +188,12 @@ public class BirdMove : MonoBehaviour
         tree = GameObject.Find("Tree");
         tree1 = GameObject.Find("Tree (1)");
         tree2 = GameObject.Find("Tree (2)");
-
-
+        
+        
 
     }
 
-    void Update()
+    void Update ()
     {
 
 
@@ -202,8 +201,8 @@ public class BirdMove : MonoBehaviour
             BirdyGo();
 
 
-
-
+        
+                
 
     }
 }
