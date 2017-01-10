@@ -73,7 +73,7 @@ public class BirdMove : MonoBehaviour {
         Vector3 twoToThreeRelCentre = treePos2 - centre2;
         Vector3 threeToTwoRelCentre = treePos3 - centre2;
 
-        Vector3 centre3 = (treePos3 + treePos1) * -0.35f;
+        Vector3 centre3 = (treePos3 + treePos1) * -0.95f;
         centre3 -= new Vector3(0, -1, 0);
         Vector3 threeToOneRelCentre = treePos3 - centre3;
         Vector3 oneToThreeRelCentre = treePos1 - centre3; 

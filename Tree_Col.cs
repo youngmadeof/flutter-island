@@ -5,12 +5,12 @@ public class Tree_Col : MonoBehaviour
 {
 
     private Animator animator;
-    public bool hit;
+    
 
     public void Start()
     {
         animator = GetComponent<Animator>();
-        hit = false;
+        
     }
 
 
@@ -18,8 +18,7 @@ public class Tree_Col : MonoBehaviour
     {
         if (Other.gameObject.CompareTag("Player"))
         {
-            animator.Play("TreeHide");
-            hit = true;
+            animator.Play("TreeHide");           
 
         }
         
