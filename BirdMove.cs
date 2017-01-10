@@ -49,7 +49,7 @@ public class BirdMove : MonoBehaviour {
     private GameObject tree1;
     private GameObject tree2;
 
-    public bool gotYerButt;
+    private bool gotYerButt;
 
     void BirdyGo()
     {
@@ -80,9 +80,8 @@ public class BirdMove : MonoBehaviour {
         
         currentPos = transform.position;
 
-        duration = 2f;
-
-
+        duration = 1.5f;
+     
         if (touchDown1 == false)
         {
             incrementor += 0.01f;
@@ -93,12 +92,12 @@ public class BirdMove : MonoBehaviour {
             if (currentPos == treePos2)
             {
                 
-                Invoke("CheckTouch1", 2);
+                Invoke("CheckTouch1", 4);
                 
             if (waitBeforeTurn1 == true)
                 {
                     float angle = Mathf.Atan2(treePos1.y, treePos1.x) * Mathf.Rad2Deg;
-                    transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                    transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);                    
                     incrementor = 0;
                     touchDown1 = true;
                     waitBeforeTurn1 = false;
@@ -123,7 +122,7 @@ public class BirdMove : MonoBehaviour {
 
             if (currentPos == treePos3)
             {
-                Invoke("CheckTouch2", 2);
+                Invoke("CheckTouch2", 4);
 
                 if(waitBeforeTurn2 == true)
                 {
@@ -144,7 +143,7 @@ public class BirdMove : MonoBehaviour {
 
         if (touchDown2 == true)
         {
-            duration = 5f;
+            duration = 3.2f;
             incrementor += 0.01f;
             transform.position = Vector3.Slerp(threeToOneRelCentre, oneToThreeRelCentre, incrementor/duration);
             transform.position += centre3;
@@ -154,7 +153,7 @@ public class BirdMove : MonoBehaviour {
             if (currentPos == treePos1)
             {
 
-                Invoke("CheckTouch3", 2);
+                Invoke("CheckTouch3", 4);
 
                 if (waitBeforeTurn3 == true)
                 {
@@ -198,11 +197,10 @@ public class BirdMove : MonoBehaviour {
 
 
         if (gotYerButt == false)
-            BirdyGo();
+            Invoke("BirdyGo", 4);
 
-
-        
-                
+              
+               
 
     }
 }

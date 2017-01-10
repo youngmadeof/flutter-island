@@ -4,7 +4,7 @@ using System.Collections;
 public class BFly_Control : MonoBehaviour {
 
     private Rigidbody2D rb2d;
-    private BoxCollider2D bxCol;
+    //private BoxCollider2D bxCol;
 
     public float speed;
 
@@ -14,7 +14,7 @@ public class BFly_Control : MonoBehaviour {
 
 
         rb2d = GetComponent<Rigidbody2D>();
-        bxCol = GetComponent<BoxCollider2D>();
+        //bxCol = GetComponent<BoxCollider2D>();
 
       
 
