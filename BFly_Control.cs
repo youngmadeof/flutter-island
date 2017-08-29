@@ -8,25 +8,27 @@ public class BFly_Control : MonoBehaviour {
 
     public float speed;
 
-  
+    
+    public int hBar = 100;
+    public float hTime;
+    //public float drag;
+    //public static float buttLinDrag;
+    
+    
+
     void Start()
     {
-
-
+        
         rb2d = GetComponent<Rigidbody2D>();
-        //bxCol = GetComponent<BoxCollider2D>();
-
-      
-
-
+        buttLinDrag = drag;
+        hTime = Time.fixedTime;   
+        
     }
 	
 
 	void FixedUpdate ()
 	{
-       
-
-
+               
         float MoveButtY = Input.GetAxisRaw ("Horizontal");
 		float MoveButtX = Input.GetAxisRaw ("Vertical");
 
@@ -72,6 +74,10 @@ public class BFly_Control : MonoBehaviour {
         }
 
 
+   // for (int i = 0; i <= hTime; i--)
+    //{   
+      //  hBar -= i;
+    //}
 }
 
 
