@@ -18,9 +18,8 @@ public class BFly_Control : MonoBehaviour {
 
     void Start()
     {
-        
         rb2d = GetComponent<Rigidbody2D>();
-        buttLinDrag = drag;
+        //buttLinDrag = rb2d.drag;
         hTime = Time.fixedTime;   
         
     }

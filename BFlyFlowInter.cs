@@ -9,6 +9,7 @@ public class BFlyFlowInter : MonoBehaviour
     private bool hitFlow;
     public int linDrag;
     public int angDrag;
+   //private float flowLinDrag;
 
 
 
@@ -19,6 +20,7 @@ public class BFlyFlowInter : MonoBehaviour
         flower = GameObject.Find("Flower");
         rb2d = GetComponent<Rigidbody2D>();
         hitFlow = false;
+        //flowLinDrag = BFly_Control.buttLinDrag;
         //linDrag = 80;
         //angDrag = 80;
 		
@@ -52,7 +54,7 @@ public class BFlyFlowInter : MonoBehaviour
         else if (hitFlow == false)
         {
             rb2d.drag = 10;
-            rb2d.angularDrag = 50;
+            rb2d.angularDrag = 40;
         }
 
 		
