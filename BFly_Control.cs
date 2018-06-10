@@ -8,19 +8,16 @@ public class BFly_Control : MonoBehaviour {
 
     public float speed;
 
-    
-    public int hBar = 100;
-    public float hTime;
-    //public float drag;
-    //public static float buttLinDrag;
-    
+    private Animator animator;
+
+  
     
 
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        //buttLinDrag = rb2d.drag;
-        hTime = Time.fixedTime;   
+        speed = 80;
+        animator = GetComponent<Animator>();
         
     }
 	
@@ -34,6 +31,19 @@ public class BFly_Control : MonoBehaviour {
 		Vector2 movement = new Vector2 (MoveButtY, MoveButtX);
 
         rb2d.AddForce(movement * speed);
+
+        if (MoveButtY > 0 || MoveButtX > 0 || MoveButtX < 0 || MoveButtY < 0)
+        {
+            animator.Play("BFlyMove");
+        }
+        else
+        {
+            animator.Play("BFlyIdle");
+        }
+
+
+
+        
 
         //8 directional movement
         if (MoveButtY > 0 && MoveButtX > 0)
@@ -73,10 +83,6 @@ public class BFly_Control : MonoBehaviour {
         }
 
 
-   // for (int i = 0; i <= hTime; i--)
-    //{   
-      //  hBar -= i;
-    //}
 }
 
 
