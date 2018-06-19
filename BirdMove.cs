@@ -37,6 +37,7 @@ public class BirdMove : MonoBehaviour {
         tree1 = GameObject.Find("Tree (1)");
         tree2 = GameObject.Find("Tree (2)");
         waitDone = false;
+        Debug.Log("Start waitDone " + waitDone);
         birdFly = true;
 
     }
@@ -85,7 +86,7 @@ public class BirdMove : MonoBehaviour {
         duration = 1.5f;
 
  
-        if (touchDown1 == false)
+        if (touchDown1 == false && touchDown2 != true)
         {
 
 
@@ -110,8 +111,6 @@ public class BirdMove : MonoBehaviour {
                 birdFly = false;
                 Debug.Log("birdfly " + birdFly);
                 StartCoroutine(WaitForAnim());
-
-
             
             }
 
@@ -122,6 +121,7 @@ public class BirdMove : MonoBehaviour {
                 incrementor = 0;
                 touchDown1 = true;
                 waitDone = false;
+                Debug.Log("wait done wrong");
                 birdFly = true;
             }
         }
@@ -149,14 +149,9 @@ public class BirdMove : MonoBehaviour {
 
             if (currentPos == treePos3 && birdFly == true)
             {
-
-                //Debug.Log(waitDone);
                 animator.Play("BirdIdle");
                 birdFly = false;
                 StartCoroutine(WaitForAnim());
-
-                //Debug.Log(waitDone);
-
                                                           
             }
 
@@ -165,9 +160,10 @@ public class BirdMove : MonoBehaviour {
                 float angle = Mathf.Atan2(treePos2.y, treePos2.x) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
                 incrementor = 0;
-                //StopCoroutine(WaitForAnim());
                 touchDown2 = true;
+                touchDown1 = false;
                 waitDone = false;
+                //Debug.Log("wait done wrong");
                 birdFly = true;
             }
 
@@ -178,7 +174,7 @@ public class BirdMove : MonoBehaviour {
         if (touchDown2 == true)
         {
 
-            //waitDone = false;
+
 
             if (birdFly == true)
             {
@@ -189,20 +185,20 @@ public class BirdMove : MonoBehaviour {
 
             duration = 1.2f;
             incrementor += 0.01f;
-            transform.position = Vector3.Slerp(threeToOneRelCentre, oneToThreeRelCentre, incrementor/duration);
+            transform.position = Vector3.Slerp(threeToOneRelCentre, oneToThreeRelCentre, incrementor / duration);
             transform.position += centre3;
             rb2d.velocity = (transform.position).normalized;
-
+            
 
             if (currentPos == treePos1 && birdFly == true)
             {
                 animator.Play("BirdIdle");
-                //Debug.Log(waitDone);
+                
                 birdFly = false;
-                StartCoroutine(WaitForAnim());               //Debug.Log(waitDone);
+                StartCoroutine(WaitForAnim());
+                Debug.Log("touchdown 2" + touchDown2);
+                Debug.Log("waitDone " + waitDone);
 
-
-                                                                     
             }
 
 
@@ -217,9 +213,7 @@ public class BirdMove : MonoBehaviour {
                 birdFly = true;
             }
 
-
-
-
+            
         }
 
     }
