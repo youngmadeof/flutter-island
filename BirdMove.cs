@@ -36,7 +36,7 @@ public class BirdMove : MonoBehaviour {
         tree = GameObject.Find("Tree");
         tree1 = GameObject.Find("Tree (1)");
         tree2 = GameObject.Find("Tree (2)");
-        //waitDone = false;
+        waitDone = false;
         birdFly = true;
 
     }
@@ -93,6 +93,7 @@ public class BirdMove : MonoBehaviour {
             {
 
                 animator.Play("Bird_Fly");
+                Debug.Log("anim playing");
 
             }
 
@@ -102,26 +103,26 @@ public class BirdMove : MonoBehaviour {
             transform.position += centre1;
             rb2d.velocity = (transform.position).normalized;
 
-            if (currentPos == treePos2)
+            if (currentPos == treePos2 && birdFly == true)
             {
-
+                animator.Play("BirdIdle");  
                 //Debug.Log(waitDone);
                 birdFly = false;
+                Debug.Log("birdfly " + birdFly);
                 StartCoroutine(WaitForAnim());
-                //Debug.Log(waitDone);
 
 
-                if (waitDone == true)
-                {
-                    float angle = Mathf.Atan2(treePos1.y, treePos1.x) * Mathf.Rad2Deg;
-                    transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-                    incrementor = 0;
-                    touchDown1 = true;
-                    waitDone = false;
-                    birdFly = true;
-                 }
+            
+            }
 
-
+            if (waitDone == true)
+            {
+                float angle = Mathf.Atan2(treePos1.y, treePos1.x) * Mathf.Rad2Deg;
+                transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                incrementor = 0;
+                touchDown1 = true;
+                waitDone = false;
+                birdFly = true;
             }
         }
 
@@ -146,29 +147,31 @@ public class BirdMove : MonoBehaviour {
             rb2d.velocity = (transform.position).normalized;
 
 
-            if (currentPos == treePos3)
+            if (currentPos == treePos3 && birdFly == true)
             {
 
                 //Debug.Log(waitDone);
+                animator.Play("BirdIdle");
                 birdFly = false;
                 StartCoroutine(WaitForAnim());
+
                 //Debug.Log(waitDone);
-
-                if(waitDone == true)
-                {
-                    float angle = Mathf.Atan2(treePos2.y, treePos2.x) * Mathf.Rad2Deg;
-                    transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-                    incrementor = 0;
-                    touchDown2 = true;
-                    waitDone = false;
-                    birdFly = true;
-                }
-
 
                                                           
             }
 
-            
+            if (waitDone == true)
+            {
+                float angle = Mathf.Atan2(treePos2.y, treePos2.x) * Mathf.Rad2Deg;
+                transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                incrementor = 0;
+                //StopCoroutine(WaitForAnim());
+                touchDown2 = true;
+                waitDone = false;
+                birdFly = true;
+            }
+
+
         }
 
 
@@ -191,46 +194,44 @@ public class BirdMove : MonoBehaviour {
             rb2d.velocity = (transform.position).normalized;
 
 
-            if (currentPos == treePos1)
+            if (currentPos == treePos1 && birdFly == true)
             {
-
+                animator.Play("BirdIdle");
                 //Debug.Log(waitDone);
                 birdFly = false;
-                StartCoroutine(WaitForAnim());
-                //Debug.Log(waitDone);
-
-                if(waitDone == true)
-                {
-                    float angle = Mathf.Atan2(treePos3.y, treePos3.x) * Mathf.Rad2Deg;
-                    transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-                    incrementor = 0;
-                    touchDown1 = false;
-                    touchDown2 = false;
-                    waitDone = false;
-                    birdFly = true;
-                }
+                StartCoroutine(WaitForAnim());               //Debug.Log(waitDone);
 
 
                                                                      
             }
 
-            
+
+            if (waitDone == true)
+            {
+                float angle = Mathf.Atan2(treePos3.y, treePos3.x) * Mathf.Rad2Deg;
+                transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                incrementor = 0;
+                touchDown1 = false;
+                touchDown2 = false;
+                waitDone = false;
+                birdFly = true;
+            }
+
+
+
 
         }
 
     }
 
-
-    IEnumerator WaitForAnim()
+   
+    public IEnumerator WaitForAnim()
     {
-        waitDone = false;
-        if(waitDone == false)
-        {
-            animator.Play("BirdIdle");
-            yield return new WaitForSeconds(5);
+
+            yield return new WaitForSeconds(4);
             waitDone = true;
             Debug.Log(waitDone);
-        }
+        
 
     }
 
