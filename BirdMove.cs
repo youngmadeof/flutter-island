@@ -25,6 +25,10 @@ public class BirdMove : MonoBehaviour {
 
     Animator animator;
 
+    private GameObject bHead;
+    private Rigidbody2D headRB;
+    private float headRot;
+
     void Start()
     {
 
@@ -39,6 +43,7 @@ public class BirdMove : MonoBehaviour {
         waitDone = false;
         Debug.Log("Start waitDone " + waitDone);
         birdFly = true;
+        headRot = 20.0f;
 
     }
 
@@ -110,7 +115,8 @@ public class BirdMove : MonoBehaviour {
                 //Debug.Log(waitDone);
                 birdFly = false;
                 Debug.Log("birdfly " + birdFly);
-                StartCoroutine(WaitForAnim());
+                //StartCoroutine(WaitForAnim());
+                BirdScan();
             
             }
 
@@ -229,5 +235,28 @@ public class BirdMove : MonoBehaviour {
 
     }
 
+    public void BirdScan()
+    {
+        bHead = GameObject.Find("Bird_Black_Head");
+        headRB = bHead.GetComponent<Rigidbody2D>();
+
+        for(int i = 0; i<2; i++)
+        {
+            for (int j = 0; j < 2; j++)
+            {
+
+                headRot = Mathf.Atan2(4, 5) * Mathf.Rad2Deg;
+                headRB.transform.rotation = Quaternion.AngleAxis(headRot, Vector3.forward);
+               
+
+              
+            }
+
+          
+        }
+
+        waitDone = true;
+
+    }
 
 }
