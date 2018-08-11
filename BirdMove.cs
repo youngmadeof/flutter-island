@@ -23,11 +23,10 @@ public class BirdMove : MonoBehaviour {
     public bool birdSit;
     private bool birdFly;
 
+    public bool birdScan;
+
     Animator animator;
 
-    private GameObject bHead;
-    private Rigidbody2D headRB;
-    private float headRot;
 
     void Start()
     {
@@ -41,9 +40,10 @@ public class BirdMove : MonoBehaviour {
         tree1 = GameObject.Find("Tree (1)");
         tree2 = GameObject.Find("Tree (2)");
         waitDone = false;
-        Debug.Log("Start waitDone " + waitDone);
+        //Debug.Log("Start waitDone " + waitDone);
         birdFly = true;
-        headRot = 20.0f;
+        birdScan = false;
+
 
     }
 
@@ -99,7 +99,7 @@ public class BirdMove : MonoBehaviour {
             {
 
                 animator.Play("Bird_Fly");
-                Debug.Log("anim playing");
+                //Debug.Log("anim playing");
 
             }
 
@@ -114,10 +114,13 @@ public class BirdMove : MonoBehaviour {
                 animator.Play("BirdIdle");  
                 //Debug.Log(waitDone);
                 birdFly = false;
-                Debug.Log("birdfly " + birdFly);
-                //StartCoroutine(WaitForAnim());
-                BirdScan();
-            
+                birdScan = true;
+                //Debug.Log("birdfly " + birdFly);
+                StartCoroutine(WaitForAnim());
+                //BirdScan();
+
+
+
             }
 
             if (waitDone == true)
@@ -126,8 +129,9 @@ public class BirdMove : MonoBehaviour {
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
                 incrementor = 0;
                 touchDown1 = true;
+                birdScan = false;
                 waitDone = false;
-                Debug.Log("wait done wrong");
+                //Debug.Log("wait done wrong");
                 birdFly = true;
             }
         }
@@ -158,7 +162,8 @@ public class BirdMove : MonoBehaviour {
                 animator.Play("BirdIdle");
                 birdFly = false;
                 StartCoroutine(WaitForAnim());
-                                                          
+
+
             }
 
             if (waitDone == true)
@@ -202,8 +207,7 @@ public class BirdMove : MonoBehaviour {
                 
                 birdFly = false;
                 StartCoroutine(WaitForAnim());
-                Debug.Log("touchdown 2" + touchDown2);
-                Debug.Log("waitDone " + waitDone);
+
 
             }
 
@@ -227,36 +231,14 @@ public class BirdMove : MonoBehaviour {
    
     public IEnumerator WaitForAnim()
     {
+        
+        yield return new WaitForSeconds(7);
 
-            yield return new WaitForSeconds(4);
-            waitDone = true;
-            Debug.Log(waitDone);
+        waitDone = true;
+
         
 
     }
 
-    public void BirdScan()
-    {
-        bHead = GameObject.Find("Bird_Black_Head");
-        headRB = bHead.GetComponent<Rigidbody2D>();
-
-        for(int i = 0; i<2; i++)
-        {
-            for (int j = 0; j < 2; j++)
-            {
-
-                headRot = Mathf.Atan2(4, 5) * Mathf.Rad2Deg;
-                headRB.transform.rotation = Quaternion.AngleAxis(headRot, Vector3.forward);
-               
-
-              
-            }
-
-          
-        }
-
-        waitDone = true;
-
-    }
 
 }
