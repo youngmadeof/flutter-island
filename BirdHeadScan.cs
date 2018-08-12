@@ -6,9 +6,11 @@ public class BirdHeadScan : MonoBehaviour {
 
 
     private Rigidbody2D headRB;
-    private float headPos;
+    public float headPos;
     private bool rotateDoneRight;
     private bool rotateDoneLeft;
+    public float headPosReset;
+    private bool headPosStart;
 
     private GameObject bird;
     private GameObject cone;
@@ -33,6 +35,10 @@ public class BirdHeadScan : MonoBehaviour {
         cone = GameObject.Find("ViewCone");
         cone.SetActive(false);
         extractDone = false;
+        retractDone = false;
+        headRB = GetComponent<Rigidbody2D>();
+        headPosReset = headRB.transform.localEulerAngles.z;
+        Debug.Log("Head Pos Reset: " + headPosReset);
 
 
 
@@ -45,6 +51,7 @@ public class BirdHeadScan : MonoBehaviour {
         headRB = GetComponent<Rigidbody2D>();
         BirdMove birdScript = bird.GetComponent<BirdMove>();
 
+
         if (birdScript.birdScan == true)
         {
             cone.SetActive(true);
@@ -52,6 +59,7 @@ public class BirdHeadScan : MonoBehaviour {
 
             if(extractDone == false)
             {
+                
                 animator.Play("BirdViewConeExtract");
 
                 extractDone = true;
@@ -63,14 +71,21 @@ public class BirdHeadScan : MonoBehaviour {
             if (rotateDoneRight == false)
             {
 
-                headRB.transform.Rotate(0, 0, -1 * 35 * Time.fixedDeltaTime);
+                if(headPosStart == false)
+                {
+                    headPosReset = headRB.transform.localEulerAngles.z;
+                    Debug.Log("Head Pos Reset: " + headPosReset);
+                    headPosStart = true;
+                }
+                headRB.transform.Rotate(0, 0, -1 * 45 * Time.fixedDeltaTime);
                 headPos = headRB.transform.localEulerAngles.z;
-                Debug.Log("BirdHead " + headPos);
+                //headPos = headRB.transform.localPosition.z;
+                Debug.Log("BirdHead right " + headPos);
 
                 if (headPos <= 280.0f)
                 {
                     rotateDoneRight = true;
-                    Debug.Log("rotRight " + rotateDoneRight);
+                    //Debug.Log("rotRight " + rotateDoneRight);
 
                 }
 
@@ -80,15 +95,16 @@ public class BirdHeadScan : MonoBehaviour {
 
             if (rotateDoneRight == true && rotateDoneLeft == false)
             {
-                headRB.transform.Rotate(0, 0, 1 * 35 * Time.fixedDeltaTime);
+                headRB.transform.Rotate(0, 0, 1 * 45 * Time.fixedDeltaTime);
                 headPos = headRB.transform.localEulerAngles.z;
-                Debug.Log("BirdHead " + headPos);
+                //headPos = headRB.transform.localPosition.z;
+                Debug.Log("BirdHead left " + headPos);
 
-                if (headPos <= 280.0f && headPos >= 50.0f)
+                if (headPos <= 280.0f && headPos >= 70.0f)
                 {
                     rotateDoneLeft = true;
 
-                    Debug.Log("rotLeft " + rotateDoneLeft);
+                    //Debug.Log("rotLeft " + rotateDoneLeft);
                 }
 
             }
@@ -96,16 +112,21 @@ public class BirdHeadScan : MonoBehaviour {
             if(rotateDoneRight == true && rotateDoneLeft == true)
             {
 
-                headRB.transform.Rotate(0, 0, -1 * 35 * Time.fixedDeltaTime);
+                headRB.transform.Rotate(0, 0, -1 * 45 * Time.fixedDeltaTime);
                 headPos = headRB.transform.localEulerAngles.z;
-                Debug.Log("BirdHead " + headPos);
+                //headPos = headRB.transform.localPosition.z;
+                Debug.Log("BirdHead right again " + headPos);
 
-                if(headPos <= 14f)
+                if (headPos <= headPosReset)
                 {
-                    
+                    //headRB.transform.localEulerAngles = new Vector3(0, 0, headPosReset);
+                    //Debug.Log("head start pos: " + headPosReset);
                     animator.Play("BirdViewConeRetract");
 
-                    retractDone = true;
+                    birdScript.birdScan = false;
+                    extractDone = false;
+                    rotateDoneRight = false;
+                    rotateDoneLeft = false;
 
                 }
 

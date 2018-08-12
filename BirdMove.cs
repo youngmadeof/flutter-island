@@ -70,13 +70,13 @@ public class BirdMove : MonoBehaviour {
         Vector3 treePos3 = tree2.transform.position;
 
         //finding the centre for the arc between tree & tree1
-        Vector3 centre1 = (treePos1 + treePos2) * 0.05f;
+        Vector3 centre1 = (treePos1 + treePos2) * 0.25f;
         centre1 -= new Vector3(0, -1, 0);
         Vector3 oneToTwoRelCentre = treePos1 - centre1;
         Vector3 twoToOneRelCentre = treePos2 - centre1;
 
 
-        Vector3 centre2 = (treePos2 + treePos3) * 0.15f;
+        Vector3 centre2 = (treePos2 + treePos3) * 0.35f;
         centre2 -= new Vector3(0, -1, 0);
         Vector3 twoToThreeRelCentre = treePos2 - centre2;
         Vector3 threeToTwoRelCentre = treePos3 - centre2;
@@ -95,10 +95,13 @@ public class BirdMove : MonoBehaviour {
         {
 
 
-            if(birdFly == true)
+            
+
+            if (birdFly == true)
             {
 
                 animator.Play("Bird_Fly");
+                transform.Rotate(0, 0, -1 * 15 * Time.fixedDeltaTime);
                 //Debug.Log("anim playing");
 
             }
@@ -111,6 +114,7 @@ public class BirdMove : MonoBehaviour {
 
             if (currentPos == treePos2 && birdFly == true)
             {
+                
                 animator.Play("BirdIdle");  
                 //Debug.Log(waitDone);
                 birdFly = false;
@@ -148,6 +152,7 @@ public class BirdMove : MonoBehaviour {
             {
 
                 animator.Play("Bird_Fly");
+                transform.Rotate(0, 0, -1 * 15 * Time.fixedDeltaTime);
 
             }
 
@@ -161,6 +166,7 @@ public class BirdMove : MonoBehaviour {
             {
                 animator.Play("BirdIdle");
                 birdFly = false;
+                birdScan = true;
                 StartCoroutine(WaitForAnim());
 
 
@@ -172,6 +178,7 @@ public class BirdMove : MonoBehaviour {
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
                 incrementor = 0;
                 touchDown2 = true;
+                birdScan = false;
                 touchDown1 = false;
                 waitDone = false;
                 //Debug.Log("wait done wrong");
@@ -191,6 +198,7 @@ public class BirdMove : MonoBehaviour {
             {
 
                 animator.Play("Bird_Fly");
+                transform.Rotate(0, 0, -1 * 15 * Time.fixedDeltaTime);
 
             }
 
@@ -206,6 +214,7 @@ public class BirdMove : MonoBehaviour {
                 animator.Play("BirdIdle");
                 
                 birdFly = false;
+                birdScan = true;
                 StartCoroutine(WaitForAnim());
 
 
@@ -232,7 +241,7 @@ public class BirdMove : MonoBehaviour {
     public IEnumerator WaitForAnim()
     {
         
-        yield return new WaitForSeconds(7);
+        yield return new WaitForSeconds(8);
 
         waitDone = true;
 

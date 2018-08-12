@@ -311,7 +311,7 @@ public class SliderTimerDisplay : MonoBehaviour
     }
 
 
-    void WaitABit()
+    private void WaitABit()
     {
         float wait = Mathf.Pow(5,6);
 

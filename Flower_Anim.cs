@@ -5,7 +5,6 @@ public class Flower_Anim : MonoBehaviour
 {
     private GameObject butt;
     private Rigidbody2D rb2d;
-    private float buttSpeed;
     private bool hit;
     private bool set;
     
@@ -39,7 +38,6 @@ public class Flower_Anim : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         set = false;
         setFlowerStatus = true;
-        buttSpeed = 1;
         flowerDrained = false;
 
         
