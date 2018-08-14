@@ -6,6 +6,7 @@ public class BirdMove : MonoBehaviour {
     private Rigidbody2D rb2d;
     private bool touchDown1;
     private bool touchDown2;
+    private bool touchDown3;
 
     private float incrementor = 0;
 
@@ -22,6 +23,7 @@ public class BirdMove : MonoBehaviour {
     public bool resetAnim;
     public bool birdSit;
     private bool birdFly;
+    public float birdRotPos;
 
     public bool birdScan;
 
@@ -84,7 +86,12 @@ public class BirdMove : MonoBehaviour {
         Vector3 centre3 = (treePos3 + treePos1) * -1f;
         centre3 -= new Vector3(0, -1, 0);
         Vector3 threeToOneRelCentre = treePos3 - centre3;
-        Vector3 oneToThreeRelCentre = treePos1 - centre3; 
+        Vector3 oneToThreeRelCentre = treePos1 - centre3;
+
+        Vector3 centre4 = (treePos1 + treePos3) * 0.25f;
+        centre4 -= new Vector3(0, -1, 0);
+        Vector3 oneToThreeRelCentre2 = treePos1 - centre4;
+        Vector3 threeToOneRelCentre2 = treePos3 - centre4;
         
         currentPos = transform.position;
 
@@ -101,7 +108,7 @@ public class BirdMove : MonoBehaviour {
             {
 
                 animator.Play("Bird_Fly");
-                transform.Rotate(0, 0, -1 * 15 * Time.fixedDeltaTime);
+                //transform.Rotate(0, 0, -1 * 10 * Time.fixedDeltaTime);
                 //Debug.Log("anim playing");
 
             }
@@ -115,6 +122,8 @@ public class BirdMove : MonoBehaviour {
             if (currentPos == treePos2 && birdFly == true)
             {
                 
+
+                
                 animator.Play("BirdIdle");  
                 //Debug.Log(waitDone);
                 birdFly = false;
@@ -126,11 +135,24 @@ public class BirdMove : MonoBehaviour {
 
 
             }
+                        
+            //Rotating the bird while scanning until it faces the next tree position
+            float angle = Mathf.Atan2(treePos1.y, treePos1.x) * Mathf.Rad2Deg;
+            Debug.Log("this is the tree angle " + angle);
+
+            //birdRotPos = transform.eulerAngles.z;
+            birdRotPos = rb2d.rotation;
+
+            if (birdRotPos >= angle)
+            {
+                transform.Rotate(0, 0, -1 * 20 * Time.fixedDeltaTime);
+
+            }
 
             if (waitDone == true)
             {
-                float angle = Mathf.Atan2(treePos1.y, treePos1.x) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                //float angle = Mathf.Atan2(treePos1.y, treePos1.x) * Mathf.Rad2Deg;
+                //transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
                 incrementor = 0;
                 touchDown1 = true;
                 birdScan = false;
@@ -152,7 +174,7 @@ public class BirdMove : MonoBehaviour {
             {
 
                 animator.Play("Bird_Fly");
-                transform.Rotate(0, 0, -1 * 15 * Time.fixedDeltaTime);
+                //transform.Rotate(0, 0, -1 * 15 * Time.fixedDeltaTime);
 
             }
 
@@ -172,10 +194,22 @@ public class BirdMove : MonoBehaviour {
 
             }
 
+            //Rotating the bird while scanning until it faces the next tree position
+            float angle = Mathf.Atan2(treePos2.y, treePos2.x) * Mathf.Rad2Deg;
+            Debug.Log("this is the tree angle " + angle);
+
+            birdRotPos = rb2d.rotation;
+
+            if (birdRotPos >= angle)
+            {
+                transform.Rotate(0, 0, -1 * 15 * Time.fixedDeltaTime);
+
+            }
+
             if (waitDone == true)
             {
-                float angle = Mathf.Atan2(treePos2.y, treePos2.x) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                //float angle = Mathf.Atan2(treePos2.y, treePos2.x) * Mathf.Rad2Deg;
+                //transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
                 incrementor = 0;
                 touchDown2 = true;
                 birdScan = false;
@@ -198,7 +232,7 @@ public class BirdMove : MonoBehaviour {
             {
 
                 animator.Play("Bird_Fly");
-                transform.Rotate(0, 0, -1 * 15 * Time.fixedDeltaTime);
+                //transform.Rotate(0, 0, -1 * 15 * Time.fixedDeltaTime);
 
             }
 
@@ -220,19 +254,87 @@ public class BirdMove : MonoBehaviour {
 
             }
 
+            //Rotating the bird while scanning until it faces the next tree position
+            float angle = Mathf.Atan2(treePos3.y, treePos3.x) * Mathf.Rad2Deg;
+            Debug.Log("this is the tree angle " + angle);
+
+            birdRotPos = rb2d.rotation;
+
+            if (birdRotPos <= angle)
+            {
+                transform.Rotate(0, 0, -1 * 25 * Time.fixedDeltaTime);
+
+            }
 
             if (waitDone == true)
             {
-                float angle = Mathf.Atan2(treePos3.y, treePos3.x) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                //float angle = Mathf.Atan2(treePos3.y, treePos3.x) * Mathf.Rad2Deg;
+                //transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
                 incrementor = 0;
                 touchDown1 = false;
                 touchDown2 = false;
+                touchDown3 = true;
                 waitDone = false;
                 birdFly = true;
             }
 
             
+        }
+
+        if(touchDown3 == true)
+        {
+
+            if (birdFly == true)
+            {
+
+                animator.Play("Bird_Fly");
+                //transform.Rotate(0, 0, -1 * 15 * Time.fixedDeltaTime);
+
+            }
+
+            duration = 2.0f;
+            incrementor += 0.01f;
+            transform.position = Vector3.Slerp(oneToThreeRelCentre2, threeToOneRelCentre2, incrementor / duration);
+            transform.position += centre4;
+            rb2d.velocity = (transform.position).normalized;
+
+
+            if (currentPos == treePos3 && birdFly == true)
+            {
+                animator.Play("BirdIdle");
+                birdFly = false;
+                birdScan = true;
+                StartCoroutine(WaitForAnim());
+
+
+            }
+
+            //Rotating the bird while scanning until it faces the next tree position
+            float angle = Mathf.Atan2(treePos2.y, treePos2.x) * Mathf.Rad2Deg;
+            Debug.Log("this is the tree angle " + angle);
+
+            birdRotPos = rb2d.rotation;
+
+            if (birdRotPos >= angle)
+            {
+                transform.Rotate(0, 0, -1 * 15 * Time.fixedDeltaTime);
+
+            }
+
+            if (waitDone == true)
+            {
+                //float angle = Mathf.Atan2(treePos2.y, treePos2.x) * Mathf.Rad2Deg;
+                //transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                incrementor = 0;
+                touchDown2 = true;
+                birdScan = false;
+                touchDown1 = false;
+                touchDown3 = false;
+                waitDone = false;
+                //Debug.Log("wait done wrong");
+                birdFly = true;
+            }
+
         }
 
     }

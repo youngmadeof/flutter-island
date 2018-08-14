@@ -80,7 +80,7 @@ public class BirdHeadScan : MonoBehaviour {
                 headRB.transform.Rotate(0, 0, -1 * 45 * Time.fixedDeltaTime);
                 headPos = headRB.transform.localEulerAngles.z;
                 //headPos = headRB.transform.localPosition.z;
-                Debug.Log("BirdHead right " + headPos);
+                //Debug.Log("BirdHead right " + headPos);
 
                 if (headPos <= 280.0f)
                 {
@@ -98,7 +98,7 @@ public class BirdHeadScan : MonoBehaviour {
                 headRB.transform.Rotate(0, 0, 1 * 45 * Time.fixedDeltaTime);
                 headPos = headRB.transform.localEulerAngles.z;
                 //headPos = headRB.transform.localPosition.z;
-                Debug.Log("BirdHead left " + headPos);
+                //Debug.Log("BirdHead left " + headPos);
 
                 if (headPos <= 280.0f && headPos >= 70.0f)
                 {
@@ -115,7 +115,7 @@ public class BirdHeadScan : MonoBehaviour {
                 headRB.transform.Rotate(0, 0, -1 * 45 * Time.fixedDeltaTime);
                 headPos = headRB.transform.localEulerAngles.z;
                 //headPos = headRB.transform.localPosition.z;
-                Debug.Log("BirdHead right again " + headPos);
+                //Debug.Log("BirdHead right again " + headPos);
 
                 if (headPos <= headPosReset)
                 {
