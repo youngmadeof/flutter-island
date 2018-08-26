@@ -139,7 +139,7 @@ public class BirdMove : MonoBehaviour {
                         
             //Rotating the bird while scanning until it faces the next tree position
             float angle = Mathf.Atan2(treePos1.y, treePos1.x) * Mathf.Rad2Deg;
-            Debug.Log("this is the tree angle " + angle);
+            //Debug.Log("this is the tree angle " + angle);
 
             //birdRotPos = transform.eulerAngles.z;
             birdRotPos = rb2d.rotation;
@@ -258,16 +258,18 @@ public class BirdMove : MonoBehaviour {
             if(iterationDone == false)
             {
                 //Rotating the bird while scanning until it faces the next tree position
-                float angle = Mathf.Atan2(treePos1.y, treePos1.x) * Mathf.Rad2Deg;
-                Debug.Log("this is the tree3 angle " + Mathf.Round(angle));
+                float angle = 125f;
+                    
+                    //Mathf.Atan2(treePos1.y, treePos1.x) * Mathf.Rad2Deg;
+                //Debug.Log("this is the tree3 angle " + Mathf.Round(angle));
 
                 birdRotPos = rb2d.rotation;
                 
-                Debug.Log("birdrotpos " + Mathf.Round(birdRotPos));
+                //Debug.Log("birdrotpos " + Mathf.Round(birdRotPos));
 
                 if (Mathf.Round(birdRotPos) != Mathf.Round(angle))
                 {
-                    transform.Rotate(0, 0, -1 * 25 * Time.fixedDeltaTime);
+                    transform.Rotate(0, 0, -1 * 30 * Time.fixedDeltaTime);
 
                 }
 
@@ -277,11 +279,11 @@ public class BirdMove : MonoBehaviour {
             {
 
                 //Rotating the bird while scanning until it faces the next tree position
-                float angle = Mathf.Atan2(treePos2.y, treePos2.x) * Mathf.Rad2Deg;
-                Debug.Log("this is the tree2 angle " + angle);
+                float angle = Mathf.Atan2(treePos3.y, treePos3.x) * Mathf.Rad2Deg;
+                //Debug.Log("this is the tree2 angle " + angle);
 
                 birdRotPos = rb2d.rotation;
-                Debug.Log("birdrotpos " + birdRotPos);
+               // Debug.Log("birdrotpos " + birdRotPos);
 
                 if (Mathf.Round(birdRotPos) != Mathf.Round(angle))
                 {
@@ -349,7 +351,7 @@ public class BirdMove : MonoBehaviour {
 
             if (Mathf.Round(birdRotPos) != Mathf.Round(angle))
             {
-                transform.Rotate(0, 0, -1 * 15 * Time.fixedDeltaTime);
+                transform.Rotate(0, 0, -1 * 30 * Time.fixedDeltaTime);
 
             }
 

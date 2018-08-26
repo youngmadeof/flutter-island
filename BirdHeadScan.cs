@@ -18,7 +18,7 @@ public class BirdHeadScan : MonoBehaviour {
     private Animator animator;
 
     private bool extractDone;
-    private bool retractDone;
+    //private bool retractDone;
 
 
 
@@ -35,7 +35,7 @@ public class BirdHeadScan : MonoBehaviour {
         cone = GameObject.Find("ViewCone");
         cone.SetActive(false);
         extractDone = false;
-        retractDone = false;
+        //retractDone = false;
         headRB = GetComponent<Rigidbody2D>();
         headPosReset = headRB.transform.localEulerAngles.z;
         Debug.Log("Head Pos Reset: " + headPosReset);
