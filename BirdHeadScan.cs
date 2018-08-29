@@ -14,6 +14,7 @@ public class BirdHeadScan : MonoBehaviour {
 
     private GameObject bird;
     private GameObject cone;
+    private GameObject butt;
 
     private Animator animator;
 
@@ -40,12 +41,12 @@ public class BirdHeadScan : MonoBehaviour {
         headPosReset = headRB.transform.localEulerAngles.z;
         Debug.Log("Head Pos Reset: " + headPosReset);
 
-
+        butt = GameObject.Find("BFly_Player");
 
     }
 	
 	// Update is called once per frame
-	void Update ()
+	void FixedUpdate ()
 
     {
         headRB = GetComponent<Rigidbody2D>();
@@ -132,10 +133,15 @@ public class BirdHeadScan : MonoBehaviour {
 
             }
         }
+                      
+        
+    }
 
-                
-
-
-
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject == butt)
+        {
+            Debug.Log("got yer!");
+        }
     }
 }

@@ -21,8 +21,6 @@ public class BirdMove : MonoBehaviour {
     private bool gotYerButt;
 
     private bool waitDone;
-    private bool resetAnim;
-    private bool birdSit;
     private bool birdFly;
     private float birdRotPos;
 
@@ -50,7 +48,7 @@ public class BirdMove : MonoBehaviour {
 
     }
 
-    void Update()
+    void FixedUpdate()
     {
 
 
@@ -120,7 +118,9 @@ public class BirdMove : MonoBehaviour {
             transform.position += centre1;
             rb2d.velocity = (transform.position).normalized;
 
-            if (currentPos == treePos2 && birdFly == true)
+
+
+            if ((Vector3.Distance(currentPos,treePos2)<=0.1) && birdFly == true)
             {
                 
 
@@ -136,7 +136,7 @@ public class BirdMove : MonoBehaviour {
 
 
             }
-                        
+
             //Rotating the bird while scanning until it faces the next tree position
             float angle = Mathf.Atan2(treePos1.y, treePos1.x) * Mathf.Rad2Deg;
             //Debug.Log("this is the tree angle " + angle);
@@ -185,7 +185,7 @@ public class BirdMove : MonoBehaviour {
             rb2d.velocity = (transform.position).normalized;
 
 
-            if (currentPos == treePos3 && birdFly == true)
+            if ((Vector3.Distance(currentPos,treePos3))<= 0.1 && birdFly == true)
             {
                 animator.Play("BirdIdle");
                 birdFly = false;
@@ -244,7 +244,7 @@ public class BirdMove : MonoBehaviour {
             rb2d.velocity = (transform.position).normalized;
             
 
-            if (currentPos == treePos1 && birdFly == true)
+            if ((Vector3.Distance(currentPos,treePos1))<= 0.1 && birdFly == true)
             {
                 animator.Play("BirdIdle");
                 
@@ -333,7 +333,7 @@ public class BirdMove : MonoBehaviour {
             rb2d.velocity = (transform.position).normalized;
 
 
-            if (currentPos == treePos3 && birdFly == true)
+            if ((Vector3.Distance(currentPos,treePos3))<= 0.1 && birdFly == true)
             {
                 animator.Play("BirdIdle");
                 birdFly = false;
@@ -385,6 +385,7 @@ public class BirdMove : MonoBehaviour {
         
 
     }
+
 
 
 }

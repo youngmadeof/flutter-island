@@ -82,7 +82,7 @@ public class Flower_Anim : MonoBehaviour
         }
     }
 
-    public void Update()
+    void FixedUpdate()
     {
 
         if (hit == true && flowerDrained == false && setFlowerStatus == true)
