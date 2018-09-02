@@ -25,9 +25,11 @@ public class CountdownTimer : MonoBehaviour
     //-----------------------------
     public int GetSecondsRemaining()
     {
-        
-        SliderTimerDisplay slider = GetComponent<SliderTimerDisplay>();
-        int addTime = slider.hitMeUp;
+
+        //SliderTimerDisplay slider = GetComponent<SliderTimerDisplay>();
+        //int addTime = slider.hitMeUp;
+        FlowMgmt flowMgmt = GetComponent<FlowMgmt>();
+        int addTime = flowMgmt.hitMeUp;
         //Debug.Log("add time " + addTime);
         int elapsedSeconds = (int)((Time.time - countdownTimerStartTime) -addTime);
         //Debug.Log("elapsed seconds " + elapsedSeconds);

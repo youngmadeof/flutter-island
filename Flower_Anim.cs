@@ -26,10 +26,6 @@ public class Flower_Anim : MonoBehaviour
     public int hitMeUp;
 
 
-   // private void Awake()
-    //{
-   //     flowerDrained = false;
-   // }
 
     public void Start()
     {
@@ -39,6 +35,7 @@ public class Flower_Anim : MonoBehaviour
         set = false;
         setFlowerStatus = true;
         flowerDrained = false;
+        
 
         
     }
@@ -48,30 +45,36 @@ public class Flower_Anim : MonoBehaviour
         if (Other.gameObject == butt)
         {
 
+            if (flowerDrained == false)
+            {
+                hit = true;
+                flowerDrained = false;
+                //Debug.Log("Flower Drained Anim " + flowerDrained);
+                BFly_Control buttScript = butt.GetComponent<BFly_Control>();
+                buttScript.speed = 22;
 
 
-            hit = true;
-            //TODO: NEED TO LOOK AT THIS AS FLOWERDRAINED IS RESETTING 
-            flowerDrained = false;
-            //Debug.Log("Flower Drained Anim " + flowerDrained);
+            }
 
-
+            //TODO: 02/09/18 - Need this to set when fire is hit the first time only. Currently it is not bound to the input
             if (set == false)
             {
                 SetNectarTimer();
             }
 
-            //Debug.Log(hit);
+
         }
+
     }
 
-    void OnTriggerExit2D(Collider2D Other)
+    public void OnTriggerExit2D(Collider2D Other)
     {
         if (Other.gameObject == butt)
         {
             hit = false;
             set = false;
-            //Debug.Log(hit);
+            BFly_Control buttScript = butt.GetComponent<BFly_Control>();
+            buttScript.speed = 80;
             if (nectarRemaining > 0)
             {
                 startSeconds = (float)(startSeconds * nectarRemaining);
@@ -82,41 +85,43 @@ public class Flower_Anim : MonoBehaviour
         }
     }
 
+
     void FixedUpdate()
     {
 
-        if (hit == true && flowerDrained == false && setFlowerStatus == true)
+
+        if (Input.GetButton("Fire1"))
         {
-            BFly_Control buttScript = butt.GetComponent<BFly_Control>();
-            buttScript.speed = 22;
-            rb2d.MoveRotation(rb2d.rotation + rot * Time.fixedDeltaTime);
-            nectarRemaining = nectarTime.NectarProportionTimeRemain();
+            
 
-
-            if (nectarRemaining <= 0)
+            if (hit == true && flowerDrained == false && setFlowerStatus == true)
             {
+                rb2d.MoveRotation(rb2d.rotation + rot * Time.fixedDeltaTime);
+                nectarRemaining = nectarTime.NectarProportionTimeRemain();
 
-                if (setFlowerStatus == true)
-               {
-                    
-                    flowerDrained = true;
-                    //Debug.Log("Flower Drained Anim " + flowerDrained);
-                    setFlowerStatus = false;
-                    animator = GetComponent<Animator>();
-                    animator.Play("FlowerDrained");
-                    
-                   
-               }
 
+                if (nectarRemaining <= 0)
+                {
+
+                    if (setFlowerStatus == true)
+                    {
+
+                        flowerDrained = true;
+                        setFlowerStatus = false;
+                        animator = GetComponent<Animator>();
+                        animator.Play("FlowerDrained");
+
+                    }
+
+
+                }
 
             }
-        }
 
-        else if (hit == false)
-        {
-            BFly_Control buttScript = butt.GetComponent<BFly_Control>();
-            buttScript.speed = 80;
-        }
+
+        }    
+
+
     }
 
     public void SetNectarTimer()
