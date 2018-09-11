@@ -8,7 +8,7 @@ public class FlowMgmt : MonoBehaviour {
 
     public bool flowerTopUp;
     public int hitMeUp;
-    private bool getFlowerTopUp;
+    public bool getFlowerTopUp;
     public int nextFlower;
 
     private Text textUI;
@@ -33,8 +33,10 @@ public class FlowMgmt : MonoBehaviour {
     private bool redFlow3Done;
     private bool redFlow4Done;
 
-    private bool waitForFlow;
-    
+    public bool waitForFlow;
+    public bool pending;
+    public bool timeForNextFlow;
+
     public GameObject redFlow;
     public GameObject yellFlow;
     public GameObject redFlow2;
@@ -78,11 +80,14 @@ public class FlowMgmt : MonoBehaviour {
         {
             if (flowGroup == 0)
             {
-                GameObject redFlow = GameObject.Find("Flower");
-                Flower_Anim flowerScript = redFlow.GetComponent<Flower_Anim>();
-                flowerTopUp = flowerScript.flowerDrained;
-                hitMeUpAdd = flowerScript.hitMeUp + hitMeUp;
-
+                if(pending != true && waitForFlow == false)
+                {
+                    GameObject redFlow = GameObject.Find("Flower");
+                    Flower_Anim flowerScript = redFlow.GetComponent<Flower_Anim>();
+                    flowerTopUp = flowerScript.flowerDrained;
+                    hitMeUpAdd = flowerScript.hitMeUp + hitMeUp;
+                }
+                
                 HitMeUp();
             }
 
@@ -191,94 +196,124 @@ public class FlowMgmt : MonoBehaviour {
             hitMeUp = hitMeUpAdd;
             //Debug.Log("Hit me up " + hitMeUpAdd);
             flowerTopUp = false;
-            getFlowerTopUp = false;
+            //getFlowerTopUp = false;
             nextFlower += 1;
             textUI.text = nextFlower + "/20";
+            pending = true;
+            waitForFlow = false;
 
+        }
 
-            if (nextFlower == 1)
+        if (nextFlower == 1)
+        {
+
+        
+            if(pending == true && timeForNextFlow == false)
             {
-                WaitABit();
-
-                if (waitForFlow == true)
-                {
-                    redFlow2.SetActive(true);
-                    waitForFlow = false;
-                }
-
-                WaitABit();
-
-                if (waitForFlow == true)
-                {
-                    yellFlow.SetActive(true);
-                    waitForFlow = false;
-                }
-
-                getFlowerTopUp = true;
-                flowGroup += 1;
-
+                StartCoroutine(WaitABit());
+                redFlow2.SetActive(true);
+                waitForFlow = false;
+                Debug.Log("Wait for Flow " + waitForFlow);
+                timeForNextFlow = true;
             }
 
-            if (nextFlower == 3)
-            {
-                //WaitABit();
 
-                if (waitForFlow == true)
+            if (timeForNextFlow == true)
+            {                
+                    StartCoroutine(WaitABit());
+
+                    if (waitForFlow == true)
+                    {
+                        yellFlow.SetActive(true);
+                        waitForFlow = false;
+                        getFlowerTopUp = true;
+                        flowGroup += 1;
+                        pending = false;
+                        timeForNextFlow = false;
+                    }
+            }
+
+                               
+        }
+
+        if (nextFlower == 3)
+        {
+
+            if (pending == true)
+            {
+                StartCoroutine(WaitABit());
+
+                if(waitForFlow == true)
                 {
                     yellFlow2.SetActive(true);
                     waitForFlow = false;
-                }
-                yellFlowDone = false;
-                getFlowerTopUp = true;
-                yellHitMeUpAdd = 0;
-                flowGroup += 1;
+                    yellFlowDone = false;
+                    getFlowerTopUp = true;
+                    yellHitMeUpAdd = 0;
+                    flowGroup += 1;
+                    pending = false;
 
+                }
+
+
+
+                
             }
-
-            if (nextFlower == 4)
-            {
-                //WaitABit();
-
-                if (waitForFlow == true)
-                {
-                    redFlow3.SetActive(true);
-                    waitForFlow = false;
-                }
-
-                //WaitABit();
-
-                if (waitForFlow == true)
-                {
-                    redFlow4.SetActive(true);
-                    waitForFlow = false;
-                }
-
-                //WaitABit();
-
-                if (waitForFlow == true)
-                {
-                    yellFlow3.SetActive(true);
-                    waitForFlow = false;
-                }
-
-                getFlowerTopUp = true;
-                yellFlowDone = false;
-                yellHitMeUpAdd = 0;
-                redHitMeUpAdd = 0;
-                redHitMeUpAdd2 = 0;
-                flowGroup += 1;
-            }
-
 
 
         }
+
+        if (nextFlower == 4)
+        {
+            //WaitABit();
+
+            if (waitForFlow == true)
+            {
+                redFlow3.SetActive(true);
+                waitForFlow = false;
+            }
+
+            // WaitABit();
+
+            if (waitForFlow == true)
+            {
+                redFlow4.SetActive(true);
+                waitForFlow = false;
+            }
+
+            // WaitABit();
+
+            if (waitForFlow == true)
+            {
+                yellFlow3.SetActive(true);
+                waitForFlow = false;
+            }
+
+            getFlowerTopUp = true;
+            yellFlowDone = false;
+            yellHitMeUpAdd = 0;
+            redHitMeUpAdd = 0;
+            redHitMeUpAdd2 = 0;
+            flowGroup += 1;
+        }
+
+
+        
     }
 
 
-    private void WaitABit()
+    private IEnumerator WaitABit()
     {
+        
+        yield return new WaitForSeconds(2);
 
-        waitForFlow = true;
- 
+        if(waitForFlow == false) //&& timeForNextFlow == true)
+        {
+            Debug.Log("Wait for Flow 2!!! " + waitForFlow);
+            waitForFlow = true;
+            Debug.Log("Wait for Flow 3!!! " + waitForFlow);
+        }
+
+
     }
 }
