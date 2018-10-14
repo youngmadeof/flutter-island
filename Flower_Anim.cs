@@ -20,6 +20,8 @@ public class Flower_Anim : MonoBehaviour
     //animator
 
     private Animator animator;
+    private int bloomHash;
+    public bool animDone;
 
     //flower behaviour
     public float rot;
@@ -34,8 +36,13 @@ public class Flower_Anim : MonoBehaviour
         set = false;
         setFlowerStatus = true;
         flowerDrained = false;
-        
+        bloomHash = Animator.StringToHash("Base Layer.RedFlowerBloom1");
+        //Debug.Log("bloom " + bloomHash);
+        animDone = false;
+        Debug.Log("Anim done Start?" + animDone);
+       
     }
+
 
     public void OnTriggerEnter2D(Collider2D Other)
     {
@@ -71,13 +78,28 @@ public class Flower_Anim : MonoBehaviour
 
     void FixedUpdate()
     {
+        animator = GetComponent<Animator>();
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        //Debug.Log("Full path Hash " + stateInfo.fullPathHash);
+        if (stateInfo.fullPathHash == bloomHash)
+        {
+            if(stateInfo.normalizedTime >= stateInfo.length && animDone == false)
+            {
+                Debug.Log("BloomHash Lenn " + stateInfo.length);
+                Debug.Log("bloomHash Time " + stateInfo.normalizedTime);
+                animDone = true;
+                Debug.Log("That's the animation done then? " + animDone);
 
- 
+
+            }
+
+        }
+
 
         if (Input.GetButton("Fire1") && hit == true && flowerDrained == false && setFlowerStatus == true)
         {
 
-            Debug.Log(startSeconds);
+            //Debug.Log(startSeconds);
             rb2d.MoveRotation(rb2d.rotation + rot * Time.fixedDeltaTime);
 
             if (set == false)

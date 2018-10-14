@@ -27,8 +27,8 @@ public class BFly_Control : MonoBehaviour {
                
         float MoveButtY = Input.GetAxisRaw ("Horizontal");
 		float MoveButtX = Input.GetAxisRaw ("Vertical");
-
-		Vector2 movement = new Vector2 (MoveButtY, MoveButtX);
+        bool Fire = Input.GetButtonUp("Fire1");
+        Vector2 movement = new Vector2 (MoveButtY, MoveButtX);
 
         rb2d.AddForce(movement * speed);
 
@@ -40,12 +40,11 @@ public class BFly_Control : MonoBehaviour {
         {
             animator.Play("BFlyIdle");
         }
-
-
-
+        
         
 
         //8 directional movement
+    
         if (MoveButtY > 0 && MoveButtX > 0)
         {
             rb2d.MoveRotation(-45);
