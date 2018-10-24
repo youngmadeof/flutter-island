@@ -51,11 +51,15 @@ public class BirdMove : MonoBehaviour {
     void FixedUpdate()
     {
 
-
-        if (gotYerButt == false)
+        if(Time.timeSinceLevelLoad > 1.5f)
         {
-            BirdyGo();
+            if (gotYerButt == false)
+            {
+                BirdyGo();
+            }
+
         }
+           
             
         
     }

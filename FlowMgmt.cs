@@ -21,8 +21,10 @@ public class FlowMgmt : MonoBehaviour
     private bool redFlowerTopUp;
     private bool redFlowerTopUp2;
     private bool redFlowerTopUp3;
+    private bool yellFlowerTopUp2;
 
     private int yellHitMeUpAdd;
+    private int yellHitMeUpAdd2;
     private int redHitMeUpAdd;
     private int redHitMeUpAdd2;
     private int redHitMeUpAdd3;
@@ -44,6 +46,9 @@ public class FlowMgmt : MonoBehaviour
     public GameObject redFlow3;
     public GameObject redFlow4;
     public GameObject yellFlow3;
+    public GameObject yellFlow4;
+    public GameObject redFlow5;
+    public GameObject yellFlow5;
 
     //Slap all the Flower_Anim gumph in here
     private GameObject flowAnimRed;
@@ -60,6 +65,9 @@ public class FlowMgmt : MonoBehaviour
         redFlow3.SetActive(false);
         redFlow4.SetActive(false);
         yellFlow3.SetActive(false);
+        yellFlow4.SetActive(false);
+        yellFlow5.SetActive(false);
+        redFlow5.SetActive(false);
 
 
     }
@@ -202,6 +210,56 @@ public class FlowMgmt : MonoBehaviour
                     getFlowerTopUp = true;
                 }
 
+                if (redFlow3Done == true && redFlow4Done == true && yellFlowDone == true)
+                {
+                    getFlowerTopUp = false;
+                }
+            }
+
+            else if (flowGroup == 4)
+            {
+                Flower_Anim flowerScript = yellFlow4.GetComponent<Flower_Anim>();
+                yellFlowerTopUp = flowerScript.flowerDrained;
+                yellHitMeUpAdd = flowerScript.hitMeUp + hitMeUp;
+
+                Flower_Anim flowerScript2 = yellFlow5.GetComponent<Flower_Anim>();
+                yellFlowerTopUp2 = flowerScript2.flowerDrained;
+                yellHitMeUpAdd2 = flowerScript2.hitMeUp + hitMeUp;
+
+                Flower_Anim flowerScript3 = redFlow5.GetComponent<Flower_Anim>();
+                redFlowerTopUp = flowerScript3.flowerDrained;
+                redHitMeUpAdd = flowerScript3.hitMeUp + hitMeUp;
+
+                if(yellFlowerTopUp == true && yellFlowDone == false)
+                {
+                    flowerTopUp = yellFlowerTopUp;
+                    hitMeUpAdd = yellHitMeUpAdd;
+                    HitMeUp();
+                    yellFlowDone = true;
+                    getFlowerTopUp = true;
+
+
+                }
+
+                if(yellFlowerTopUp2 == true && yellFlow2Done == false)
+                {
+                    flowerTopUp = yellFlowerTopUp2;
+                    hitMeUpAdd = yellHitMeUpAdd2;
+                    HitMeUp();
+                    yellFlow2Done = true;
+                    getFlowerTopUp = true;
+                }
+
+                if(redFlowerTopUp == true && redFlowDone == false)
+                {
+                    flowerTopUp = redFlowerTopUp;
+                    hitMeUpAdd = redHitMeUpAdd;
+                    HitMeUp();
+                    redFlowDone = true;
+                    getFlowerTopUp = true;
+
+                }
+
             }
 
 
@@ -249,7 +307,9 @@ public class FlowMgmt : MonoBehaviour
         if (nextFlower == 3)
         {
             yellFlow2.SetActive(true);
+            //Clear down previous flower groups variables
             yellFlowDone = false;
+            redFlowDone = false;
             getFlowerTopUp = true;
             yellHitMeUpAdd = 0;
             flowGroup += 1;
@@ -274,10 +334,9 @@ public class FlowMgmt : MonoBehaviour
             {
                 yellFlow3.SetActive(true);
                 getFlowerTopUp = true;//remember needed at the end of each group. IT'S A BLOODY REQUIREMENT NOT AN OPTION!
+                //Clear down previous flower groups variables
                 yellFlowDone = false;
                 yellHitMeUpAdd = 0;
-                redHitMeUpAdd = 0;
-                redHitMeUpAdd2 = 0;
                 flowGroup += 1;
             }
 
@@ -285,6 +344,35 @@ public class FlowMgmt : MonoBehaviour
 
 
         }
+        if(nextFlower == 7)
+        {
+            yellFlow4.SetActive(true);
+            Flower_Anim flowAnimYellScript = yellFlow4.GetComponent<Flower_Anim>();
+            flowAnimDone = flowAnimYellScript.animDone;
+
+            if(flowAnimDone == true)
+            {
+                yellFlow5.SetActive(true);
+            }
+
+            Flower_Anim flowAnimYellScript2 = yellFlow5.GetComponent<Flower_Anim>();
+            flowAnimDone2 = flowAnimYellScript2.animDone;
+
+            if(flowAnimDone2 == true)
+            {
+                redFlow5.SetActive(true);
+                getFlowerTopUp = true;
+                //Clear down previous flower groups variables
+                yellFlowDone = false;
+                redFlow3Done = false;
+                redFlow4Done = false;
+                redHitMeUpAdd2 = 0;
+                redHitMeUpAdd3 = 0;
+                yellHitMeUpAdd = 0;
+                flowGroup += 1;
+            }
+        }
+
 
     }
 
