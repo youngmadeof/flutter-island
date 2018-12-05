@@ -26,10 +26,10 @@ public class SliderTimerDisplay : MonoBehaviour
         healthRemain = countdownTimer.GetProportionTimeRemaining();
 
         //Comment out for now!
-        //if(healthRemain == 0)
-        //{
-        //SceneManager.LoadScene("GameIsDoneded");
-        //}
+        if(healthRemain == 0)
+        {
+        SceneManager.LoadScene("GameIsDoneded");
+        }
 
     }
 

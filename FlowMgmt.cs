@@ -102,12 +102,17 @@ public class FlowMgmt : MonoBehaviour
             
             if (flowGroup == 0)
             {
-                GameObject redFlow = GameObject.Find("Flower");
+                //GameObject redFlow = GameObject.Find("Flower");
                 Flower_Anim flowerScript = redFlow.GetComponent<Flower_Anim>();                
                 flowerTopUp = flowerScript.flowerDrained;
                 hitMeUpAdd = flowerScript.hitMeUp + hitMeUp;
 
+                if(flowerTopUp == true)
+                {
+                    redFlow.SetActive(false);
+                }
                 HitMeUp();
+
             }
 
             else if (flowGroup == 1)
@@ -127,6 +132,7 @@ public class FlowMgmt : MonoBehaviour
                     HitMeUp();
                     yellFlowDone = true;
                     getFlowerTopUp = true;
+                    yellFlow.SetActive(false);
 
 
                 }
@@ -137,7 +143,7 @@ public class FlowMgmt : MonoBehaviour
                     HitMeUp();
                     redFlowDone = true;
                     getFlowerTopUp = true;
-
+                    redFlow2.SetActive(false);
                  
                 }
 
@@ -164,6 +170,7 @@ public class FlowMgmt : MonoBehaviour
                     HitMeUp();
                     yellFlow2Done = true;
                     getFlowerTopUp = false;
+                    yellFlow2.SetActive(false);
                 }
             }
 
@@ -189,6 +196,7 @@ public class FlowMgmt : MonoBehaviour
                     redFlow3Done = true;
                     //ensure you keep the process going
                     getFlowerTopUp = true;
+                    redFlow3.SetActive(false);
                 }
 
                 if (redFlowerTopUp2 == true && redFlow4Done == false)
@@ -198,6 +206,7 @@ public class FlowMgmt : MonoBehaviour
                     HitMeUp();
                     redFlow4Done = true;
                     getFlowerTopUp = true;
+                    redFlow4.SetActive(false);
 
                 }
 
@@ -208,6 +217,7 @@ public class FlowMgmt : MonoBehaviour
                     HitMeUp();
                     yellFlowDone = true;
                     getFlowerTopUp = true;
+                    yellFlow3.SetActive(false);
                 }
 
                 if (redFlow3Done == true && redFlow4Done == true && yellFlowDone == true)
@@ -236,8 +246,8 @@ public class FlowMgmt : MonoBehaviour
                     hitMeUpAdd = yellHitMeUpAdd;
                     HitMeUp();
                     yellFlowDone = true;
-                    getFlowerTopUp = true;
-
+                    getFlowerTopUp = true;  
+                    yellFlow4.SetActive(false);
 
                 }
 
@@ -248,6 +258,7 @@ public class FlowMgmt : MonoBehaviour
                     HitMeUp();
                     yellFlow2Done = true;
                     getFlowerTopUp = true;
+                    yellFlow5.SetActive(false);
                 }
 
                 if(redFlowerTopUp == true && redFlowDone == false)
@@ -257,6 +268,7 @@ public class FlowMgmt : MonoBehaviour
                     HitMeUp();
                     redFlowDone = true;
                     getFlowerTopUp = true;
+                    redFlow5.SetActive(false);
 
                 }
 
@@ -277,8 +289,8 @@ public class FlowMgmt : MonoBehaviour
             flowerTopUp = false;
             getFlowerTopUp = false;
             nextFlower += 1;
-            textUI.text = nextFlower + "/20";          
-                        
+            textUI.text = nextFlower + "/20";            
+
         }
     }
 
@@ -288,14 +300,12 @@ public class FlowMgmt : MonoBehaviour
         {
             Flower_Anim flowAnimRedScript = redFlow2.GetComponent<Flower_Anim>(); 
             flowAnimDone = flowAnimRedScript.animDone;
-            Debug.Log("FlowMgmt check FlowAnimDone " + flowAnimDone);
 
             redFlow2.SetActive(true);
 
             if (flowAnimDone == true)
             {                
                 flowAnimDone = flowAnimRedScript.animDone;
-                Debug.Log("FlowMgmt Yellow Flow check FlowAnimDone " + flowAnimDone);
                 yellFlow.SetActive(true);
                 getFlowerTopUp = true;
                 flowGroup += 1;
@@ -324,25 +334,25 @@ public class FlowMgmt : MonoBehaviour
 
             if(flowAnimDone == true)
             {
-                redFlow4.SetActive(true);
+                yellFlow3.SetActive(true);
+                yellFlowDone = false;
+                yellHitMeUpAdd = 0;
             }
 
-            Flower_Anim flowAnimRedScript2 = redFlow4.GetComponent<Flower_Anim>();
-            flowAnimDone2 = flowAnimRedScript2.animDone;
+            Flower_Anim flowAnimYellScript1 = yellFlow3.GetComponent<Flower_Anim>();
+            flowAnimDone2 = flowAnimYellScript1.animDone;
 
             if(flowAnimDone2 == true)
             {
-                yellFlow3.SetActive(true);
+                redFlow4.SetActive(true);                
                 getFlowerTopUp = true;//remember needed at the end of each group. IT'S A BLOODY REQUIREMENT NOT AN OPTION!
                 //Clear down previous flower groups variables
-                yellFlowDone = false;
-                yellHitMeUpAdd = 0;
+                redFlowDone = false;                
                 flowGroup += 1;
             }
 
 
-
-
+            
         }
         if(nextFlower == 7)
         {
@@ -366,6 +376,7 @@ public class FlowMgmt : MonoBehaviour
                 yellFlowDone = false;
                 redFlow3Done = false;
                 redFlow4Done = false;
+                yellFlow2Done = false;
                 redHitMeUpAdd2 = 0;
                 redHitMeUpAdd3 = 0;
                 yellHitMeUpAdd = 0;

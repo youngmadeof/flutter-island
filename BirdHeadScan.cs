@@ -1,16 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BirdHeadScan : MonoBehaviour {
 
 
     private Rigidbody2D headRB;
     public float headPos;
-    private bool rotateDoneRight;
-    private bool rotateDoneLeft;
+    public bool rotateDoneRight;
+    public bool rotateDoneLeft;
     public float headPosReset;
     private bool headPosStart;
+
 
     private GameObject bird;
     private GameObject cone;
@@ -19,6 +21,7 @@ public class BirdHeadScan : MonoBehaviour {
     private Animator animator;
 
     private bool extractDone;
+    public bool scanDone;
     //private bool retractDone;
 
 
@@ -53,8 +56,10 @@ public class BirdHeadScan : MonoBehaviour {
         BirdMove birdScript = bird.GetComponent<BirdMove>();
 
 
+
         if (birdScript.birdScan == true)
         {
+ 
             cone.SetActive(true);
             animator = cone.GetComponent<Animator>();
 
@@ -64,6 +69,7 @@ public class BirdHeadScan : MonoBehaviour {
                 animator.Play("BirdViewConeExtract");
 
                 extractDone = true;
+                
             }
             
 
@@ -118,7 +124,7 @@ public class BirdHeadScan : MonoBehaviour {
                 //headPos = headRB.transform.localPosition.z;
                 //Debug.Log("BirdHead right again " + headPos);
 
-                if (headPos <= headPosReset)
+                if (Mathf.Round(headPos) == Mathf.Round(headPosReset))
                 {
                     //headRB.transform.localEulerAngles = new Vector3(0, 0, headPosReset);
                     //Debug.Log("head start pos: " + headPosReset);
@@ -128,6 +134,7 @@ public class BirdHeadScan : MonoBehaviour {
                     extractDone = false;
                     rotateDoneRight = false;
                     rotateDoneLeft = false;
+                    scanDone = true;
 
                 }
 
@@ -141,7 +148,7 @@ public class BirdHeadScan : MonoBehaviour {
     {
         if(collision.gameObject == butt)
         {
-            Debug.Log("got yer!");
+            SceneManager.LoadScene("GameIsDoneded");
         }
     }
 }

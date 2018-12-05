@@ -99,7 +99,7 @@ public class Flower_Anim : MonoBehaviour
         //Debug.Log("Full path Hash " + stateInfo.fullPathHash);
         if (stateInfo.fullPathHash == bloomHash)
         {
-            if(stateInfo.normalizedTime >= stateInfo.length && animDone == false)
+            if(stateInfo.normalizedTime >= stateInfo.length -1f && animDone == false)
             {
                 Debug.Log("BloomHash Lenn " + stateInfo.length);
                 Debug.Log("bloomHash Time " + stateInfo.normalizedTime);
@@ -136,16 +136,6 @@ public class Flower_Anim : MonoBehaviour
                     setFlowerStatus = false;
                     animator = GetComponent<Animator>();
                     Debug.Log(flowID);
-                    if (flowID == 0)
-                    {
-                        animator.Play("FlowerDrained");
-
-                    }
-
-                    else if (flowID == 1)
-                    {
-                        animator.Play("YellDrained");
-                    }
                     
                     BFly_Control buttScript = butt.GetComponent<BFly_Control>();
                     buttScript.speed = 80;

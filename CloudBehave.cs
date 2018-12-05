@@ -23,14 +23,14 @@ public class CloudBehave : MonoBehaviour {
 
     {
         //Debug.Log(Time.timeSinceLevelLoad);
-        Vector3 desiredPos = new Vector3(11.3f, -2.86f);
+        Vector3 desiredPos = new Vector3(11.85f , 2.31f);
         Vector3 currentPos = transform.position;
         Vector3 currentScreenPos = cam.WorldToViewportPoint(currentPos);
         Vector3 desiredScreenPos = cam.WorldToViewportPoint(desiredPos);
         //Debug.Log(currentScreenPos + " current");
 
 
-        if (Time.timeSinceLevelLoad > 6.0f)
+        if (Time.timeSinceLevelLoad > 15.0f)
         {
             transform.position += (desiredScreenPos - currentScreenPos).normalized / cloudSpeed;
         }
