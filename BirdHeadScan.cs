@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+
 
 public class BirdHeadScan : MonoBehaviour {
 
@@ -14,15 +14,25 @@ public class BirdHeadScan : MonoBehaviour {
     private bool headPosStart;
 
 
-    private GameObject bird;
-    private GameObject cone;
-    private GameObject butt;
+    public GameObject bird;
+    public GameObject cone;
+    public GameObject butt;
+
 
     private Animator animator;
 
     private bool extractDone;
     public bool scanDone;
     //private bool retractDone;
+    private int coneAnimHash;
+
+    private int curState;
+
+    private enum State
+    {
+        scan,
+        scanDone
+    }
 
 
 
@@ -34,17 +44,18 @@ public class BirdHeadScan : MonoBehaviour {
         rotateDoneRight = false;
         rotateDoneLeft = false;
 
-        bird = GameObject.Find("Bird");
+        //bird = GameObject.Find("Bird");
 
-        cone = GameObject.Find("ViewCone");
+        //cone = GameObject.Find("ViewCone");
         cone.SetActive(false);
         extractDone = false;
         //retractDone = false;
         headRB = GetComponent<Rigidbody2D>();
         headPosReset = headRB.transform.localEulerAngles.z;
         Debug.Log("Head Pos Reset: " + headPosReset);
+        coneAnimHash = Animator.StringToHash("Base Layer.BirdViewConeRetract");
 
-        butt = GameObject.Find("BFly_Player");
+        //butt = GameObject.Find("BFly_Player");
 
     }
 	
@@ -59,7 +70,7 @@ public class BirdHeadScan : MonoBehaviour {
 
         if (birdScript.birdScan == true)
         {
- 
+        
             cone.SetActive(true);
             animator = cone.GetComponent<Animator>();
 
@@ -69,86 +80,102 @@ public class BirdHeadScan : MonoBehaviour {
                 animator.Play("BirdViewConeExtract");
 
                 extractDone = true;
+                curState = (int)State.scan;
+                
                 
             }
-            
 
 
 
-            if (rotateDoneRight == false)
+            if (curState == (int)State.scan)
             {
-
-                if(headPosStart == false)
+                if (rotateDoneRight == false)
                 {
-                    headPosReset = headRB.transform.localEulerAngles.z;
-                    Debug.Log("Head Pos Reset: " + headPosReset);
-                    headPosStart = true;
-                }
-                headRB.transform.Rotate(0, 0, -1 * 45 * Time.fixedDeltaTime);
-                headPos = headRB.transform.localEulerAngles.z;
-                //headPos = headRB.transform.localPosition.z;
-                //Debug.Log("BirdHead right " + headPos);
 
-                if (headPos <= 280.0f)
+                    if (headPosStart == false)
+                    {
+                        headPosReset = headRB.transform.localEulerAngles.z;
+                        Debug.Log("Head Pos Reset: " + headPosReset);
+                        headPosStart = true;
+                    }
+                    headRB.transform.Rotate(0, 0, -1 * 45 * Time.fixedDeltaTime);
+                    headPos = headRB.transform.localEulerAngles.z;
+                    //headPos = headRB.transform.localPosition.z;
+                    //Debug.Log("BirdHead right " + headPos);
+
+                    if (headPos <= 280.0f)
+                    {
+                        rotateDoneRight = true;
+                        //Debug.Log("rotRight " + rotateDoneRight);
+
+                    }
+
+
+
+                }
+
+                if (rotateDoneRight == true && rotateDoneLeft == false)
                 {
-                    rotateDoneRight = true;
-                    //Debug.Log("rotRight " + rotateDoneRight);
+                    headRB.transform.Rotate(0, 0, 1 * 45 * Time.fixedDeltaTime);
+                    headPos = headRB.transform.localEulerAngles.z;
+                    //headPos = headRB.transform.localPosition.z;
+                    //Debug.Log("BirdHead left " + headPos);
+
+                    if (headPos <= 280.0f && headPos >= 70.0f)
+                    {
+                        rotateDoneLeft = true;
+
+                        //Debug.Log("rotLeft " + rotateDoneLeft);
+                    }
 
                 }
 
+                if (rotateDoneRight == true && rotateDoneLeft == true)
+                {
+
+                    headRB.transform.Rotate(0, 0, -1 * 45 * Time.fixedDeltaTime);
+                    headPos = headRB.transform.localEulerAngles.z;
+                    //headPos = headRB.transform.localPosition.z;
+                    //Debug.Log("BirdHead right again " + headPos);
+
+                    if (Mathf.Round(headPos) == Mathf.Round(headPosReset))
+                    {
+                        //headRB.transform.localEulerAngles = new Vector3(0, 0, headPosReset);
+                        //Debug.Log("head start pos: " + headPosReset);
+                        animator.Play("BirdViewConeRetract");
+                        curState = (int)State.scanDone;
 
 
+
+
+                    }
+
+                }
             }
 
-            if (rotateDoneRight == true && rotateDoneLeft == false)
+            if (curState == (int)State.scanDone)
             {
-                headRB.transform.Rotate(0, 0, 1 * 45 * Time.fixedDeltaTime);
-                headPos = headRB.transform.localEulerAngles.z;
-                //headPos = headRB.transform.localPosition.z;
-                //Debug.Log("BirdHead left " + headPos);
+                AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
-                if (headPos <= 280.0f && headPos >= 70.0f)
+                if (stateInfo.fullPathHash == coneAnimHash)
                 {
-                    rotateDoneLeft = true;
-
-                    //Debug.Log("rotLeft " + rotateDoneLeft);
+                    if (stateInfo.normalizedTime >= stateInfo.length + 1f)
+                    {
+                        birdScript.birdScan = false;
+                        extractDone = false;
+                        rotateDoneRight = false;
+                        rotateDoneLeft = false;
+                        scanDone = true;
+                        cone.SetActive(false);
+                    }
                 }
-
             }
 
-            if(rotateDoneRight == true && rotateDoneLeft == true)
-            {
-
-                headRB.transform.Rotate(0, 0, -1 * 45 * Time.fixedDeltaTime);
-                headPos = headRB.transform.localEulerAngles.z;
-                //headPos = headRB.transform.localPosition.z;
-                //Debug.Log("BirdHead right again " + headPos);
-
-                if (Mathf.Round(headPos) == Mathf.Round(headPosReset))
-                {
-                    //headRB.transform.localEulerAngles = new Vector3(0, 0, headPosReset);
-                    //Debug.Log("head start pos: " + headPosReset);
-                    animator.Play("BirdViewConeRetract");
-
-                    birdScript.birdScan = false;
-                    extractDone = false;
-                    rotateDoneRight = false;
-                    rotateDoneLeft = false;
-                    scanDone = true;
-
-                }
-
-            }
+        
         }
                       
         
     }
 
-    public void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.gameObject == butt)
-        {
-            SceneManager.LoadScene("GameIsDoneded");
-        }
-    }
+
 }

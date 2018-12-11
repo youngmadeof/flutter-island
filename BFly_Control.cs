@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class BFly_Control : MonoBehaviour {
 
@@ -10,13 +11,19 @@ public class BFly_Control : MonoBehaviour {
 
     private Animator animator;
 
-    private int curState;
+    public int curState;
+    public GameObject cloud;
+    public GameObject birdCone;
+
+    private bool coneCollision;
+    private bool cloudCollision;
 
     //whack in some states
     private enum State
     {
         normal,
-        interact
+        interact,
+        dead
     }
   
     
@@ -27,15 +34,48 @@ public class BFly_Control : MonoBehaviour {
         animator = GetComponent<Animator>();
         curState = (int)State.normal;
     }
-	
 
-	void FixedUpdate ()
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject == birdCone)
+        {
+            if(cloudCollision == false)
+            {
+                coneCollision = true;
+            }
+            
+            
+        }
+
+        if (collision.gameObject == cloud)
+        {
+            cloudCollision = true;
+        }
+    }
+
+    public void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.gameObject == cloud)
+        {
+            cloudCollision = false;
+        }
+
+    }
+
+
+
+    void FixedUpdate ()
 	{
     
         if (Input.GetButton("Fire1"))
         {
             curState = (int)State.interact;
             animator.Play("BFlyIdle");
+        }
+
+        else if (coneCollision == true & cloudCollision == false)
+        {
+            curState = (int)State.dead;
         }
 
         else
@@ -101,8 +141,11 @@ public class BFly_Control : MonoBehaviour {
             }
 
         }
-              
-        
+
+        if(curState == (int)State.dead)
+        {
+            SceneManager.LoadScene("GameIsDoneded");
+        }
 
 
     }
