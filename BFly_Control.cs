@@ -18,6 +18,7 @@ public class BFly_Control : MonoBehaviour {
     private bool coneCollision;
     private bool cloudCollision;
 
+
     //whack in some states
     private enum State
     {
@@ -32,7 +33,11 @@ public class BFly_Control : MonoBehaviour {
         rb2d = GetComponent<Rigidbody2D>();
         speed = 80;
         animator = GetComponent<Animator>();
+ 
         curState = (int)State.normal;
+
+
+
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -65,27 +70,35 @@ public class BFly_Control : MonoBehaviour {
 
 
     void FixedUpdate ()
-	{
-    
-        if (Input.GetButton("Fire1"))
-        {
-            curState = (int)State.interact;
-            animator.Play("BFlyIdle");
-        }
+    {
+        
 
-        else if (coneCollision == true & cloudCollision == false)
+        if (coneCollision == true && cloudCollision == false)
         {
             curState = (int)State.dead;
         }
 
+        else if (Input.GetButton("Fire1"))
+        {
+            if(coneCollision == false || cloudCollision == true)
+            {
+                curState = (int)State.interact;
+                animator.Play("BFlyIdle");
+            }
+            
+        }
+        
         else
         {
             curState = (int)State.normal;
+
         }
 
 
         if(curState == (int)State.normal)
         {
+
+
             float MoveButtY = Input.GetAxisRaw("Horizontal");
             float MoveButtX = Input.GetAxisRaw("Vertical");
 
@@ -96,6 +109,7 @@ public class BFly_Control : MonoBehaviour {
             if (MoveButtY > 0 || MoveButtX > 0 || MoveButtX < 0 || MoveButtY < 0)
             {
                 animator.Play("BFlyMove");
+                
             }
             else
             {

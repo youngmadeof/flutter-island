@@ -8,14 +8,15 @@ public class CloudBehave : MonoBehaviour {
     //private Rigidbody2D rb2d;
     private float cloudSpeed;
     public Camera cam;
- 
-    
+
+
     // Use this for initialization
     void Start ()
 
     {
         cloudSpeed = 30f;
         //rb2d = GetComponent<Rigidbody2D>();
+
     }
 
 	// Update is called once per frame
@@ -31,7 +32,7 @@ public class CloudBehave : MonoBehaviour {
 
 
         if (Time.timeSinceLevelLoad > 15.0f)
-        {
+        {            
             transform.position += (desiredScreenPos - currentScreenPos).normalized / cloudSpeed;
         }
 

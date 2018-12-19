@@ -9,13 +9,17 @@ public class SliderTimerDisplay : MonoBehaviour
     private Slider sliderUI;
     public int startSeconds;
     public float healthRemain;
+    public bool lowHealth;
 
-  
+
+    private void Awake()
+    {
+        lowHealth = false;
+    }
     void Start()
     {
         SetupSlider();
-        SetupTimer();
-
+        SetupTimer();  
 
     }
 
@@ -26,9 +30,20 @@ public class SliderTimerDisplay : MonoBehaviour
         healthRemain = countdownTimer.GetProportionTimeRemaining();
 
         //Comment out for now!
-        if(healthRemain == 0)
+        if(healthRemain >= 0 && healthRemain <= 0.15f)
         {
-        SceneManager.LoadScene("GameIsDoneded");
+            lowHealth = true;
+
+            if (healthRemain == 0)
+            {
+                SceneManager.LoadScene("GameIsDoneded");
+            }
+
+        }
+
+        else
+        {
+            lowHealth = false;
         }
 
     }

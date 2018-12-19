@@ -159,7 +159,7 @@ public class BirdHeadScan : MonoBehaviour {
 
                 if (stateInfo.fullPathHash == coneAnimHash)
                 {
-                    if (stateInfo.normalizedTime >= stateInfo.length + 1f)
+                    if (stateInfo.normalizedTime >= stateInfo.length + 0.5f)
                     {
                         birdScript.birdScan = false;
                         extractDone = false;

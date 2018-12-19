@@ -12,7 +12,7 @@ public class FlowMgmt : MonoBehaviour
     public bool getFlowerTopUp;
     public int nextFlower;
 
-    private Text textUI;
+    //private Text textUI;
 
     public int flowGroup;
     private int hitMeUpAdd;
@@ -36,7 +36,11 @@ public class FlowMgmt : MonoBehaviour
     private bool redFlow3Done;
     private bool redFlow4Done;
 
-    private bool waitForFlow;
+    //private bool waitForFlow;
+
+    public List<GameObject> flowUIs = new List<GameObject>();
+
+  
 
     //All yer flowers in here
     public GameObject redFlow;
@@ -49,6 +53,10 @@ public class FlowMgmt : MonoBehaviour
     public GameObject yellFlow4;
     public GameObject redFlow5;
     public GameObject yellFlow5;
+    public GameObject redFlow6;
+    public GameObject redFlow7;
+    public GameObject redFlow8;
+    public GameObject yellFlow6;
 
     //Slap all the Flower_Anim gumph in here
     private GameObject flowAnimRed;
@@ -68,7 +76,15 @@ public class FlowMgmt : MonoBehaviour
         yellFlow4.SetActive(false);
         yellFlow5.SetActive(false);
         redFlow5.SetActive(false);
-
+        redFlow6.SetActive(false);
+        redFlow7.SetActive(false);
+        redFlow8.SetActive(false);
+        yellFlow6.SetActive(false);
+        
+        for(int i = 0; i < flowUIs.Count; i++)
+        {
+            flowUIs[i].SetActive(false);
+        }
 
     }
 
@@ -77,8 +93,8 @@ public class FlowMgmt : MonoBehaviour
         getFlowerTopUp = true;
         nextFlower = 0;
         flowGroup = 0;
-        textUI = GameObject.Find("Text").GetComponent<Text>();
-        waitForFlow = false;
+        //textUI = GameObject.Find("Text").GetComponent<Text>();
+        //waitForFlow = false;
 
     }
     // Update is called once per frame
@@ -272,6 +288,31 @@ public class FlowMgmt : MonoBehaviour
 
                 }
 
+                if(yellFlowDone == true && yellFlow2Done == true && redFlowDone == true)
+                {
+                    getFlowerTopUp = false;
+                }
+
+            }
+            else if(flowGroup == 5)
+            {
+                Flower_Anim flowerScript = redFlow6.GetComponent<Flower_Anim>();
+                redFlowerTopUp = flowerScript.flowerDrained;
+                redHitMeUpAdd = flowerScript.hitMeUp + hitMeUp;
+
+                Flower_Anim flowerScript1 = redFlow7.GetComponent<Flower_Anim>();
+                redFlowerTopUp = flowerScript1.flowerDrained;
+                redHitMeUpAdd2 = flowerScript1.hitMeUp + hitMeUp;
+
+                Flower_Anim flowerScript2 = redFlow8.GetComponent<Flower_Anim>();
+                redFlowerTopUp = flowerScript2.flowerDrained;
+                redHitMeUpAdd3 = flowerScript2.hitMeUp + hitMeUp;
+
+                Flower_Anim flowerScript3 = yellFlow6.GetComponent<Flower_Anim>();
+                yellFlowerTopUp = flowerScript3.flowerDrained;
+                yellHitMeUpAdd = flowerScript3.hitMeUp + hitMeUp;
+
+
             }
 
 
@@ -289,7 +330,13 @@ public class FlowMgmt : MonoBehaviour
             flowerTopUp = false;
             getFlowerTopUp = false;
             nextFlower += 1;
-            textUI.text = nextFlower + "/20";            
+            
+            for(int i = nextFlower -1; i < nextFlower; i++)
+            {
+                flowUIs[i].SetActive(true);
+            }
+
+           
 
         }
     }
@@ -382,6 +429,43 @@ public class FlowMgmt : MonoBehaviour
                 yellHitMeUpAdd = 0;
                 flowGroup += 1;
             }
+        }
+        if(nextFlower == 10)
+        {
+
+            redFlow6.SetActive(true);
+            Flower_Anim flowAnimRedScript = redFlow6.GetComponent<Flower_Anim>();
+            flowAnimDone = flowAnimRedScript.animDone;
+
+            if(flowAnimDone == true)
+            {
+                redFlow7.SetActive(true);
+            }
+
+            Flower_Anim flowAnimRedScript2 = redFlow7.GetComponent<Flower_Anim>();
+            flowAnimDone2 = flowAnimRedScript2.animDone;
+
+            if(flowAnimDone2 == true)
+            {
+                redFlow8.SetActive(true);
+            }
+
+            Flower_Anim flowAnimRedScript3 = redFlow8.GetComponent<Flower_Anim>();
+            bool flowAnimDone3 = flowAnimRedScript3.animDone;
+
+            if(flowAnimDone3 == true)
+            {
+                yellFlow6.SetActive(true);
+                yellFlowDone = false;
+                yellFlow2Done = false;
+                redFlowDone = false;
+                redHitMeUpAdd = 0;
+                yellHitMeUpAdd = 0;
+                yellHitMeUpAdd2 = 0;
+            }
+
+
+
         }
 
 
