@@ -30,7 +30,6 @@ public class Flower_Anim : MonoBehaviour
     public int flowID; //Red = 0, Yellow = 1, Blue = 2, Black = 3
 
 
-
     public void Start()
     {
         
@@ -39,7 +38,7 @@ public class Flower_Anim : MonoBehaviour
         set = false;
         setFlowerStatus = true;
         flowerDrained = false;
-
+        
 
         if(flowID == 0)
         {
@@ -50,6 +49,11 @@ public class Flower_Anim : MonoBehaviour
         else if (flowID == 1)
         {
             bloomHash = Animator.StringToHash("Base Layer.YellFlowerBloom");
+        }
+
+        else if (flowID == 2)
+        {
+            bloomHash = Animator.StringToHash("Base Layer.BluFlowerBloom");
         }
        
         //TODO: NEVER HAD A YELLOW FLOWER SPAWN FIRST SO NEE TO GRAB YELLOW BLOOM HASH TO USE FOR ANIMDONE
@@ -72,6 +76,7 @@ public class Flower_Anim : MonoBehaviour
                 //Debug.Log("Flower Drained Anim " + flowerDrained);
                 BFly_Control buttScript = butt.GetComponent<BFly_Control>();
                 buttScript.speed = 22;
+                animator.SetBool("Coll", true);
             }
             
 
@@ -87,7 +92,9 @@ public class Flower_Anim : MonoBehaviour
             //set = false;
             BFly_Control buttScript = butt.GetComponent<BFly_Control>();
             buttScript.speed = 80;
-            
+            animator.SetBool("Coll", false);
+
+
         }
     }
 
@@ -104,6 +111,7 @@ public class Flower_Anim : MonoBehaviour
                 Debug.Log("BloomHash Lenn " + stateInfo.length);
                 Debug.Log("bloomHash Time " + stateInfo.normalizedTime);
                 animDone = true;
+                animator.SetBool("Idle", true);
                 Debug.Log("That's the animation done then? " + animDone);
 
 

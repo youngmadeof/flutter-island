@@ -108,12 +108,12 @@ public class BFly_Control : MonoBehaviour {
 
             if (MoveButtY > 0 || MoveButtX > 0 || MoveButtX < 0 || MoveButtY < 0)
             {
-                animator.Play("BFlyMove");
+                animator.SetBool("Idle", false);
                 
             }
             else
             {
-                animator.Play("BFlyIdle");
+                animator.SetBool("Idle", true);
             }
             //8 directional movement
 
