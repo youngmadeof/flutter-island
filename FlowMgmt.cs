@@ -39,6 +39,8 @@ public class FlowMgmt : MonoBehaviour
     private bool redFlow4Done;
     private bool bluFlowDone;
 
+    private int flowID;
+ 
     //private bool waitForFlow;
 
     public List<GameObject> flowUIs = new List<GameObject>();
@@ -62,6 +64,10 @@ public class FlowMgmt : MonoBehaviour
     public GameObject yellFlow6;
     public GameObject bluFlow;
     public GameObject redFlow9;
+    public GameObject redFlow10;
+    public GameObject redFlow11;
+    public GameObject redFlow12;
+    public GameObject yellFlow7;
 
     //Slap all the Flower_Anim gumph in here
     private GameObject flowAnimRed;
@@ -69,6 +75,13 @@ public class FlowMgmt : MonoBehaviour
     private GameObject flowAnimBlu;
     private bool flowAnimDone;
     private bool flowAnimDone2;
+
+    private GameObject flowUICol;
+
+    public GameObject flowExplode;
+    private ParticleSystem ps;
+
+    private Vector3 flowPos;
 
 
 
@@ -89,6 +102,10 @@ public class FlowMgmt : MonoBehaviour
         yellFlow6.SetActive(false);
         bluFlow.SetActive(false);
         redFlow9.SetActive(false);
+        redFlow10.SetActive(false);
+        redFlow11.SetActive(false);
+        redFlow12.SetActive(false);
+        yellFlow7.SetActive(false);
         
         for(int i = 0; i < flowUIs.Count; i++)
         {
@@ -104,6 +121,8 @@ public class FlowMgmt : MonoBehaviour
         flowGroup = 0;
         //textUI = GameObject.Find("Text").GetComponent<Text>();
         //waitForFlow = false;
+
+
 
     }
     // Update is called once per frame
@@ -131,9 +150,12 @@ public class FlowMgmt : MonoBehaviour
                 Flower_Anim flowerScript = redFlow.GetComponent<Flower_Anim>();
                 flowerTopUp = flowerScript.flowerDrained;
                 hitMeUpAdd = flowerScript.hitMeUp + hitMeUp;
+                flowID = flowerScript.flowID;
 
                 if (flowerTopUp == true)
                 {
+                    flowPos = redFlow.transform.position;//flow pos for partical effect
+
                     redFlow.SetActive(false);
                 }
                 HitMeUp();
@@ -154,6 +176,8 @@ public class FlowMgmt : MonoBehaviour
                 {
                     flowerTopUp = yellFlowerTopUp;
                     hitMeUpAdd = yellHitMeUpAdd;
+                    flowID = flowerScript1.flowID;
+                    flowPos = yellFlow.transform.position;//flow pos for partical effect
                     HitMeUp();
                     yellFlowDone = true;
                     getFlowerTopUp = true;
@@ -165,6 +189,8 @@ public class FlowMgmt : MonoBehaviour
                 {
                     flowerTopUp = redFlowerTopUp;
                     hitMeUpAdd = redHitMeUpAdd;
+                    flowID = flowerScript2.flowID;
+                    flowPos = redFlow2.transform.position;//flow pos for partical effect
                     HitMeUp();
                     redFlowDone = true;
                     getFlowerTopUp = true;
@@ -192,6 +218,8 @@ public class FlowMgmt : MonoBehaviour
                 {
                     flowerTopUp = yellFlowerTopUp;
                     hitMeUpAdd = yellHitMeUpAdd;
+                    flowID = flowerScript1.flowID;
+                    flowPos = yellFlow2.transform.position;//flow pos for partical effect
                     HitMeUp();
                     yellFlow2Done = true;
                     getFlowerTopUp = false;
@@ -217,6 +245,8 @@ public class FlowMgmt : MonoBehaviour
                 {
                     flowerTopUp = redFlowerTopUp;
                     hitMeUpAdd = redHitMeUpAdd;
+                    flowID = flowerScript.flowID;
+                    flowPos = redFlow3.transform.position;//flow pos for partical effect
                     HitMeUp();
                     redFlow3Done = true;
                     //ensure you keep the process going
@@ -228,6 +258,8 @@ public class FlowMgmt : MonoBehaviour
                 {
                     flowerTopUp = redFlowerTopUp2;
                     hitMeUpAdd = redHitMeUpAdd2;
+                    flowID = flowerScript1.flowID;
+                    flowPos = redFlow4.transform.position;//flow pos for partical effect
                     HitMeUp();
                     redFlow4Done = true;
                     getFlowerTopUp = true;
@@ -239,6 +271,8 @@ public class FlowMgmt : MonoBehaviour
                 {
                     flowerTopUp = yellFlowerTopUp;
                     hitMeUpAdd = yellHitMeUpAdd;
+                    flowID = flowerScript2.flowID;
+                    flowPos = yellFlow3.transform.position;//flow pos for partical effect
                     HitMeUp();
                     yellFlowDone = true;
                     getFlowerTopUp = true;
@@ -269,6 +303,8 @@ public class FlowMgmt : MonoBehaviour
                 {
                     flowerTopUp = yellFlowerTopUp;
                     hitMeUpAdd = yellHitMeUpAdd;
+                    flowID = flowerScript.flowID;
+                    flowPos = yellFlow4.transform.position;//flow pos for partical effect
                     HitMeUp();
                     yellFlowDone = true;
                     getFlowerTopUp = true;
@@ -280,6 +316,8 @@ public class FlowMgmt : MonoBehaviour
                 {
                     flowerTopUp = yellFlowerTopUp2;
                     hitMeUpAdd = yellHitMeUpAdd2;
+                    flowID = flowerScript2.flowID;
+                    flowPos = yellFlow5.transform.position;//flow pos for partical effect
                     HitMeUp();
                     yellFlow2Done = true;
                     getFlowerTopUp = true;
@@ -290,6 +328,8 @@ public class FlowMgmt : MonoBehaviour
                 {
                     flowerTopUp = redFlowerTopUp;
                     hitMeUpAdd = redHitMeUpAdd;
+                    flowID = flowerScript3.flowID;
+                    flowPos = redFlow5.transform.position;//flow pos for partical effect
                     HitMeUp();
                     redFlowDone = true;
                     getFlowerTopUp = true;
@@ -326,6 +366,8 @@ public class FlowMgmt : MonoBehaviour
                 {
                     flowerTopUp = redFlowerTopUp;
                     hitMeUpAdd = redHitMeUpAdd;
+                    flowID = flowerScript.flowID;
+                    flowPos = redFlow6.transform.position;//flow pos for partical effect
                     HitMeUp();
                     redFlowDone = true;
                     getFlowerTopUp = true;
@@ -337,6 +379,8 @@ public class FlowMgmt : MonoBehaviour
                 {
                     flowerTopUp = redFlowerTopUp2;
                     hitMeUpAdd = redHitMeUpAdd2;
+                    flowID = flowerScript1.flowID;
+                    flowPos = redFlow7.transform.position;//flow pos for partical effect
                     HitMeUp();
                     redFlow3Done = true;
                     getFlowerTopUp = true;
@@ -347,6 +391,8 @@ public class FlowMgmt : MonoBehaviour
                 {
                     flowerTopUp = redFlowerTopUp3;
                     hitMeUpAdd = redHitMeUpAdd3;
+                    flowID = flowerScript2.flowID;
+                    flowPos = redFlow8.transform.position;//flow pos for partical effect
                     HitMeUp();
                     redFlow4Done = true;
                     getFlowerTopUp = true;
@@ -358,6 +404,8 @@ public class FlowMgmt : MonoBehaviour
                 {
                     flowerTopUp = yellFlowerTopUp;
                     hitMeUpAdd = yellHitMeUpAdd;
+                    flowID = flowerScript3.flowID;
+                    flowPos = yellFlow6.transform.position;//flow pos for partical effect
                     HitMeUp();
                     yellFlowDone = true;
                     getFlowerTopUp = true;
@@ -387,6 +435,8 @@ public class FlowMgmt : MonoBehaviour
                 {
                     flowerTopUp = bluFlowerTopUp;
                     hitMeUpAdd = bluHitMeUpAdd;
+                    flowID = flowerScript.flowID;
+                    flowPos = bluFlow.transform.position;//flow pos for partical effect
                     HitMeUp();
                     bluFlowDone = true;
                     getFlowerTopUp = true;
@@ -397,11 +447,92 @@ public class FlowMgmt : MonoBehaviour
                 {
                     flowerTopUp = redFlowerTopUp;
                     hitMeUpAdd = redHitMeUpAdd;
+                    flowID = flowerScript2.flowID;
+                    flowPos = redFlow9.transform.position;//flow pos for partical effect
                     HitMeUp();
                     redFlowDone = true;
                     getFlowerTopUp = true;
                     redFlow9.SetActive(false);
 
+                }
+
+                if(redFlowerTopUp == true && bluFlowerTopUp == true && redFlowDone == true && bluFlowDone == true)
+                {
+                    getFlowerTopUp = false;
+                }
+
+            }
+
+            else if (flowGroup == 7)
+            {
+                Flower_Anim flowerScript = redFlow10.GetComponent<Flower_Anim>();
+                redFlowerTopUp = flowerScript.flowerDrained;
+                redHitMeUpAdd = flowerScript.hitMeUp + hitMeUp;
+
+                Flower_Anim flowerScript2 = redFlow11.GetComponent<Flower_Anim>();
+                redFlowerTopUp2 = flowerScript2.flowerDrained;
+                redHitMeUpAdd2 = flowerScript2.hitMeUp + hitMeUp;
+
+                Flower_Anim flowerScript3 = redFlow12.GetComponent<Flower_Anim>();
+                redFlowerTopUp3 = flowerScript3.flowerDrained;
+                redHitMeUpAdd3 = flowerScript3.hitMeUp + hitMeUp;
+
+                if(redFlowerTopUp == true && redFlowDone == false)
+                {
+                    flowerTopUp = redFlowerTopUp;
+                    hitMeUpAdd = redHitMeUpAdd;
+                    flowID = flowerScript.flowID;
+                    flowPos = redFlow10.transform.position;//flow pos for partical effect
+                    HitMeUp();
+                    redFlowDone = true;
+                    getFlowerTopUp = true;
+                    redFlow10.SetActive(false);
+                }
+                if(redFlowerTopUp2 == true && redFlow3Done == false)
+                {
+                    flowerTopUp = redFlowerTopUp2;
+                    hitMeUpAdd = redHitMeUpAdd2;
+                    flowID = flowerScript2.flowID;
+                    flowPos = redFlow11.transform.position;//flow pos for partical effect
+                    HitMeUp();
+                    redFlow3Done = true;
+                    getFlowerTopUp = true;
+                    redFlow11.SetActive(false);
+                }
+                if(redFlowerTopUp3 == true && redFlow4Done == false)
+                {
+                    flowerTopUp = redFlowerTopUp3;
+                    hitMeUpAdd = redHitMeUpAdd3;
+                    flowID = flowerScript3.flowID;
+                    flowPos = redFlow12.transform.position;//flow pos for partical effect
+                    HitMeUp();
+                    redFlow4Done = true;
+                    getFlowerTopUp = true;
+                    redFlow12.SetActive(false);
+                }
+
+                if(redFlowDone == true && redFlow3Done == true && redFlow4Done == true)
+                {
+                    getFlowerTopUp = false;
+                }
+            }
+
+            else if (flowGroup == 8)
+            {
+                Flower_Anim flowerScript = yellFlow7.GetComponent<Flower_Anim>();
+                yellFlowerTopUp = flowerScript.flowerDrained;
+                yellHitMeUpAdd = flowerScript.hitMeUp + hitMeUp;
+
+                if(yellFlowerTopUp == true)
+                {
+                    flowerTopUp = yellFlowerTopUp;
+                    hitMeUpAdd = yellHitMeUpAdd;
+                    flowID = flowerScript.flowID;
+                    flowPos = yellFlow7.transform.position;//flow pos for partical effect
+                    HitMeUp();
+                    getFlowerTopUp = true;
+                    yellFlow7.SetActive(false);
+                    
                 }
 
             }
@@ -421,10 +552,27 @@ public class FlowMgmt : MonoBehaviour
             flowerTopUp = false;
             getFlowerTopUp = false;
             nextFlower += 1;
+
+            Debug.Log("you got it here " + flowPos);
+            //TODO: PUT THIS INTO A SEPARATE SCRIPT CALLING THE TRANSFORM POS OF FLOWER
+
+            FlowExpTrans getFlowBang = flowExplode.GetComponent<FlowExpTrans>();
+            getFlowBang.FlowGoBang(flowPos);
             
+
+
+
+                        
             for(int i = nextFlower -1; i < nextFlower; i++)
             {
+
                 flowUIs[i].SetActive(true);
+
+                
+                FlowUICol flowUIScript = flowUIs[i].GetComponent<FlowUICol>();
+
+                flowUIScript.FlowColChange(ref flowID);
+
             }
 
            
@@ -582,8 +730,48 @@ public class FlowMgmt : MonoBehaviour
 
             }
 
+        }
+
+        if(nextFlower == 16)
+        {
+            redFlow10.SetActive(true);
+            Flower_Anim flowAnimRedScript = redFlow10.GetComponent<Flower_Anim>();
+            flowAnimDone = flowAnimRedScript.animDone;
+
+            if(flowAnimDone == true)
+            {
+                redFlow11.SetActive(true);
+
+            }
+
+            Flower_Anim flowAnimRedScript2 = redFlow11.GetComponent<Flower_Anim>();
+            flowAnimDone2 = flowAnimRedScript2.animDone;
+
+            if (flowAnimDone2 == true)
+            {
+                redFlow12.SetActive(true);
+                getFlowerTopUp = true;
+                bluFlowDone = false;
+                redFlowDone = false;
+                bluHitMeUpAdd = 0;
+                redHitMeUpAdd = 0;
+                flowGroup += 1;
+            }
 
 
+        }
+        if(nextFlower == 19)
+        {
+            yellFlow7.SetActive(true);
+            getFlowerTopUp = true;
+            redFlowDone = false;
+            redFlow3Done = false;
+            redFlow4Done = false;
+            redHitMeUpAdd = 0;
+            redHitMeUpAdd2 = 0;
+            redHitMeUpAdd3 = 0;
+            flowGroup += 1;
+           
         }
 
 
