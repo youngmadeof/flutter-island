@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class FlowMgmt : MonoBehaviour
 {
-
+    private SpecialsMgmt specMan;
     public bool flowerTopUp;
     public int hitMeUp;
     public bool getFlowerTopUp;
@@ -39,13 +39,13 @@ public class FlowMgmt : MonoBehaviour
     private bool redFlow4Done;
     private bool bluFlowDone;
 
-    private int flowID;
+    public int flowID;
  
     //private bool waitForFlow;
 
     public List<GameObject> flowUIs = new List<GameObject>();
 
-  
+    public GameObject slidTimer;
 
     //All yer flowers in here
     public GameObject redFlow;
@@ -79,11 +79,14 @@ public class FlowMgmt : MonoBehaviour
     private GameObject flowUICol;
 
     public GameObject flowExplode;
+    public GameObject lastFlowExplode;
     private ParticleSystem ps;
 
     private Vector3 flowPos;
 
+    public bool lastFlow;
 
+    private bool timeStopped;
 
     private void Awake()
     {
@@ -131,6 +134,14 @@ public class FlowMgmt : MonoBehaviour
         FlowerTopUp();
     }
 
+    public void StopTimer()
+    {
+        SliderTimerDisplay slidTimerStop = slidTimer.GetComponent<SliderTimerDisplay>();
+        float healthRemain = slidTimerStop.healthRemain;
+        Debug.Log(healthRemain * 100);
+        slidTimerStop.enabled = false;
+        timeStopped = true;
+    }
 
     private void FlowerTopUp()
     {
@@ -529,9 +540,16 @@ public class FlowMgmt : MonoBehaviour
                     hitMeUpAdd = yellHitMeUpAdd;
                     flowID = flowerScript.flowID;
                     flowPos = yellFlow7.transform.position;//flow pos for partical effect
+                    lastFlow = true;
                     HitMeUp();
-                    getFlowerTopUp = true;
+                    //getFlowerTopUp = true;
                     yellFlow7.SetActive(false);
+
+                    if(timeStopped == false)
+                    {
+                        StopTimer();
+                    }
+                    
                     
                 }
 
@@ -553,17 +571,24 @@ public class FlowMgmt : MonoBehaviour
             getFlowerTopUp = false;
             nextFlower += 1;
 
-            Debug.Log("you got it here " + flowPos);
-            //TODO: PUT THIS INTO A SEPARATE SCRIPT CALLING THE TRANSFORM POS OF FLOWER
+            if(lastFlow == true)
+            {
+                LastFlowExplode getFlowBang = lastFlowExplode.GetComponent<LastFlowExplode>();
+                getFlowBang.LastFlowBang(flowPos);
+            }
 
-            FlowExpTrans getFlowBang = flowExplode.GetComponent<FlowExpTrans>();
-            getFlowBang.FlowGoBang(flowPos);
-            
+            else
+            {
+                FlowExpTrans getFlowBang = flowExplode.GetComponent<FlowExpTrans>();
+                getFlowBang.FlowGoBang(flowPos);
+            }
 
 
+            specMan = GetComponent<SpecialsMgmt>();
+            specMan.CloudFlowSpesh(flowID,nextFlower);
 
-                        
-            for(int i = nextFlower -1; i < nextFlower; i++)
+
+            for (int i = nextFlower -1; i < nextFlower; i++)
             {
 
                 flowUIs[i].SetActive(true);

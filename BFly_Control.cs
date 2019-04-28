@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.SceneManagement;
+
 
 public class BFly_Control : MonoBehaviour {
 
@@ -12,8 +12,12 @@ public class BFly_Control : MonoBehaviour {
     private Animator animator;
 
     public int curState;
+    public int movState;
     public GameObject cloud;
     public GameObject birdCone;
+
+    public GameObject buttExp;
+
 
     private bool coneCollision;
     private bool cloudCollision;
@@ -25,6 +29,12 @@ public class BFly_Control : MonoBehaviour {
         normal,
         interact,
         dead
+    }
+
+    private enum MoveState
+    {
+        move,
+        idle
     }
   
     
@@ -84,6 +94,7 @@ public class BFly_Control : MonoBehaviour {
             {
                 curState = (int)State.interact;
                 animator.Play("BFlyIdle");
+                movState = (int)MoveState.idle;
             }
             
         }
@@ -109,11 +120,14 @@ public class BFly_Control : MonoBehaviour {
             if (MoveButtY > 0 || MoveButtX > 0 || MoveButtX < 0 || MoveButtY < 0)
             {
                 animator.SetBool("Idle", false);
+                movState = (int)MoveState.move;
                 
             }
             else
             {
                 animator.SetBool("Idle", true);
+                movState = (int)MoveState.idle;
+
             }
             //8 directional movement
 
@@ -158,12 +172,20 @@ public class BFly_Control : MonoBehaviour {
 
         if(curState == (int)State.dead)
         {
-            SceneManager.LoadScene("GameIsDoneded");
+            //gameObject.SetActive(false);
+            Vector3 buttPos = transform.position;
+            ButtExplosion getButtBang = buttExp.GetComponent<ButtExplosion>();
+            getButtBang.buttGoBang(buttPos);
+            DestroyObject();
         }
 
 
     }
 
-
+    void DestroyObject()
+    {
+        //Destroy(gameObject);
+        gameObject.SetActive(false);
+    }
 
 }

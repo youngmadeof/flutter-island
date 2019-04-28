@@ -218,10 +218,7 @@ public class BirdMove : MonoBehaviour {
                 else
 
                 {
-                    //float angle = Mathf.Atan2(treePos1.y, treePos1.x) * Mathf.Rad2Deg;
-
-                    //birdRotPos = rb2d.rotation;
-
+                   
                     transform.Rotate(0, 0, -1 * 20 * Time.fixedDeltaTime);
                 }
 
@@ -267,14 +264,10 @@ public class BirdMove : MonoBehaviour {
             {
 
 
-                //float angle = Mathf.Atan2(treePos3.y, treePos3.x) * Mathf.Rad2Deg;
+
                 float angle = Vector2.Angle(transform.position, treePos3);
                 float birdAngle = Vector2.Angle(transform.up, transform.position);
 
-                //birdRotPos = rb2d.rotation;
-
-                //Debug.Log("angle " + angle);
-                //Debug.Log("birdAngle " + birdAngle);
 
                 if (Mathf.Round(birdAngle) != Mathf.Round(angle))
                 {
@@ -295,13 +288,10 @@ public class BirdMove : MonoBehaviour {
 
             if (atTree3 == true && curState == (int)State.scan)
             {
-                //Rotating the bird while scanning until it faces the next tree position
-                //float angle = Mathf.Atan2(treePos1.y, treePos1.x) * Mathf.Rad2Deg;
+               
                 float angle = Vector2.Angle(transform.position, treePos1);
                 float birdAngle = Vector2.Angle(transform.up, transform.position);
-                //birdRotPos = rb2d.rotation;
-                //Debug.Log("angle " + angle);
-                //Debug.Log("birdAngle " + birdAngle);
+      
 
 
                 if (Mathf.Round(birdAngle) != Mathf.Round(angle))
@@ -327,12 +317,11 @@ public class BirdMove : MonoBehaviour {
 
                 if(tripCount == 0)
                 {
-                    //float angle = Mathf.Atan2(treePos3.y, treePos3.x) * Mathf.Rad2Deg;
-                    // Debug.Log("this is the tree2 angle " + angle);
+                  
                     float angle = Vector2.Angle(transform.position, treePos3);
-                    //birdRotPos = rb2d.rotation;
+                 
                     float birdAngle = Vector2.Angle(transform.up, transform.position);
-                    //Debug.Log("birdrotpos " + birdRotPos);
+   
 
                     if (Mathf.Round(birdAngle) != Mathf.Round(angle))
                     {
@@ -345,23 +334,10 @@ public class BirdMove : MonoBehaviour {
 
                 else
                 {
-                    /*float angle = Mathf.Atan2(treePos2.y, treePos2.x) * Mathf.Rad2Deg;
-                    Debug.Log("this is the tree2 angle " + angle);
-                    birdRotPos = rb2d.rotation;
-                    Debug.Log("birdrotpos " + birdRotPos);*/
-
-                    //Vector2 toVector = treePos2 - transform.position;
-                    //Debug.Log("toVector " + toVector);
-                    //float angleVector = Vector2.Angle(transform.up, toVector);
-                    //Debug.Log("Angle Vector " + angleVector);
-                    //birdRotPos = rb2d.rotation;
-                    //float angle = Vector2.Angle(transform.position, treePos3);
+               
                     float angle = Mathf.Atan2(treePos3.y, treePos3.x) * Mathf.Rad2Deg;
                     float birdAngle = Vector2.Angle(transform.up, transform.position);
-                    //float birdAngle = Mathf.Atan2(birdRotPos.y) * Mathf.Rad2Deg;
-                    Debug.Log("angle " + angle);
-                    Debug.Log("birdAngle " + birdAngle);
-                   // Debug.Log("this is the tree2 angle " + angle);
+
 
                     if (Mathf.Round(birdAngle) != Mathf.Round(angle))
                     {

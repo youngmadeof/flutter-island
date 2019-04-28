@@ -8,6 +8,7 @@ public class CountdownTimer : MonoBehaviour
 {
     private float countdownTimerStartTime;
     private int countdownTimerDuration;
+    public GameObject gameManage;
 
     //-----------------------------
     public int GetTotalSeconds()
@@ -26,13 +27,9 @@ public class CountdownTimer : MonoBehaviour
     public int GetSecondsRemaining()
     {
 
-        //SliderTimerDisplay slider = GetComponent<SliderTimerDisplay>();
-        //int addTime = slider.hitMeUp;
-        FlowMgmt flowMgmt = GetComponent<FlowMgmt>();
+        FlowMgmt flowMgmt = gameManage.GetComponent<FlowMgmt>();
         int addTime = flowMgmt.hitMeUp;
-        //Debug.Log("add time " + addTime);
         int elapsedSeconds = (int)((Time.time - countdownTimerStartTime) -addTime);
-        //Debug.Log("elapsed seconds " + elapsedSeconds);
 
         int secondsLeft = (countdownTimerDuration - (elapsedSeconds));
         return secondsLeft;

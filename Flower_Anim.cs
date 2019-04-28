@@ -27,7 +27,7 @@ public class Flower_Anim : MonoBehaviour
     public float rot;
     public int hitMeUp;
 
-    public int flowID; //Red = 0, Yellow = 1, Blue = 2, Black = 3
+    public int flowID; //Red = 0, Yellow = 1, Blue = 2, Black (destroy) = 3
 
 
     public void Start()
@@ -59,7 +59,7 @@ public class Flower_Anim : MonoBehaviour
         //TODO: NEVER HAD A YELLOW FLOWER SPAWN FIRST SO NEE TO GRAB YELLOW BLOOM HASH TO USE FOR ANIMDONE
         //Debug.Log("bloom " + bloomHash);
         animDone = false;
-        Debug.Log("Anim done Start?" + animDone);
+        
        
     }
 
@@ -108,11 +108,9 @@ public class Flower_Anim : MonoBehaviour
         {
             if(stateInfo.normalizedTime >= stateInfo.length -1f && animDone == false)
             {
-                Debug.Log("BloomHash Lenn " + stateInfo.length);
-                Debug.Log("bloomHash Time " + stateInfo.normalizedTime);
+                
                 animDone = true;
                 animator.SetBool("Idle", true);
-                Debug.Log("That's the animation done then? " + animDone);
 
 
             }
@@ -143,8 +141,6 @@ public class Flower_Anim : MonoBehaviour
                     flowerDrained = true;
                     setFlowerStatus = false;
                     animator = GetComponent<Animator>();
-                    Debug.Log(flowID);
-                    
                     BFly_Control buttScript = butt.GetComponent<BFly_Control>();
                     buttScript.speed = 80;
 

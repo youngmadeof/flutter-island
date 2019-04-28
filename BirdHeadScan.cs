@@ -52,7 +52,6 @@ public class BirdHeadScan : MonoBehaviour {
         //retractDone = false;
         headRB = GetComponent<Rigidbody2D>();
         headPosReset = headRB.transform.localEulerAngles.z;
-        Debug.Log("Head Pos Reset: " + headPosReset);
         coneAnimHash = Animator.StringToHash("Base Layer.BirdViewConeRetract");
 
         //butt = GameObject.Find("BFly_Player");
@@ -95,7 +94,6 @@ public class BirdHeadScan : MonoBehaviour {
                     if (headPosStart == false)
                     {
                         headPosReset = headRB.transform.localEulerAngles.z;
-                        Debug.Log("Head Pos Reset: " + headPosReset);
                         headPosStart = true;
                     }
                     headRB.transform.Rotate(0, 0, -1 * 45 * Time.fixedDeltaTime);
