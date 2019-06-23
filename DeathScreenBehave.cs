@@ -38,10 +38,10 @@ public class DeathScreenBehave : MonoBehaviour {
     void FixedUpdate ()
 
     {
-        BFly_Control buttScript = butt.GetComponent<BFly_Control>();
+        BFly_Collision buttScript = butt.GetComponent<BFly_Collision>();
         buttState = buttScript.curState;
 
-        if (buttState == 2)
+        if (buttState == 1)
         {
 
             //getStartTime = Time.time;

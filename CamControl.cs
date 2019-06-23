@@ -75,7 +75,7 @@ public class CamControl : MonoBehaviour {
                 if (bounds)
                     {
                         transform.position = new Vector3(Mathf.Clamp(posX, minCameraPos.x, maxCameraPos.x),
-                            Mathf.Clamp(posY, minCameraPos.y, maxCameraPos.y), -4.0f);
+                          Mathf.Clamp(posY, minCameraPos.y, maxCameraPos.y), -4.0f);
 
                     }
 

@@ -11,27 +11,12 @@ public class BFly_Control : MonoBehaviour {
 
     private Animator animator;
 
-    public int curState;
+    public bool dontMove;
+
     public int movState;
-    public GameObject cloud;
-    public GameObject birdCone;
-
-    public GameObject buttExp;
 
 
-    private bool coneCollision;
-    private bool cloudCollision;
-
-
-    //whack in some states
-    private enum State
-    {
-        normal,
-        interact,
-        dead
-    }
-
-    private enum MoveState
+    public enum MoveState
     {
         move,
         idle
@@ -43,93 +28,55 @@ public class BFly_Control : MonoBehaviour {
         rb2d = GetComponent<Rigidbody2D>();
         speed = 80;
         animator = GetComponent<Animator>();
- 
-        curState = (int)State.normal;
-
-
 
     }
 
-    public void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject == birdCone)
-        {
-            if(cloudCollision == false)
-            {
-                coneCollision = true;
-            }
-            
-            
-        }
-
-        if (collision.gameObject == cloud)
-        {
-            cloudCollision = true;
-        }
-    }
-
-    public void OnTriggerExit2D(Collider2D collision)
-    {
-        if(collision.gameObject == cloud)
-        {
-            cloudCollision = false;
-        }
-
-    }
+  
 
 
 
     void FixedUpdate ()
-    {
+    {                
+                 
+
+        float MoveButtY = Input.GetAxisRaw("Horizontal");
+        float MoveButtX = Input.GetAxisRaw("Vertical");
+
+        Vector2 movement = new Vector2(MoveButtY, MoveButtX);
+
         
 
-        if (coneCollision == true && cloudCollision == false)
+        if (Input.GetButton("Fire1"))
         {
-            curState = (int)State.dead;
+            movState = (int)MoveState.idle;
+            dontMove = true;
+            animator.SetBool("Idle", true);
         }
 
-        else if (Input.GetButton("Fire1"))
+        else dontMove = false;
+
+        if (MoveButtY > 0  || MoveButtX > 0  || MoveButtX < 0  || MoveButtY < 0)
         {
-            if(coneCollision == false || cloudCollision == true)
-            {
-                curState = (int)State.interact;
-                animator.Play("BFlyIdle");
-                movState = (int)MoveState.idle;
-            }
-            
-        }
-        
-        else
-        {
-            curState = (int)State.normal;
-
-        }
-
-
-        if(curState == (int)State.normal)
-        {
-
-
-            float MoveButtY = Input.GetAxisRaw("Horizontal");
-            float MoveButtX = Input.GetAxisRaw("Vertical");
-
-            Vector2 movement = new Vector2(MoveButtY, MoveButtX);
-
-            rb2d.AddForce(movement * speed);
-
-            if (MoveButtY > 0 || MoveButtX > 0 || MoveButtX < 0 || MoveButtY < 0)
+            if(dontMove == false)
             {
                 animator.SetBool("Idle", false);
                 movState = (int)MoveState.move;
+            }
+            
                 
-            }
-            else
-            {
-                animator.SetBool("Idle", true);
-                movState = (int)MoveState.idle;
+        }
+        else
+        {
+            animator.SetBool("Idle", true);
+            movState = (int)MoveState.idle;
 
-            }
+        }
+
+
             //8 directional movement
+        if (movState == (int)MoveState.move && dontMove == false)
+        {
+            rb2d.AddForce(movement * speed);
 
             if (MoveButtY > 0 && MoveButtX > 0)
             {
@@ -169,23 +116,15 @@ public class BFly_Control : MonoBehaviour {
             }
 
         }
+           
 
-        if(curState == (int)State.dead)
-        {
-            //gameObject.SetActive(false);
-            Vector3 buttPos = transform.position;
-            ButtExplosion getButtBang = buttExp.GetComponent<ButtExplosion>();
-            getButtBang.buttGoBang(buttPos);
-            DestroyObject();
-        }
+        
+
+
 
 
     }
 
-    void DestroyObject()
-    {
-        //Destroy(gameObject);
-        gameObject.SetActive(false);
-    }
+
 
 }

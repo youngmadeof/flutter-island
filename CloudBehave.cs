@@ -6,19 +6,19 @@ public class CloudBehave : MonoBehaviour {
 
 
     //private Rigidbody2D rb2d;
-    private float cloudSpeed;
-   // private Camera cam;
-    public GameObject cloud;
+    public float cloudSpeed;
     public Camera cam;
-    private bool cloudSpawn;
+    public bool cloudSpawn;
+
 
 
     // Use this for initialization
     void Start ()
 
     {
-        cloudSpeed = 30f;
+        
         //rb2d = GetComponent<Rigidbody2D>();
+        
 
     }
 
@@ -29,31 +29,38 @@ public class CloudBehave : MonoBehaviour {
         //Debug.Log(Time.timeSinceLevelLoad);   
         
         Vector3 desiredPos = new Vector3(11.85f , 2.31f);
-        Vector3 currentPos = cloud.transform.position;
+        Vector3 currentPos = transform.position;
         Vector3 currentScreenPos = cam.WorldToViewportPoint(currentPos);
         Vector3 desiredScreenPos = cam.WorldToViewportPoint(desiredPos);
         //Debug.Log(currentScreenPos + " current");
 
+        //CloudFlowColl cloudFlowScript = cloudFlow.GetComponent<CloudFlowColl>();
+        bool  cloudSpawn = CloudFlowColl.cloudSpawn;
 
-        if (Time.timeSinceLevelLoad > 15.0f)
+        if(cloudSpawn == true)
         {
-            if (cloudSpawn == false)
-            {
-                cloud.SetActive(true);
+            cloudSpeed = 0.5f;
+        }
 
-                cloudSpawn = true;
-            }
-            
+        else
+        {
+            cloudSpeed = 30f;
+        }
+
+        transform.position += (desiredScreenPos - currentScreenPos).normalized / cloudSpeed;
  
-            cloud.transform.position += (desiredScreenPos - currentScreenPos).normalized / cloudSpeed;
 
-            
-        }
+        //CONDITIONS FOR STATES
+         
+ 
 
-        if(cloud.transform.position.x >= desiredPos.x)
+        if (transform.position.x >= desiredPos.x)
         {
-            cloud.SetActive(false);
+            gameObject.SetActive(false);
         }
+
+
+
 
         //Debug.Log(desiredScreenPos + " desired");
 

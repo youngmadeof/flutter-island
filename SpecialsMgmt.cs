@@ -35,6 +35,7 @@ public class SpecialsMgmt : MonoBehaviour {
         if(strFlowSeq == "41516070")
         {
             cloudFlow.SetActive(true);
+            cloudFlow.transform.position = new Vector3(-0.75f, 1.78f, 0f);
         }
 
 
