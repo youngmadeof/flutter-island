@@ -7,6 +7,8 @@ public class FlowExpTrans : MonoBehaviour {
     
     private GameObject slider;
     public GameObject gameManage;
+    private int levelInt;
+    private int flowID;
 
     private void Start()
     {
@@ -21,8 +23,22 @@ public class FlowExpTrans : MonoBehaviour {
 
     public void FlowGoBang(Vector3 flowPos)
     {
+        FlowRuntime flowRun = gameManage.GetComponent<FlowRuntime>();
+        levelInt = flowRun.levelNo;
         FlowMgmt flowMgmt = gameManage.GetComponent<FlowMgmt>();
-        int flowID = flowMgmt.flowID;
+        FlowMgmt_L2 flowMgmt2 = gameManage.GetComponent<FlowMgmt_L2>();
+
+        if (levelInt == 1)
+        {
+            flowID = flowMgmt.flowID;
+        }
+
+        else if (levelInt == 2)
+        {
+            flowID = flowMgmt2.flowID;
+
+        }
+        
 
         ParticleSystem ps = GetComponent<ParticleSystem>();
         var psMain = ps.main;

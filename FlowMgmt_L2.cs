@@ -114,7 +114,7 @@ public class FlowMgmt_L2 : MonoBehaviour
 
     private void Start()
     {
-        getFlowerTopUp = true;
+        getFlowerTopUp = false;
         nextFlower = 0;
         flowGroup = 0;
         //textUI = GameObject.Find("Text").GetComponent<Text>();
@@ -199,7 +199,7 @@ public class FlowMgmt_L2 : MonoBehaviour
                     HitMeUp();
                     flowDone3 = true;
                     getFlowerTopUp = true;
-                    flow2.SetActive(false);
+                    flow3.SetActive(false);
                 }
 
                 if(flowDone1 == true && flowDone2 == true && flowDone3 == true)
@@ -280,6 +280,7 @@ public class FlowMgmt_L2 : MonoBehaviour
                     flowPos = flow6.transform.position;//flow pos for partical effect
                     HitMeUp();
                     flowDone1 = true;
+                    getFlowerTopUp = true;
                     flow6.SetActive(false);
                 }
 
@@ -291,6 +292,7 @@ public class FlowMgmt_L2 : MonoBehaviour
                     flowPos = flow7.transform.position;
                     HitMeUp();
                     flowDone2 = true;
+                    getFlowerTopUp = true;
                     flow7.SetActive(false);
                 }
 
@@ -302,6 +304,7 @@ public class FlowMgmt_L2 : MonoBehaviour
                     flowPos = flow8.transform.position;
                     HitMeUp();
                     flowDone3 = true;
+                    getFlowerTopUp = true;
                     flow8.SetActive(false);
 
                 }
@@ -314,7 +317,13 @@ public class FlowMgmt_L2 : MonoBehaviour
                     flowPos = flow9.transform.position;
                     HitMeUp();
                     flowDone4 = true;
+                    getFlowerTopUp = true;
                     flow9.SetActive(false);
+                }
+
+                if(flowDone1 == true && flowDone2 == true && flowDone3 == true && flowDone4 == true)
+                {
+                    getFlowerTopUp = false;
                 }
             }
 
@@ -489,7 +498,7 @@ public class FlowMgmt_L2 : MonoBehaviour
                 flow1TopUp = flowerScript.flowerDrained;
                 flow1HitMeUp = flowerScript.hitMeUp + hitMeUp;
 
-                if (flow1TopUp == true)
+                if (flow1TopUp == true && flowDone1 == false)
                 {
                     flowerTopUp = flow1TopUp;
                     hitMeUpAdd = flow1HitMeUp;
@@ -497,6 +506,7 @@ public class FlowMgmt_L2 : MonoBehaviour
                     flowPos = flow18.transform.position;//flow pos for partical effect
                     HitMeUp();
                     getFlowerTopUp = false;
+                    flowDone1 = true;
                     flow18.SetActive(false);
                 }
 
@@ -622,10 +632,11 @@ public class FlowMgmt_L2 : MonoBehaviour
     {
         if(nextFlower == 0)
         {
+            flow1.SetActive(true);
             Flower_Anim flowAnimScript = flow1.GetComponent<Flower_Anim>();
             flowAnimDone = flowAnimScript.animDone;
 
-            flow1.SetActive(true);
+          
 
             if(flowAnimDone == true)
             {                
@@ -640,7 +651,6 @@ public class FlowMgmt_L2 : MonoBehaviour
             {
                 flow3.SetActive(true);
                 getFlowerTopUp = true;
-                flowGroup += 1;
 
             }
 
@@ -802,7 +812,6 @@ public class FlowMgmt_L2 : MonoBehaviour
         if (nextFlower == 17)
         {
             flow18.SetActive(true);
-
             getFlowerTopUp = true;
             flowDone1 = false;
             flow1HitMeUp = 0;

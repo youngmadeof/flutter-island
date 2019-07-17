@@ -9,6 +9,8 @@ public class CountdownTimer : MonoBehaviour
     private float countdownTimerStartTime;
     private int countdownTimerDuration;
     public GameObject gameManage;
+    private int levelInt;
+    private int addTime;
 
     //-----------------------------
     public int GetTotalSeconds()
@@ -26,9 +28,21 @@ public class CountdownTimer : MonoBehaviour
     //-----------------------------
     public int GetSecondsRemaining()
     {
-
+        FlowRuntime flowRun = gameManage.GetComponent<FlowRuntime>();
+        levelInt = flowRun.levelNo;
         FlowMgmt flowMgmt = gameManage.GetComponent<FlowMgmt>();
-        int addTime = flowMgmt.hitMeUp;
+        FlowMgmt_L2 flowMgmt2 = gameManage.GetComponent<FlowMgmt_L2>();
+
+        if(levelInt == 1)
+        {
+            addTime = flowMgmt.hitMeUp;
+        }
+        
+        if (levelInt == 2)
+        {
+            addTime = flowMgmt2.hitMeUp;
+        }
+
         int elapsedSeconds = (int)((Time.time - countdownTimerStartTime) -addTime);
 
         int secondsLeft = (countdownTimerDuration - (elapsedSeconds));
