@@ -11,7 +11,7 @@ public class EnemyExplode : MonoBehaviour {
     }
 	
 	
-    public void EnemyGoBang(Vector3 birdPos)
+    public void EnemyGoBang(Vector3 emePos)
     {
         gameObject.SetActive(true);
         ParticleSystem ps = GetComponent<ParticleSystem>();
@@ -32,7 +32,7 @@ public class EnemyExplode : MonoBehaviour {
         gak[1].time = 1.0F;
         g.SetKeys(gck, gak);
         psMain.startColor = g;
-        transform.position = birdPos;
+        transform.position = emePos;
         ps.Play();
     }
 	

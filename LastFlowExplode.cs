@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LastFlowExplode : MonoBehaviour {
 
-    public GameObject bird;
+    public GameObject enemyObject;
     public GameObject enemyExplode;
 	
 
@@ -34,12 +34,12 @@ public class LastFlowExplode : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject == bird)
+        if(collision.gameObject == enemyObject)
         {
-            Vector3 birdPos = bird.transform.position;
-            Destroy(bird);
+            Vector3 enemPos = enemyObject.transform.position;
+            Destroy(enemyObject);
             EnemyExplode getEnemyBang = enemyExplode.GetComponent<EnemyExplode>();
-            getEnemyBang.EnemyGoBang(birdPos);
+            getEnemyBang.EnemyGoBang(enemPos);
         }
 
     }

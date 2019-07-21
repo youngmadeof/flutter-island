@@ -530,21 +530,15 @@ public class FlowMgmt_L2 : MonoBehaviour
                     hitMeUpAdd = flow1HitMeUp;
                     flowID = flowerScript.flowID;
                     flowPos = flow19.transform.position;
+
+                    if (flowDone2 == true)
+                    {
+                        lastFlow = true;
+                    }
+
                     HitMeUp();
                     getFlowerTopUp = true;
                     flowDone1 = true;
-
-                    if(flowDone2 == true)
-                    {
-                        lastFlow = true;
-
-                        if (timeStopped == false)
-                        {
-                            FlowRuntime flowerRT = GetComponent<FlowRuntime>();
-                            flowerRT.StopTimer();
-                        }
-                    }
-
                     flow19.SetActive(false);
                 }
 
@@ -554,23 +548,28 @@ public class FlowMgmt_L2 : MonoBehaviour
                     hitMeUpAdd = flow1HitMeUp;
                     flowID = flowerScript1.flowID;
                     flowPos = flow20.transform.position;
-                    HitMeUp();
-                    getFlowerTopUp = true;
-                    flowDone2 = true;
 
-                    if(flowDone1 == true)
+                    if (flowDone1 == true)
                     {
                         lastFlow = true;
-
-                        if (timeStopped == false)
-                        {
-                            FlowRuntime flowerRT = GetComponent<FlowRuntime>();
-                            flowerRT.StopTimer();
-                        }
                     }
-                    
-                    flow19.SetActive(false);
 
+                    HitMeUp();
+                    getFlowerTopUp = true;
+                    flowDone2 = true;                  
+                    flow20.SetActive(false);
+
+                }
+
+                if(flowDone1 == true && flowDone2 == true)
+                {
+                    getFlowerTopUp = false;
+
+                    if (timeStopped == false)
+                    {
+                        FlowRuntime flowerRT = GetComponent<FlowRuntime>();
+                        flowerRT.StopTimer();
+                    }
                 }
 
 
