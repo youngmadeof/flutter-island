@@ -9,6 +9,9 @@ public class Frog_Controller : MonoBehaviour
 
     Animator anim;
 
+    public GameObject butt;
+    public GameObject tongue;
+    public GameObject tongueTrig;
     public GameObject lil01;
     public GameObject lil02;
     public GameObject lil03;
@@ -37,7 +40,7 @@ public class Frog_Controller : MonoBehaviour
 
     Vector3 offsetRot;
 
-    private enum State
+    public enum State
     {
         idle,
         leap
@@ -91,8 +94,8 @@ public class Frog_Controller : MonoBehaviour
                 rotation.y = 0.0f;
                 transform.rotation = rotation;
 
-                Debug.Log(rotation + " transform.rotation");
-                Debug.Log(relativePos + " relativePos");
+               // Debug.Log(rotation + " transform.rotation");
+                //Debug.Log(relativePos + " relativePos");
 
                 anim.SetBool("IdleToLeap", true);
                 transform.position += (lilPos02 - transform.position) * 0.08f;
@@ -161,8 +164,8 @@ public class Frog_Controller : MonoBehaviour
                 rotation.y = 0.0f;
                 transform.rotation = rotation;
 
-                Debug.Log(rotation + " transform.rotation");
-                Debug.Log(relativePos + " relativePos");
+                //Debug.Log(rotation + " transform.rotation");
+                //Debug.Log(relativePos + " relativePos");
 
                 anim.SetBool("IdleToLeap", true);
                 //Make that jump
@@ -332,15 +335,15 @@ public class Frog_Controller : MonoBehaviour
                 //Turn before jump
                 Vector3 relativePos = currentPos - lilPos04;
 
-                Debug.Log("TOLIL01");
+                //Debug.Log("TOLIL01");
 
                 Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.forward);
                 rotation.x = 0.0f;
                 rotation.y = 0.0f;
                 transform.rotation = rotation;
 
-                Debug.Log(rotation + " transform.rotation");
-                Debug.Log(relativePos + " relativePos");
+                //Debug.Log(rotation + " transform.rotation");
+                //Debug.Log(relativePos + " relativePos");
 
                 anim.SetBool("IdleToLeap", true);
                 //Make that jump
@@ -408,8 +411,8 @@ public class Frog_Controller : MonoBehaviour
                 rotation.y = 0.0f;
                 transform.rotation = rotation;
 
-                Debug.Log(rotation + " transform.rotation");
-                Debug.Log(relativePos + " relativePos");
+                //Debug.Log(rotation + " transform.rotation");
+                //Debug.Log(relativePos + " relativePos");
 
                 anim.SetBool("IdleToLeap", true);
                 //Make that jump
@@ -476,8 +479,8 @@ public class Frog_Controller : MonoBehaviour
                 rotation.y = 0.0f;
                 transform.rotation = rotation;
 
-                Debug.Log(rotation + " transform.rotation");
-                Debug.Log(relativePos + " relativePos");
+               // Debug.Log(rotation + " transform.rotation");
+               // Debug.Log(relativePos + " relativePos");
 
                 anim.SetBool("IdleToLeap", true);
                 //Make that jump
@@ -539,13 +542,14 @@ public class Frog_Controller : MonoBehaviour
 
         if (curState == (int)State.idle)
         {
-            Debug.Log(destiTime + 5f + "destiTime + 5");
-
-            Debug.Log("IDLE");
+            //Debug.Log(destiTime + 5f + "destiTime + 5");            
+            //Debug.Log("IDLE");
             if (Mathf.Round(Time.fixedTime) == destiTime + 5f)
             {
                 curState = (int)State.leap;
             }
         }
     }
+
+
 }
