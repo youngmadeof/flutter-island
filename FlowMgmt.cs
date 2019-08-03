@@ -80,6 +80,8 @@ public class FlowMgmt : MonoBehaviour
     public GameObject lastFlowExplode;
     private ParticleSystem ps;
 
+    public GameObject cam;
+
     private Vector3 flowPos;
 
     public bool lastFlow;
@@ -587,6 +589,9 @@ public class FlowMgmt : MonoBehaviour
 
             specMan = GetComponent<SpecialsMgmt>();
             specMan.CloudFlowSpesh(flowID,nextFlower);
+
+            CamShake shake = cam.GetComponent<CamShake>();
+            shake.TriggerShake();
 
 
             for (int i = nextFlower -1; i < nextFlower; i++)
