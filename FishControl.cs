@@ -69,93 +69,129 @@ public class FishControl : MonoBehaviour {
         {
 
             transform.position += (node01Pos - transform.position).normalized * 0.02f;
-            Vector3 relPos = (currPos - node02Pos).normalized;
+            Vector3 relPos = (currPos - node02Pos);
             Quaternion rot = Quaternion.LookRotation(relPos, Vector3.forward);
 
-            rot.x = 0.0f;
-            rot.y = 0.0f;
-            transform.rotation = rot;
+         
 
-
-            if (Vector3.Distance(currPos, node01Pos) <= 0.35f)
+            if (Vector3.Distance(currPos,node01Pos) <= 1.5f)
             {
-                toNode01 = false;
-                toNode02 = true;
-                
+
+
+
+                rot.x = 0.0f;
+                rot.y = 0.0f;
+                transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 2f);
+                //transform.Rotate(0, 0, rot.z);
+
+                if (Vector3.Distance(currPos, node01Pos) <= 0.05f)
+                {
+                    toNode01 = false;
+                    toNode02 = true;
+
+
+                }
 
             }
+
         }
         
         if(toNode02 == true)
         {
             transform.position += (node02Pos - transform.position).normalized * 0.02f;
-
-            Vector3 relPos = (currPos - node03Pos).normalized;
+            Vector3 relPos = (currPos - node03Pos);
             Quaternion rot = Quaternion.LookRotation(relPos, Vector3.forward);
 
-            rot.x = 0.0f;
-            rot.y = 0.0f;
-            transform.rotation = rot;
-
-
-            if (Vector3.Distance(currPos,node02Pos) <= 0.35f)
+            if (Vector3.Distance(currPos,node02Pos)<= 1.5f)
             {
+                
+                
+                rot.x = 0.0f;
+                rot.y = 0.0f;
+                transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 3f);
 
-                toNode02 = false;
-                toNode03 = true;
+                if (Vector3.Distance(currPos, node02Pos) <= 0.35f)
+                {
+
+                    toNode02 = false;
+                    toNode03 = true;
+                }
+
             }
+
         }
 
         if (toNode03 == true)
         {
             transform.position += (node03Pos - transform.position).normalized * 0.02f;
-            Vector3 relPos = (currPos - node04Pos).normalized;
+            Vector3 relPos = (currPos - node04Pos);
             Quaternion rot = Quaternion.LookRotation(relPos, Vector3.forward);
-            rot.x = 0.0f;
-            rot.y = 0.0f;
-            transform.rotation = rot;
 
-            if (Vector3.Distance(currPos, node03Pos) <= 0.35f)
+            if (Vector3.Distance(currPos,node03Pos)<= 2f)
             {
-                toNode03 = false;
-                toNode04 = true;
+
+               
+                
+                rot.x = 0.0f;
+                rot.y = 0.0f;
+                transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 5f);
+
+                if (Vector3.Distance(currPos, node03Pos) <= 0.35f)
+                {
+                    toNode03 = false;
+                    toNode04 = true;
+                }
             }
+  
         }
 
         if(toNode04 == true)
         {
             transform.position += (node04Pos - transform.position).normalized * 0.02f;
-            Vector3 relPos = (currPos - node05Pos).normalized;
+            Vector3 relPos = (currPos - node05Pos);
             Quaternion rot = Quaternion.LookRotation(relPos, Vector3.forward);
-            rot.x = 0.0f;
-            rot.y = 0.0f;
-            transform.rotation = rot;
 
-
-            if (Vector3.Distance(currPos, node04Pos) <= 0.35f)
+            if (Vector3.Distance(currPos,node04Pos)<= 1f)
             {
-                toNode04 = false;
-                toNode05 = true;
+               
+                rot.x = 0.0f;
+                rot.y = 0.0f;
+                transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 5f);
 
+                if (Vector3.Distance(currPos, node04Pos) <= 0.35f)
+                {
+                    toNode04 = false;
+                    toNode05 = true;
+
+                }
             }
+
         }
 
         if (toNode05 == true)
         {
             transform.position += (node05Pos - transform.position).normalized * 0.02f;
-            Vector3 relPos = (currPos - node06Pos).normalized *0.02f;
+
+
+            Vector3 relPos = (currPos - node06Pos).normalized * 0.02f;
             Quaternion rot = Quaternion.LookRotation(relPos, Vector3.forward);
-            rot.x = 0.0f;
-            rot.y = 0.0f;
-            transform.rotation = rot;
 
-            if (Vector3.Distance(currPos, node05Pos) <= 0.35f)
+            if (Vector3.Distance(currPos,node05Pos)<= 1f)
             {
-                toNode05 = false;
-                toNode06 = true;
+                rot.x = 0.0f;
+                rot.y = 0.0f;
+                transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 10f);
 
+                if (Vector3.Distance(currPos, node05Pos) <= 0.35f)
+                {
+                    toNode05 = false;
+                    toNode06 = true;
+
+
+                }
 
             }
+
         }
 
         if (toNode06 == true)
@@ -163,17 +199,24 @@ public class FishControl : MonoBehaviour {
             transform.position += (node06Pos - transform.position).normalized * 0.02f;
             Vector3 relPos = (currPos - node07Pos).normalized;
             Quaternion rot = Quaternion.LookRotation(relPos, Vector3.forward);
-            rot.x = 0.0f;
-            rot.y = 0.0f;
-            transform.rotation = rot;
 
-            if (Vector3.Distance(currPos, node06Pos) <= 0.35f)
+            if (Vector3.Distance(currPos,node06Pos)<= 1f)
             {
-                toNode06 = false;
-                toNode07 = true;
+
+          
+                rot.x = 0.0f;
+                rot.y = 0.0f;
+                transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 10f);
+
+                if (Vector3.Distance(currPos, node06Pos) <= 0.35f)
+                {
+                    toNode06 = false;
+                    toNode07 = true;
 
 
+                }
             }
+
         }
 
         if (toNode07 == true)
@@ -181,17 +224,22 @@ public class FishControl : MonoBehaviour {
             transform.position += (node07Pos - transform.position).normalized * 0.02f;
             Vector3 relPos = (currPos - node08Pos).normalized;
             Quaternion rot = Quaternion.LookRotation(relPos, Vector3.forward);
-            rot.x = 0.0f;
-            rot.y = 0.0f;
-            transform.rotation = rot;
-
-            if (Vector3.Distance(currPos, node07Pos) <= 0.35f)
+ 
+            if(Vector3.Distance(currPos, node07Pos)<= 1f)
             {
-                toNode07 = false;
-                toNode08 = true;
+                rot.x = 0.0f;
+                rot.y = 0.0f;
+                transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 10f);
+
+                if (Vector3.Distance(currPos, node07Pos) <= 0.35f)
+                {
+                    toNode07 = false;
+                    toNode08 = true;
 
 
+                }
             }
+
         }
 
         if (toNode08 == true)
@@ -199,17 +247,22 @@ public class FishControl : MonoBehaviour {
             transform.position += (node08Pos - transform.position).normalized * 0.02f;
             Vector3 relPos = (currPos - node09Pos).normalized;
             Quaternion rot = Quaternion.LookRotation(relPos, Vector3.forward);
-            rot.x = 0.0f;
-            rot.y = 0.0f;
-            transform.rotation = rot;
 
-            if (Vector3.Distance(currPos, node08Pos) <= 0.35f)
+            if(Vector3.Distance(currPos,node08Pos)<=1f)
             {
-                toNode08 = false;
-                toNode09 = true;
+                rot.x = 0.0f;
+                rot.y = 0.0f;
+                transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 10f);
+
+                if (Vector3.Distance(currPos, node08Pos) <= 0.35f)
+                {
+                    toNode08 = false;
+                    toNode09 = true;
 
 
+                }
             }
+   
         }
 
 
@@ -218,17 +271,24 @@ public class FishControl : MonoBehaviour {
             transform.position += (node09Pos - transform.position).normalized * 0.02f;
             Vector3 relPos = (currPos - node10Pos).normalized;
             Quaternion rot = Quaternion.LookRotation(relPos, Vector3.forward);
-            rot.x = 0.0f;
-            rot.y = 0.0f;
-            transform.rotation = rot;
+  
 
-            if (Vector3.Distance(currPos, node09Pos) <= 0.35f)
+            if(Vector3.Distance(currPos, node09Pos)<= 1f)
             {
-                toNode09 = false;
-                toNode10 = true;
+                rot.x = 0.0f;
+                rot.y = 0.0f;
+                transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 10f);
 
+                if (Vector3.Distance(currPos, node09Pos) <= 0.35f)
+                {
+                    toNode09 = false;
+                    toNode10 = true;
+
+
+                }
 
             }
+
         }
 
         if (toNode10 == true)
@@ -236,17 +296,22 @@ public class FishControl : MonoBehaviour {
             transform.position += (node10Pos - transform.position).normalized * 0.02f;
             Vector3 relPos = (currPos - node01Pos).normalized * 0.02f;
             Quaternion rot = Quaternion.LookRotation(relPos, Vector3.forward);
-            rot.x = 0.0f;
-            rot.y = 0.0f;
-            transform.rotation = rot;
-
-            if (Vector3.Distance(currPos, node10Pos) <= 0.35f)
+  
+            if(Vector3.Distance(currPos, node10Pos)<= 1f)
             {
-                toNode10 = false;
-                toNode01 = true;
+                rot.x = 0.0f;
+                rot.y = 0.0f;
+                transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 10f);
+
+                if (Vector3.Distance(currPos, node10Pos) <= 0.35f)
+                {
+                    toNode10 = false;
+                    toNode01 = true;
 
 
+                }
             }
+ 
         }
     }
 }
