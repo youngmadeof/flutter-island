@@ -4,7 +4,17 @@ using UnityEngine;
 
 public class FishControl : MonoBehaviour {
 
+    private Animator anim;
+
+    public float speed;
+
     Vector3 currPos;
+
+    Vector3 fishPos;
+    //store for ripple effect
+
+    public GameObject ripEffect;
+
     public GameObject node01;
     public GameObject node02;
     public GameObject node03;
@@ -38,10 +48,26 @@ public class FishControl : MonoBehaviour {
     private bool toNode09;
     private bool toNode10;
     // Use this for initialization
+
+    private static Vector3 currSize;
+
+    //public bool jump;
+    //public bool land;
+    public bool jumpDone;
+    private int animHash;
+    public float jumpTime;
+    public float jumpLen;
+
+    //used for collision
+    public bool collEnabled;
+
+
     void Start ()
 
     {
-        
+        animHash = Animator.StringToHash("Base Layer.FishJump");
+        Debug.Log(animHash + " anim Hash");
+
         node01Pos = node01.transform.position;
         node02Pos = node02.transform.position;
         node03Pos = node03.transform.position;
@@ -54,21 +80,42 @@ public class FishControl : MonoBehaviour {
         node10Pos = node10.transform.position;
 
         toNode01 = true;
-	}
+
+        anim = GetComponent<Animator>();
+
+        speed = 0.02f;
+
+        currSize = transform.localScale;
+
+        //
+        //ripEffect.SetActive(false);
+
+    }
 	
 	// Update is called once per frame
 	void FixedUpdate ()
 
     {
+
+
         currPos = transform.position;
 
-        //TODO: have rotation target in a stored in array and iterate as each node is hit. Put outside of if statements
+        
+        //collision management here
+        if(collEnabled == true)
+        {
+            if (Time.fixedTime >= (jumpTime + jumpLen) +0.5f)
+            {
+                collEnabled = false;
+            }
+        }
  
 
-        if(toNode01 == true )
+
+        if (toNode01 == true )
         {
 
-            transform.position += (node01Pos - transform.position).normalized * 0.02f;
+            transform.position += (node01Pos - transform.position).normalized * speed;
             Vector3 relPos = (currPos - node02Pos);
             Quaternion rot = Quaternion.LookRotation(relPos, Vector3.forward);
 
@@ -98,13 +145,32 @@ public class FishControl : MonoBehaviour {
         
         if(toNode02 == true)
         {
-            transform.position += (node02Pos - transform.position).normalized * 0.02f;
+            transform.position += (node02Pos - transform.position).normalized * speed;
             Vector3 relPos = (currPos - node03Pos);
             Quaternion rot = Quaternion.LookRotation(relPos, Vector3.forward);
 
-            if (Vector3.Distance(currPos,node02Pos)<= 1.5f)
+
+            float midDist = Vector3.Distance(currPos, node02Pos) / 3;
+            float curDist = Vector3.Distance(currPos, node02Pos);
+
+            if (Mathf.Round(curDist) == Mathf.Round(midDist) && jumpDone == false)
             {
-                
+                //speed = 0.01f;
+                //transform.localScale = new Vector3(0.3f, 0.2f);
+                anim.Play("FishJump");
+                jumpTime = Time.fixedTime;
+                AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
+                jumpLen = stateInfo.length;
+                jumpDone = true;
+                collEnabled = true;
+                //ripEffect.SetActive(true);
+            }
+
+ 
+                                                  
+
+            if (Vector3.Distance(currPos,node02Pos)<= 1.5f)
+            {                
                 
                 rot.x = 0.0f;
                 rot.y = 0.0f;
@@ -115,6 +181,9 @@ public class FishControl : MonoBehaviour {
 
                     toNode02 = false;
                     toNode03 = true;
+                    Debug.Log(toNode03 + " toNode03");
+                    jumpDone = false;
+                    //ripEffect.SetActive(false);
                 }
 
             }
@@ -123,9 +192,10 @@ public class FishControl : MonoBehaviour {
 
         if (toNode03 == true)
         {
-            transform.position += (node03Pos - transform.position).normalized * 0.02f;
+            transform.position += (node03Pos - transform.position).normalized * speed;
             Vector3 relPos = (currPos - node04Pos);
             Quaternion rot = Quaternion.LookRotation(relPos, Vector3.forward);
+
 
             if (Vector3.Distance(currPos,node03Pos)<= 2f)
             {
@@ -147,7 +217,7 @@ public class FishControl : MonoBehaviour {
 
         if(toNode04 == true)
         {
-            transform.position += (node04Pos - transform.position).normalized * 0.02f;
+            transform.position += (node04Pos - transform.position).normalized * speed;
             Vector3 relPos = (currPos - node05Pos);
             Quaternion rot = Quaternion.LookRotation(relPos, Vector3.forward);
 
@@ -170,20 +240,43 @@ public class FishControl : MonoBehaviour {
 
         if (toNode05 == true)
         {
-            transform.position += (node05Pos - transform.position).normalized * 0.02f;
+            transform.position += (node05Pos - transform.position).normalized * speed;
 
 
             Vector3 relPos = (currPos - node06Pos).normalized * 0.02f;
             Quaternion rot = Quaternion.LookRotation(relPos, Vector3.forward);
+
+            float halfDist = Vector3.Distance(currPos, node05Pos) / 2;
+            float curDist = Vector3.Distance(currPos, node05Pos);
+
+         
+
+            if (Mathf.Round(curDist) == Mathf.Round(halfDist) && jumpDone == false)
+            {
+                //speed = 0.01f;
+                //transform.localScale = new Vector3(0.3f, 0.2f);
+                anim.Play("FishJump");
+                jumpTime = Time.fixedTime;
+                AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
+                jumpLen = stateInfo.length;
+                jumpDone = true;
+                collEnabled = true;
+            }
+
+
+
 
             if (Vector3.Distance(currPos,node05Pos)<= 1f)
             {
                 rot.x = 0.0f;
                 rot.y = 0.0f;
                 transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 10f);
+                
 
                 if (Vector3.Distance(currPos, node05Pos) <= 0.35f)
                 {
+
+                    jumpDone = false;
                     toNode05 = false;
                     toNode06 = true;
 
@@ -248,7 +341,25 @@ public class FishControl : MonoBehaviour {
             Vector3 relPos = (currPos - node09Pos).normalized;
             Quaternion rot = Quaternion.LookRotation(relPos, Vector3.forward);
 
-            if(Vector3.Distance(currPos,node08Pos)<=1f)
+            float midDist = Vector3.Distance(currPos, node08Pos) / 4;
+            float curDist = Vector3.Distance(currPos, node08Pos);
+
+
+            if (Mathf.Round(curDist) == Mathf.Round(midDist) && jumpDone == false)
+            {
+                //speed = 0.01f;
+                //transform.localScale = new Vector3(0.3f, 0.2f);
+                anim.Play("FishJump");
+                jumpTime = Time.fixedTime;
+                AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
+                jumpLen = stateInfo.length;
+                jumpDone = true;
+                collEnabled = true;
+
+            }
+
+
+            if (Vector3.Distance(currPos,node08Pos)<=1f)
             {
                 rot.x = 0.0f;
                 rot.y = 0.0f;
@@ -258,6 +369,7 @@ public class FishControl : MonoBehaviour {
                 {
                     toNode08 = false;
                     toNode09 = true;
+                    jumpDone = false;
 
 
                 }
@@ -271,9 +383,24 @@ public class FishControl : MonoBehaviour {
             transform.position += (node09Pos - transform.position).normalized * 0.02f;
             Vector3 relPos = (currPos - node10Pos).normalized;
             Quaternion rot = Quaternion.LookRotation(relPos, Vector3.forward);
-  
 
-            if(Vector3.Distance(currPos, node09Pos)<= 1f)
+            float midDist = Vector3.Distance(currPos, node09Pos) / 3;
+            float curDist = Vector3.Distance(currPos, node09Pos);
+
+
+            if (Mathf.Round(curDist) == Mathf.Round(midDist) && jumpDone == false)
+            {
+                anim.Play("FishJump");
+                jumpTime = Time.fixedTime;
+                AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
+                jumpLen = stateInfo.length;
+                jumpDone = true;
+                collEnabled = true;
+            }
+
+
+
+            if (Vector3.Distance(currPos, node09Pos)<= 1f)
             {
                 rot.x = 0.0f;
                 rot.y = 0.0f;
@@ -283,7 +410,7 @@ public class FishControl : MonoBehaviour {
                 {
                     toNode09 = false;
                     toNode10 = true;
-
+                    jumpDone = false;
 
                 }
 
@@ -313,5 +440,13 @@ public class FishControl : MonoBehaviour {
             }
  
         }
+    }
+
+    public void RunRipEffect(Vector3 fishPos)
+    {
+        ripEffect.SetActive(true);
+        ripEffect.transform.position = fishPos;
+        //Animator animRip = ripEffect.GetComponent<Animator>();
+        //animRip.Play("FishRipEffect");
     }
 }

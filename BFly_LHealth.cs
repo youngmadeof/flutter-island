@@ -11,6 +11,7 @@ public class BFly_LHealth : MonoBehaviour {
     Color lerpColor;
 
     public bool lowHealth;
+    private bool damage;
 
     // Use this for initialization
     void Start ()
@@ -33,6 +34,27 @@ public class BFly_LHealth : MonoBehaviour {
             lerpColor = Color.Lerp(normColor, lowHealthColor, Mathf.PingPong(Time.time, 1));
             m_SpriteRenderer.color = lerpColor;
         }
+
+        else
+        {
+            m_SpriteRenderer.color = normColor;
+        }
+
+        damage = BFly.doDamageCol;
+
+        float damageTime = BFly.damageTime;
+
+
+        if (Time.fixedTime <= damageTime + 1f)
+        {
+            if (damage == true)
+            {
+                lerpColor = Color.Lerp(normColor, lowHealthColor, Mathf.PingPong(Time.time, 4));
+                m_SpriteRenderer.color = lerpColor;
+            }
+        }
+
+
 
         else
         {

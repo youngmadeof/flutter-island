@@ -7,6 +7,7 @@ public class BFly_Collision : MonoBehaviour {
 
     public GameObject cloud;
     public GameObject enemyObj;
+    public GameObject subEnemyObj;
 
     public GameObject buttExp;
 
@@ -19,6 +20,11 @@ public class BFly_Collision : MonoBehaviour {
 
     private bool coneCollision;
     private bool cloudCollision;
+
+    private bool subCollision;
+    private bool doColl;
+    public bool doDamageCol;
+    public float damageTime;
 
     //whack in some states
     public int curState;
@@ -52,6 +58,11 @@ public class BFly_Collision : MonoBehaviour {
 
         }
 
+        if(collision.gameObject == subEnemyObj)
+        {
+            subCollision = true;
+        }
+
         if (collision.gameObject == cloud)
         {
             cloudCollision = true;
@@ -65,7 +76,14 @@ public class BFly_Collision : MonoBehaviour {
             cloudCollision = false;
         }
 
+        //subEnemy collision
+        if (collision.gameObject == subEnemyObj)
+        {
+            subCollision = false;
+        }
     }
+
+   
 
     // Update is called once per frame
     void FixedUpdate ()
@@ -127,7 +145,23 @@ public class BFly_Collision : MonoBehaviour {
             DestroyObject();
         }
 
+        //This stuff for subEnemy collision
 
+        if(subCollision == true)
+        {
+            FishControl fishScript = subEnemyObj.GetComponent<FishControl>();
+            doColl = fishScript.collEnabled;
+            
+            if(doColl == true)
+            {
+                doDamageCol = true;
+                damageTime = Time.fixedTime;
+                Debug.Log("Fish Hit!");
+                subCollision = false;
+            }
+        }
+        
+        
     }
 
     void DestroyObject()
