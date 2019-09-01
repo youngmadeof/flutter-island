@@ -25,9 +25,11 @@ public class BFly_Collision : MonoBehaviour {
     private bool doColl;
     public bool doDamageCol;
     public float damageTime;
+    public int damageVal;
 
     //whack in some states
     public int curState;
+    private int count;
 
     private enum State
     {
@@ -86,7 +88,7 @@ public class BFly_Collision : MonoBehaviour {
    
 
     // Update is called once per frame
-    void FixedUpdate ()
+    void Update ()
 
     {
         if (coneCollision == true && cloudCollision == false)
@@ -151,17 +153,33 @@ public class BFly_Collision : MonoBehaviour {
         {
             FishControl fishScript = subEnemyObj.GetComponent<FishControl>();
             doColl = fishScript.collEnabled;
-            
-            if(doColl == true)
+            damageVal = fishScript.damageVal;
+
+            CountdownTimer timer = slidTime.GetComponent<CountdownTimer>();
+
+            if (doColl == true)
             {
                 doDamageCol = true;
+                Debug.Log(doDamageCol + " dodamage BFLY COLL");
                 damageTime = Time.fixedTime;
                 Debug.Log("Fish Hit!");
                 subCollision = false;
+                timer.count = 0;
+               
             }
+
+ 
+
+
         }
-        
-        
+
+        else
+        {
+            doDamageCol = false;
+            //Debug.Log(doDamageCol + " dodamage BFLY COLL");
+        }
+
+
     }
 
     void DestroyObject()

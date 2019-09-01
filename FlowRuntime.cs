@@ -6,7 +6,7 @@ public class FlowRuntime : MonoBehaviour
 {
 
     public GameObject slidTimer;
-    private bool timeStopped;
+    public bool timeStopped;
     public int levelNo;
     private FlowMgmt flowerMgmt1;
     private FlowMgmt_L2 flowerMgmt2;

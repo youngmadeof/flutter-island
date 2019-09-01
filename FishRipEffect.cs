@@ -43,7 +43,7 @@ public class FishRipEffect : MonoBehaviour {
             {
                 transform.position = fishPos;
                 anim.Play("FishRipEffect");      
-                Debug.Log("Ripple");
+                //Debug.Log("Ripple");
                 ripDone = true;
                 //fishSpeed = 0.02f;
             }

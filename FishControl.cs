@@ -12,8 +12,8 @@ public class FishControl : MonoBehaviour {
 
     Vector3 fishPos;
     //store for ripple effect
-
-    public GameObject ripEffect;
+    public GameObject gameMgmt;
+   // public GameObject ripEffect;
 
     public GameObject node01;
     public GameObject node02;
@@ -60,13 +60,17 @@ public class FishControl : MonoBehaviour {
 
     //used for collision
     public bool collEnabled;
+    public int damageVal;
 
+    private bool timeStopped;
 
     void Start ()
 
     {
         animHash = Animator.StringToHash("Base Layer.FishJump");
         Debug.Log(animHash + " anim Hash");
+
+        damageVal = 4;
 
         node01Pos = node01.transform.position;
         node02Pos = node02.transform.position;
@@ -85,7 +89,7 @@ public class FishControl : MonoBehaviour {
 
         speed = 0.02f;
 
-        currSize = transform.localScale;
+       // currSize = transform.localScale;
 
         //
         //ripEffect.SetActive(false);
@@ -149,25 +153,31 @@ public class FishControl : MonoBehaviour {
             Vector3 relPos = (currPos - node03Pos);
             Quaternion rot = Quaternion.LookRotation(relPos, Vector3.forward);
 
+            //Jump scripting active only when game is running
+            FlowRuntime flowRT = gameMgmt.GetComponent<FlowRuntime>();
+            timeStopped = flowRT.timeStopped;
 
-            float midDist = Vector3.Distance(currPos, node02Pos) / 3;
-            float curDist = Vector3.Distance(currPos, node02Pos);
-
-            if (Mathf.Round(curDist) == Mathf.Round(midDist) && jumpDone == false)
+            if(timeStopped == false)
             {
-                //speed = 0.01f;
-                //transform.localScale = new Vector3(0.3f, 0.2f);
-                anim.Play("FishJump");
-                jumpTime = Time.fixedTime;
-                AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
-                jumpLen = stateInfo.length;
-                jumpDone = true;
-                collEnabled = true;
-                //ripEffect.SetActive(true);
+                float midDist = Vector3.Distance(currPos, node02Pos) / 3;
+                float curDist = Vector3.Distance(currPos, node02Pos);
+
+                if (Mathf.Round(curDist) == Mathf.Round(midDist) && jumpDone == false)
+                {
+                    //speed = 0.01f;
+                    //transform.localScale = new Vector3(0.3f, 0.2f);
+                    anim.Play("FishJump");
+                    jumpTime = Time.fixedTime;
+                    AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
+                    jumpLen = stateInfo.length;
+                    jumpDone = true;
+                    collEnabled = true;
+                    //ripEffect.SetActive(true);
+                }
+
+
             }
 
- 
-                                                  
 
             if (Vector3.Distance(currPos,node02Pos)<= 1.5f)
             {                
@@ -249,21 +259,24 @@ public class FishControl : MonoBehaviour {
             float halfDist = Vector3.Distance(currPos, node05Pos) / 2;
             float curDist = Vector3.Distance(currPos, node05Pos);
 
-         
+            FlowRuntime flowRT = gameMgmt.GetComponent<FlowRuntime>();
+            timeStopped = flowRT.timeStopped;
 
-            if (Mathf.Round(curDist) == Mathf.Round(halfDist) && jumpDone == false)
+            if(timeStopped == false)
             {
-                //speed = 0.01f;
-                //transform.localScale = new Vector3(0.3f, 0.2f);
-                anim.Play("FishJump");
-                jumpTime = Time.fixedTime;
-                AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
-                jumpLen = stateInfo.length;
-                jumpDone = true;
-                collEnabled = true;
+                if (Mathf.Round(curDist) == Mathf.Round(halfDist) && jumpDone == false)
+                {
+                    //speed = 0.01f;
+                    //transform.localScale = new Vector3(0.3f, 0.2f);
+                    anim.Play("FishJump");
+                    jumpTime = Time.fixedTime;
+                    AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
+                    jumpLen = stateInfo.length;
+                    jumpDone = true;
+                    collEnabled = true;
+                }
+
             }
-
-
 
 
             if (Vector3.Distance(currPos,node05Pos)<= 1f)
@@ -344,20 +357,26 @@ public class FishControl : MonoBehaviour {
             float midDist = Vector3.Distance(currPos, node08Pos) / 4;
             float curDist = Vector3.Distance(currPos, node08Pos);
 
+            FlowRuntime flowRT = gameMgmt.GetComponent<FlowRuntime>();
+            timeStopped = flowRT.timeStopped;
 
-            if (Mathf.Round(curDist) == Mathf.Round(midDist) && jumpDone == false)
+            if(timeStopped == false)
             {
-                //speed = 0.01f;
-                //transform.localScale = new Vector3(0.3f, 0.2f);
-                anim.Play("FishJump");
-                jumpTime = Time.fixedTime;
-                AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
-                jumpLen = stateInfo.length;
-                jumpDone = true;
-                collEnabled = true;
+                if (Mathf.Round(curDist) == Mathf.Round(midDist) && jumpDone == false)
+                {
+                    //speed = 0.01f;
+                    //transform.localScale = new Vector3(0.3f, 0.2f);
+                    anim.Play("FishJump");
+                    jumpTime = Time.fixedTime;
+                    AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
+                    jumpLen = stateInfo.length;
+                    jumpDone = true;
+                    collEnabled = true;
 
+                }
             }
 
+                       
 
             if (Vector3.Distance(currPos,node08Pos)<=1f)
             {
@@ -388,15 +407,23 @@ public class FishControl : MonoBehaviour {
             float curDist = Vector3.Distance(currPos, node09Pos);
 
 
-            if (Mathf.Round(curDist) == Mathf.Round(midDist) && jumpDone == false)
+            FlowRuntime flowRT = gameMgmt.GetComponent<FlowRuntime>();
+            timeStopped = flowRT.timeStopped;
+
+            if(timeStopped == false)
             {
-                anim.Play("FishJump");
-                jumpTime = Time.fixedTime;
-                AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
-                jumpLen = stateInfo.length;
-                jumpDone = true;
-                collEnabled = true;
+                if (Mathf.Round(curDist) == Mathf.Round(midDist) && jumpDone == false)
+                {
+                    anim.Play("FishJump");
+                    jumpTime = Time.fixedTime;
+                    AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
+                    jumpLen = stateInfo.length;
+                    jumpDone = true;
+                    collEnabled = true;
+                }
+
             }
+
 
 
 
@@ -442,11 +469,5 @@ public class FishControl : MonoBehaviour {
         }
     }
 
-    public void RunRipEffect(Vector3 fishPos)
-    {
-        ripEffect.SetActive(true);
-        ripEffect.transform.position = fishPos;
-        //Animator animRip = ripEffect.GetComponent<Animator>();
-        //animRip.Play("FishRipEffect");
-    }
+
 }

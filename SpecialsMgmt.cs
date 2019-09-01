@@ -8,6 +8,9 @@ public class SpecialsMgmt : MonoBehaviour {
     //flowID + next flower
     // Use this for initialization
     public GameObject cloudFlow;
+    public GameObject bombFlow;
+    public GameObject lilly;
+    public GameObject butt;
 
     ArrayList flowSeq = new ArrayList();
     private string strFlowSeq;
@@ -37,11 +40,12 @@ public class SpecialsMgmt : MonoBehaviour {
             cloudFlow.SetActive(true);
             cloudFlow.transform.position = new Vector3(-0.75f, 1.78f, 0f);
         }
-
-
-
-
+                     
     }
+
+    
+
+    
 	
 
 }

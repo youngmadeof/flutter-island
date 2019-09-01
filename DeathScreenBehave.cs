@@ -30,7 +30,6 @@ public class DeathScreenBehave : MonoBehaviour {
     public void Start()
     {
         currSize = startSize;
-        Debug.Log(startSize + "startSize");
         skullSpawn = true;
     }
 

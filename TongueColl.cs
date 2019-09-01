@@ -30,7 +30,7 @@ public class TongueColl : MonoBehaviour {
 
         if (stateInfo.length > 0)
         {
-            if (stateInfo.normalizedTime >= stateInfo.length +1f /*&& animDone == false*/)
+            if (stateInfo.normalizedTime >= stateInfo.length +0.5f /*&& animDone == false*/)
             {
 
                 animDone = true;
