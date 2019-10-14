@@ -34,7 +34,7 @@ public class DeathLayFade : MonoBehaviour {
                 if (System.Math.Round(fade.color.a,1) == 1)
                 {
                 
-                    fade.color = new Color32(0, 0, 0, 255);
+                    fade.color = new Color32(198, 198, 198, 255);
                     fading = false;
                 } 
             

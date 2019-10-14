@@ -18,7 +18,7 @@ public class TongueColl : MonoBehaviour {
 	}
 
     // Update is called once per frame
-    private void Update()
+    private void FixedUpdate()
     {
         //OH THIS STUFF NEEDS TO BE IN AN UPDATE
         bloomHash = Animator.StringToHash("Base Layer.Tongue");

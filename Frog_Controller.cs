@@ -24,6 +24,8 @@ public class Frog_Controller : MonoBehaviour
     private bool toLil04;
     private bool toLil05;
 
+    private bool gotPos;
+
 
     private float halfDist;
     private string route;
@@ -87,6 +89,8 @@ public class Frog_Controller : MonoBehaviour
             if (toLil02 == true)
             {
 
+
+                
                 Vector3 relativePos = currentPos - lilPos02;
 
                 Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.forward);
@@ -138,7 +142,7 @@ public class Frog_Controller : MonoBehaviour
 
                     toLil02 = false;
 
-                    Vector3 relativePos2 = currentPos - lilPos03;
+                    Vector3 relativePos2 = currentPos - butt.transform.position;
 
                     Quaternion rotation2 = Quaternion.LookRotation(relativePos2, Vector3.forward);
                     rotation2.x = 0.0f;
@@ -239,7 +243,7 @@ public class Frog_Controller : MonoBehaviour
                             toLil04 = true;
 
 
-                            Vector3 relativePos2 = currentPos - lilPos03;
+                            Vector3 relativePos2 = currentPos - butt.transform.position;
 
                             Quaternion rotation2 = Quaternion.LookRotation(relativePos2, Vector3.forward);
                             rotation2.x = 0.0f;
@@ -255,7 +259,7 @@ public class Frog_Controller : MonoBehaviour
                                 toLil03 = true;
 
 
-                                Vector3 relativePos2 = new Vector3(0, 0, 0);
+                                Vector3 relativePos2 = currentPos - butt.transform.position;
 
                                 Quaternion rotation2 = Quaternion.LookRotation(relativePos2, Vector3.forward);
                                 rotation2.x = 0.0f;
@@ -268,7 +272,7 @@ public class Frog_Controller : MonoBehaviour
                                 toLil05 = true;
 
 
-                                Vector3 relativePos2 = new Vector3(0, 0, 0);
+                                Vector3 relativePos2 = currentPos - butt.transform.position;
 
                                 Quaternion rotation2 = Quaternion.LookRotation(relativePos2, Vector3.forward);
                                 rotation2.x = 0.0f;
@@ -285,7 +289,7 @@ public class Frog_Controller : MonoBehaviour
                             
                             toLil04 = true;
 
-                            Vector3 relativePos2 = currentPos - lilPos03;
+                            Vector3 relativePos2 = currentPos - butt.transform.position;
 
                             Quaternion rotation2 = Quaternion.LookRotation(relativePos2, Vector3.forward);
                             rotation2.x = 0.0f;
@@ -300,7 +304,7 @@ public class Frog_Controller : MonoBehaviour
                                 toLil05 = true;
 
 
-                                Vector3 relativePos2 = new Vector3(0, 0, 0);
+                                Vector3 relativePos2 = currentPos - butt.transform.position;
 
                                 Quaternion rotation2 = Quaternion.LookRotation(relativePos2, Vector3.forward);
                                 rotation2.x = 0.0f;
@@ -313,7 +317,7 @@ public class Frog_Controller : MonoBehaviour
                                 toLil02 = true;
 
 
-                                Vector3 relativePos2 = new Vector3(0, 0, 0);
+                                Vector3 relativePos2 = currentPos - butt.transform.position;
 
                                 Quaternion rotation2 = Quaternion.LookRotation(relativePos2, Vector3.forward);
                                 rotation2.x = 0.0f;
@@ -384,7 +388,7 @@ public class Frog_Controller : MonoBehaviour
 
                         toLil04 = false;
 
-                        Vector3 relativePos2 = currentPos - lilPos03;
+                        Vector3 relativePos2 = currentPos - butt.transform.position;
 
                         Quaternion rotation2 = Quaternion.LookRotation(relativePos2, Vector3.forward);
                         rotation2.x = 0.0f;
@@ -453,7 +457,7 @@ public class Frog_Controller : MonoBehaviour
 
                         toLil03 = false;
 
-                        Vector3 relativePos2 = currentPos - lilPos04;
+                        Vector3 relativePos2 = currentPos - butt.transform.position;
 
                         Quaternion rotation2 = Quaternion.LookRotation(relativePos2, Vector3.forward);
                         rotation2.x = 0.0f;
@@ -521,7 +525,7 @@ public class Frog_Controller : MonoBehaviour
 
                         toLil05 = false;
 
-                        Vector3 relativePos2 = currentPos - lilPos02;
+                        Vector3 relativePos2 = currentPos - butt.transform.position;
 
                         Quaternion rotation2 = Quaternion.LookRotation(relativePos2, Vector3.forward);
                         rotation2.x = 0.0f;
