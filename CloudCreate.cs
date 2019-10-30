@@ -15,6 +15,7 @@ public class CloudCreate : MonoBehaviour
     public Vector3 scale;
     public Camera cam;
     public bool cloudSpawned;
+    private string levelStr;
 
 
     // Use this for initialization
@@ -34,28 +35,35 @@ public class CloudCreate : MonoBehaviour
     void FixedUpdate()
 
     {
+
+        FlowRuntime flowRun = GetComponent<FlowRuntime>();
+        levelStr = flowRun.levelNo;
         
-        if (Mathf.Round(Time.timeSinceLevelLoad) == 15.0f || CloudFlowColl.cloudSpawn == true)
+        if(levelStr == "103")
         {
-
-            if (CloudFlowColl.cloudSpawn == true)
+            if (Mathf.Round(Time.timeSinceLevelLoad) == 15.0f || CloudFlowColl.cloudSpawn == true)
             {
-                cloud.transform.localScale = new Vector3(scale.x, scale.y);
-                cloud.transform.position = startPos2;
-                cloud.SetActive(true);
-                CloudFlowColl.cloudSpawn = false;
+
+                if (CloudFlowColl.cloudSpawn == true)
+                {
+                    cloud.transform.localScale = new Vector3(scale.x, scale.y);
+                    cloud.transform.position = startPos2;
+                    cloud.SetActive(true);
+                    CloudFlowColl.cloudSpawn = false;
+                }
+
+                else
+                {
+                    cloud.transform.position = startPos1;
+                    cloud.SetActive(true);
+                    CloudFlowColl.cloudSpawn = false;
+                }
+
+
+
+
             }
-
-            else
-            {
-                cloud.transform.position = startPos1;
-                cloud.SetActive(true);
-                CloudFlowColl.cloudSpawn = false;
-            }
-                
-
-     
-
         }
+        
     }
 }

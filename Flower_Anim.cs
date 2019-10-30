@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Flower_Anim : MonoBehaviour
 {
-    private GameObject butt;
+    public GameObject butt;
     private Rigidbody2D rb2d;
     private bool hit;
     private bool set;
@@ -33,7 +33,7 @@ public class Flower_Anim : MonoBehaviour
     public void Start()
     {
         
-        butt = GameObject.Find("BFly_Player");
+        
         rb2d = GetComponent<Rigidbody2D>();
         set = false;
         setFlowerStatus = true;

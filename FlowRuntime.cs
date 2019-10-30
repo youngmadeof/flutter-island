@@ -7,27 +7,36 @@ public class FlowRuntime : MonoBehaviour
 
     public GameObject slidTimer;
     public bool timeStopped;
-    public int levelNo;
-    private FlowMgmt flowerMgmt1;
-    private FlowMgmt_L2 flowerMgmt2;
+    public string levelNo;
+    private FlowMgmt101 flowerMgmt101;
+    private FlowMgmt103 flowerMgmt103;
+    private FlowMgmt201 flowerMgmt201;
 
 
     // Update is called once per frame
     void Update()
     {
-        if (levelNo == 1)
-        {
-            flowerMgmt1 = GetComponent<FlowMgmt>();
 
-            flowerMgmt1.FlowerTopUp();
+        if(levelNo == "101")
+        {
+            flowerMgmt101 = GetComponent<FlowMgmt101>();
+
+            flowerMgmt101.FlowerTopUp();
+        }
+        else if (levelNo == "103")
+        {
+            flowerMgmt103 = GetComponent<FlowMgmt103>();
+
+            flowerMgmt103.FlowerTopUp();
         }
 
-        else if (levelNo == 2)
+        else if (levelNo == "201")
         {
-            flowerMgmt2 = GetComponent<FlowMgmt_L2>();
+            flowerMgmt201 = GetComponent<FlowMgmt201>();
 
-            flowerMgmt2.FlowerTopUp();
+            flowerMgmt201.FlowerTopUp();
         }
+
 
     }
 

@@ -18,9 +18,12 @@ public class BirdHeadScan : MonoBehaviour {
     public GameObject cone;
     public GameObject butt;
 
+    public GameObject gameManage;
+    private string levelStr;
 
     private Animator animator;
 
+    private bool scanInit;
     private bool extractDone;
     public bool scanDone;
     //private bool retractDone;
@@ -54,20 +57,41 @@ public class BirdHeadScan : MonoBehaviour {
         headPosReset = headRB.transform.localEulerAngles.z;
         coneAnimHash = Animator.StringToHash("Base Layer.BirdViewConeRetract");
 
+        FlowRuntime getLevel = gameManage.GetComponent<FlowRuntime>();
+        levelStr = getLevel.levelNo;
+
+
         //butt = GameObject.Find("BFly_Player");
 
     }
-	
-	// Update is called once per frame
-	void FixedUpdate ()
+
+    // Update is called once per frame
+    void FixedUpdate ()
 
     {
         headRB = GetComponent<Rigidbody2D>();
-        BirdMove birdScript = bird.GetComponent<BirdMove>();
+
+        //Need to call this depending on level number
+
+   
+        if(levelStr == "101")
+        {
+
+            BMove101 birdScript = bird.GetComponent<BMove101>();
+            scanInit = birdScript.birdScan;
+        }
+
+        else if (levelStr == "103")
+        {
+
+            BirdMove birdScript = bird.GetComponent<BirdMove>();
+            scanInit = birdScript.birdScan;
+        }
+        
 
 
 
-        if (birdScript.birdScan == true)
+        if (scanInit == true)
         {
         
             cone.SetActive(true);
@@ -98,13 +122,10 @@ public class BirdHeadScan : MonoBehaviour {
                     }
                     headRB.transform.Rotate(0, 0, -1 * 45 * Time.fixedDeltaTime);
                     headPos = headRB.transform.localEulerAngles.z;
-                    //headPos = headRB.transform.localPosition.z;
-                    //Debug.Log("BirdHead right " + headPos);
 
                     if (headPos <= 280.0f)
                     {
                         rotateDoneRight = true;
-                        //Debug.Log("rotRight " + rotateDoneRight);
 
                     }
 
@@ -116,14 +137,11 @@ public class BirdHeadScan : MonoBehaviour {
                 {
                     headRB.transform.Rotate(0, 0, 1 * 45 * Time.fixedDeltaTime);
                     headPos = headRB.transform.localEulerAngles.z;
-                    //headPos = headRB.transform.localPosition.z;
-                    //Debug.Log("BirdHead left " + headPos);
 
                     if (headPos <= 280.0f && headPos >= 70.0f)
                     {
                         rotateDoneLeft = true;
 
-                        //Debug.Log("rotLeft " + rotateDoneLeft);
                     }
 
                 }
@@ -133,18 +151,11 @@ public class BirdHeadScan : MonoBehaviour {
 
                     headRB.transform.Rotate(0, 0, -1 * 45 * Time.fixedDeltaTime);
                     headPos = headRB.transform.localEulerAngles.z;
-                    //headPos = headRB.transform.localPosition.z;
-                    //Debug.Log("BirdHead right again " + headPos);
 
                     if (Mathf.Round(headPos) == Mathf.Round(headPosReset))
                     {
-                        //headRB.transform.localEulerAngles = new Vector3(0, 0, headPosReset);
-                        //Debug.Log("head start pos: " + headPosReset);
                         animator.Play("BirdViewConeRetract");
                         curState = (int)State.scanDone;
-
-
-
 
                     }
 
@@ -159,7 +170,20 @@ public class BirdHeadScan : MonoBehaviour {
                 {
                     if (stateInfo.normalizedTime >= stateInfo.length + 0.5f)
                     {
-                        birdScript.birdScan = false;
+                        if (levelStr == "101")
+                        {
+
+                            BMove101 birdScript = bird.GetComponent<BMove101>();
+                            birdScript.birdScan = false;
+                        }
+
+                        else if (levelStr == "103")
+                        {
+
+                            BirdMove birdScript = bird.GetComponent<BirdMove>();
+                            birdScript.birdScan = false;
+                        }
+                        
                         extractDone = false;
                         rotateDoneRight = false;
                         rotateDoneLeft = false;

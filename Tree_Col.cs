@@ -6,13 +6,13 @@ public class Tree_Col : MonoBehaviour
 
     private Animator animator;
 
-    private GameObject butt;
+    public GameObject butt;
     
 
     public void Start()
     {
         animator = GetComponent<Animator>();
-        butt = GameObject.Find("BFly_Player");
+        
         
     }
 

@@ -11,6 +11,7 @@ public class SpecialsMgmt : MonoBehaviour {
     public GameObject bombFlow;
     public GameObject lilly;
     public GameObject butt;
+    private string levelStr;
 
     ArrayList flowSeq = new ArrayList();
     private string strFlowSeq;

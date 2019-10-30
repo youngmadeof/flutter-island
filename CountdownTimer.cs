@@ -11,7 +11,7 @@ public class CountdownTimer : MonoBehaviour
     public GameObject gameManage;
     public GameObject butt;
     private bool buttDamage;
-    private int levelInt;
+    private string levelStr;
     private int addTime;
     private int minusTime;
     public int count;
@@ -33,20 +33,26 @@ public class CountdownTimer : MonoBehaviour
     public int GetSecondsRemaining()
     {
         FlowRuntime flowRun = gameManage.GetComponent<FlowRuntime>();
-        levelInt = flowRun.levelNo;
-        FlowMgmt flowMgmt = gameManage.GetComponent<FlowMgmt>();
-        FlowMgmt_L2 flowMgmt2 = gameManage.GetComponent<FlowMgmt_L2>();
+        levelStr = flowRun.levelNo;
+        FlowMgmt101 flowMgmt101 = gameManage.GetComponent<FlowMgmt101>();
+        FlowMgmt103 flowMgmt103 = gameManage.GetComponent<FlowMgmt103>();
+        FlowMgmt201 flowMgmt201 = gameManage.GetComponent<FlowMgmt201>();
         BFly_Collision buttColl = butt.GetComponent<BFly_Collision>();
         buttDamage = buttColl.doDamageCol;
 
-        if (levelInt == 1)
+        if (levelStr == "101")
         {
-            addTime = flowMgmt.hitMeUp;
+            addTime = flowMgmt101.hitMeUp;
         }
         
-        if (levelInt == 2)
+        if (levelStr == "103")
         {
-            addTime = flowMgmt2.hitMeUp;
+            addTime = flowMgmt103.hitMeUp;
+        }
+
+        if (levelStr == "201")
+        {
+            addTime = flowMgmt201.hitMeUp;
         }
 
         if(buttDamage == true && count == 0)
