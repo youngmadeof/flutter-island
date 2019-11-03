@@ -230,8 +230,8 @@ public class FlowMgmt101 : MonoBehaviour
 
                 if (flow2TopUp == true && flowDone2 == false)
                 {
-                    flowerTopUp = flow1TopUp;
-                    hitMeUpAdd = flow1HitMeUp;
+                    flowerTopUp = flow2TopUp;
+                    hitMeUpAdd = flow2HitMeUp;
                     flowID = flowerScript1.flowID;
                     flowPos = flow5.transform.position;//flow pos for partical effect
                     HitMeUp();
