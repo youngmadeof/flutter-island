@@ -29,6 +29,8 @@ public class BirdHeadScan : MonoBehaviour {
     //private bool retractDone;
     private int coneAnimHash;
 
+    public int speed;
+
     private int curState;
 
     private enum State
@@ -120,7 +122,7 @@ public class BirdHeadScan : MonoBehaviour {
                         headPosReset = headRB.transform.localEulerAngles.z;
                         headPosStart = true;
                     }
-                    headRB.transform.Rotate(0, 0, -1 * 45 * Time.fixedDeltaTime);
+                    headRB.transform.Rotate(0, 0, -1 * speed * Time.fixedDeltaTime);
                     headPos = headRB.transform.localEulerAngles.z;
 
                     if (headPos <= 280.0f)
@@ -135,7 +137,7 @@ public class BirdHeadScan : MonoBehaviour {
 
                 if (rotateDoneRight == true && rotateDoneLeft == false)
                 {
-                    headRB.transform.Rotate(0, 0, 1 * 45 * Time.fixedDeltaTime);
+                    headRB.transform.Rotate(0, 0, 1 * speed * Time.fixedDeltaTime);
                     headPos = headRB.transform.localEulerAngles.z;
 
                     if (headPos <= 280.0f && headPos >= 70.0f)
@@ -149,7 +151,7 @@ public class BirdHeadScan : MonoBehaviour {
                 if (rotateDoneRight == true && rotateDoneLeft == true)
                 {
 
-                    headRB.transform.Rotate(0, 0, -1 * 45 * Time.fixedDeltaTime);
+                    headRB.transform.Rotate(0, 0, -1 * speed * Time.fixedDeltaTime);
                     headPos = headRB.transform.localEulerAngles.z;
 
                     if (Mathf.Round(headPos) == Mathf.Round(headPosReset))
