@@ -35,7 +35,8 @@ public class CountdownTimer : MonoBehaviour
         FlowRuntime flowRun = gameManage.GetComponent<FlowRuntime>();
         levelStr = flowRun.levelNo;
         FlowMgmt101 flowMgmt101 = gameManage.GetComponent<FlowMgmt101>();
-        FlowMgmt103 flowMgmt103 = gameManage.GetComponent<FlowMgmt103>();
+        FlowMgmt102 flowMgmt102 = gameManage.GetComponent<FlowMgmt102>();
+        FlowMgmt103 flowMgmt103 = gameManage.GetComponent<FlowMgmt103>();       
         FlowMgmt201 flowMgmt201 = gameManage.GetComponent<FlowMgmt201>();
         BFly_Collision buttColl = butt.GetComponent<BFly_Collision>();
         buttDamage = buttColl.doDamageCol;
@@ -44,11 +45,18 @@ public class CountdownTimer : MonoBehaviour
         {
             addTime = flowMgmt101.hitMeUp;
         }
+
+        if(levelStr == "102")
+        {
+            addTime = flowMgmt102.hitMeUp;
+        }
         
         if (levelStr == "103")
         {
             addTime = flowMgmt103.hitMeUp;
         }
+
+       
 
         if (levelStr == "201")
         {
