@@ -120,7 +120,7 @@ public class FlowMgmt102 : MonoBehaviour
 
     private void Start()
     {
-        getFlowerTopUp = true;
+        //getFlowerTopUp = true;
         nextFlower = 0;
         flowGroup = 0;
         //textUI = GameObject.Find("Text").GetComponent<Text>();
@@ -197,11 +197,11 @@ public class FlowMgmt102 : MonoBehaviour
                     flowerTopUp = flow1TopUp;
                     hitMeUpAdd = flow1HitMeUp;
                     flowID = flowerScript.flowID;
-                    flowPos = flow2.transform.position;//flow pos for partical effect
+                    flowPos = flow3.transform.position;//flow pos for partical effect
                     HitMeUp();
                     flowDone1 = true;
                     getFlowerTopUp = false;
-                    flow2.SetActive(false);
+                    flow3.SetActive(false);
                 }
 
             }
@@ -611,7 +611,7 @@ public class FlowMgmt102 : MonoBehaviour
             for (int i = nextFlower - 1; i < nextFlower; i++)
             {
 
-                flowUIs[i].SetActive(true);
+                flowUIs[i].SetActive(true); 
 
 
                 FlowUICol flowUIScript = flowUIs[i].GetComponent<FlowUICol>();
@@ -763,7 +763,7 @@ public class FlowMgmt102 : MonoBehaviour
 
 
         }
-        if (nextFlower == 13)
+        if (nextFlower == 14)
         {
             flow15.SetActive(true);
             Flower_Anim flowAnimScript = flow15.GetComponent<Flower_Anim>();

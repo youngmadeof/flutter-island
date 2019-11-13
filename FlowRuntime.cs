@@ -9,6 +9,7 @@ public class FlowRuntime : MonoBehaviour
     public bool timeStopped;
     public string levelNo;
     private FlowMgmt101 flowerMgmt101;
+    private FlowMgmt102 flowerMgmt102;
     private FlowMgmt103 flowerMgmt103;
     private FlowMgmt201 flowerMgmt201;
 
@@ -23,6 +24,13 @@ public class FlowRuntime : MonoBehaviour
 
             flowerMgmt101.FlowerTopUp();
         }
+
+        else if(levelNo == "102")
+        {
+            flowerMgmt102 = GetComponent<FlowMgmt102>();
+            flowerMgmt102.FlowerTopUp();
+        }
+
         else if (levelNo == "103")
         {
             flowerMgmt103 = GetComponent<FlowMgmt103>();
