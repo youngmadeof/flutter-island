@@ -45,16 +45,11 @@ public class BirdHeadScan : MonoBehaviour {
     void Start ()
 
     {
-        //headPos = 0f;
         rotateDoneRight = false;
         rotateDoneLeft = false;
 
-        //bird = GameObject.Find("Bird");
-
-        //cone = GameObject.Find("ViewCone");
         cone.SetActive(false);
         extractDone = false;
-        //retractDone = false;
         headRB = GetComponent<Rigidbody2D>();
         headPosReset = headRB.transform.localEulerAngles.z;
         coneAnimHash = Animator.StringToHash("Base Layer.BirdViewConeRetract");
@@ -62,8 +57,6 @@ public class BirdHeadScan : MonoBehaviour {
         FlowRuntime getLevel = gameManage.GetComponent<FlowRuntime>();
         levelStr = getLevel.levelNo;
 
-
-        //butt = GameObject.Find("BFly_Player");
 
     }
 
