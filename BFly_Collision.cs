@@ -7,6 +7,7 @@ public class BFly_Collision : MonoBehaviour {
 
     public GameObject cloud;
     public GameObject enemyObj;
+    public GameObject enemyObj2;
     public GameObject subEnemyObj;
 
     public GameObject buttExp;
@@ -50,7 +51,7 @@ public class BFly_Collision : MonoBehaviour {
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject == enemyObj)
+        if (collision.gameObject == enemyObj || collision.gameObject == enemyObj2)
         {
             if (cloudCollision == false)
             {

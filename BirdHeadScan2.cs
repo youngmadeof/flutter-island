@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class BirdHeadScan : MonoBehaviour {
-
-
+public class BirdHeadScan2 : MonoBehaviour
+{
     private Rigidbody2D headRB;
     public float headPos;
     public bool rotateDoneRight;
@@ -42,7 +40,7 @@ public class BirdHeadScan : MonoBehaviour {
 
 
     // Use this for initialization
-    void Start ()
+    void Start()
 
     {
         rotateDoneRight = false;
@@ -61,22 +59,22 @@ public class BirdHeadScan : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void FixedUpdate ()
+    void FixedUpdate()
 
     {
         headRB = GetComponent<Rigidbody2D>();
 
         //Need to call this depending on level number
 
-   
-        if(levelStr == "101")
+
+        if (levelStr == "101")
         {
 
             BMove101 birdScript = bird.GetComponent<BMove101>();
             scanInit = birdScript.birdScan;
         }
 
-        else if(levelStr == "102")
+        else if (levelStr == "102")
         {
             BMove102 birdScript = bird.GetComponent<BMove102>();
             scanInit = birdScript.birdScan;
@@ -91,28 +89,27 @@ public class BirdHeadScan : MonoBehaviour {
 
         else if(levelStr == "104")
         {
-            BMove104_1 birdScript = bird.GetComponent<BMove104_1>();
+            BMove104_2 birdScript = bird.GetComponent<BMove104_2>();
             scanInit = birdScript.birdScan;
         }
-        
 
 
 
         if (scanInit == true)
         {
-        
+
             cone.SetActive(true);
             animator = cone.GetComponent<Animator>();
 
-            if(extractDone == false)
+            if (extractDone == false)
             {
-                
+
                 animator.Play("BirdViewConeExtract");
 
                 extractDone = true;
                 curState = (int)State.scan;
-                
-                
+
+
             }
 
 
@@ -184,7 +181,7 @@ public class BirdHeadScan : MonoBehaviour {
                             birdScript.birdScan = false;
                         }
 
-                        else if(levelStr == "102")
+                        else if (levelStr == "102")
                         {
                             BMove102 birdScript = bird.GetComponent<BMove102>();
                             birdScript.birdScan = false;
@@ -197,12 +194,12 @@ public class BirdHeadScan : MonoBehaviour {
                             birdScript.birdScan = false;
                         }
 
-                        else if (levelStr == "104")
+                        else if(levelStr == "104")
                         {
-                            BMove104_1 birdScript = bird.GetComponent<BMove104_1>();
+                            BMove104_2 birdScript = bird.GetComponent<BMove104_2>();
                             birdScript.birdScan = false;
                         }
-                        
+
                         extractDone = false;
                         rotateDoneRight = false;
                         rotateDoneLeft = false;
@@ -212,11 +209,10 @@ public class BirdHeadScan : MonoBehaviour {
                 }
             }
 
-        
-        }
-                      
-        
-    }
 
+        }
+
+
+    }
 
 }

@@ -102,7 +102,7 @@ public class BMove104_2 : MonoBehaviour
         {
             animator.Play("Bird_Fly");
 
-            BirdHeadScan scanScript = birdHead.GetComponent<BirdHeadScan>();
+            BirdHeadScan2 scanScript = birdHead.GetComponent<BirdHeadScan2>();
             bool scanDone = scanScript.scanDone;
 
             if (toTree2 == true)
@@ -113,7 +113,7 @@ public class BMove104_2 : MonoBehaviour
                 rb2d.position = (transform.position).normalized;
 
 
-                transform.Rotate(0, 0, -1 * 15 * Time.fixedDeltaTime);
+                transform.Rotate(0, 0, 1 * 15 * Time.fixedDeltaTime);
 
                 if (Vector3.Distance(currentPos, treePos2) <= 0.1)
                 {
@@ -126,7 +126,7 @@ public class BMove104_2 : MonoBehaviour
 
             }
 
-            if (toTree1 == true)
+            if (toTree1 == true && curState == (int)State.fly)
             {
                 incrementor += 0.01f;
                 transform.position = Vector3.Slerp(twoToOneRelCentre2, oneToTwoRelCentre2, incrementor / duration);
@@ -134,7 +134,7 @@ public class BMove104_2 : MonoBehaviour
                 rb2d.position = (transform.position).normalized;
 
 
-                transform.Rotate(0, 0, -1 * 15 * Time.fixedDeltaTime);
+                transform.Rotate(0, 0, 1 * 15 * Time.fixedDeltaTime);
 
                 if (Vector3.Distance(currentPos, treePos1) <= 0.1)
                 {
@@ -175,49 +175,28 @@ public class BMove104_2 : MonoBehaviour
             float treeAngle02 = Mathf.Atan2(dy02, dx02);
             float currentAngle = Mathf.Atan2(cy, cx);
 
-            BirdHeadScan scanScript = birdHead.GetComponent<BirdHeadScan>();
+            BirdHeadScan2 scanScript = birdHead.GetComponent<BirdHeadScan2>();
             bool scanDone = scanScript.scanDone;
 
             if (atTree1 == true && curState == (int)State.scan)
             {
-
-                if (tripCount == 0)
+                
+                if (System.Math.Round(treeAngle02, 2) != System.Math.Round(currentAngle, 2))
                 {
-
-
-
-                    if (scanDone == true)
-                    {
-                        incrementor = 0;
-                        atTree1 = false;
-                        curState = (int)State.fly;
-                        toTree2 = true;
-                        birdScan = false;
-                        tripCount = 1;
-
-                    }
-
+                    transform.Rotate(0, 0, 1 * 25 * Time.fixedDeltaTime);
 
                 }
 
-                else
+                if (scanDone == true)
                 {
-                    if (System.Math.Round(treeAngle02, 2) != System.Math.Round(currentAngle, 2))
-                    {
-                        transform.Rotate(0, 0, -1 * 25 * Time.fixedDeltaTime);
+                    incrementor = 0;
+                    atTree1 = false;
+                    curState = (int)State.fly;
+                    toTree2 = true;
+                    birdScan = false;
 
-                    }
-
-                    if (scanDone == true)
-                    {
-                        incrementor = 0;
-                        atTree1 = false;
-                        curState = (int)State.fly;
-                        toTree2 = true;
-                        birdScan = false;
-
-                    }
                 }
+                
 
 
 
@@ -231,7 +210,7 @@ public class BMove104_2 : MonoBehaviour
 
                 if (System.Math.Round(treeAngle01, 2) != System.Math.Round(currentAngle, 2))
                 {
-                    transform.Rotate(0, 0, -1 * 25 * Time.fixedDeltaTime);
+                    transform.Rotate(0, 0, 1 * 25 * Time.fixedDeltaTime);
 
                 }
 

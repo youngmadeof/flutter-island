@@ -26,7 +26,9 @@ public class FlowExpTrans : MonoBehaviour {
         FlowRuntime flowRun = gameManage.GetComponent<FlowRuntime>();
         levelStr = flowRun.levelNo;
         FlowMgmt101 flowMgmt101 = gameManage.GetComponent<FlowMgmt101>();
+        FlowMgmt102 flowMgmt102 = gameManage.GetComponent<FlowMgmt102>();
         FlowMgmt103 flowMgmt103 = gameManage.GetComponent<FlowMgmt103>();
+        FlowMgmt104 flowMgmt104 = gameManage.GetComponent<FlowMgmt104>();
         FlowMgmt201 flowMgmt201 = gameManage.GetComponent<FlowMgmt201>();
 
         if (levelStr == "101")
@@ -34,10 +36,20 @@ public class FlowExpTrans : MonoBehaviour {
             flowID = flowMgmt101.flowID;
         }
 
+        else if(levelStr == "102")
+        {
+            flowID = flowMgmt102.flowID;
+        }
+
         else if (levelStr == "103")
         {
             flowID = flowMgmt103.flowID;
 
+        }
+
+        else if(levelStr == "104")
+        {
+            flowID = flowMgmt104.flowID;
         }
 
         else if (levelStr == "201")
