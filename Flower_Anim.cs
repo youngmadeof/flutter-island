@@ -99,7 +99,7 @@ public class Flower_Anim : MonoBehaviour
     }
 
 
-    void FixedUpdate()
+    void Update()
     {
         animator = GetComponent<Animator>();
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);

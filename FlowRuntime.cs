@@ -12,6 +12,7 @@ public class FlowRuntime : MonoBehaviour
     private FlowMgmt102 flowerMgmt102;
     private FlowMgmt103 flowerMgmt103;
     private FlowMgmt104 flowerMgmt104;
+    private FlowMgmt105 flowerMgmt105;
     private FlowMgmt201 flowerMgmt201;
 
 
@@ -44,6 +45,13 @@ public class FlowRuntime : MonoBehaviour
             flowerMgmt104 = GetComponent<FlowMgmt104>();
 
             flowerMgmt104.FlowerTopUp();
+        }
+
+        else if (levelNo == "105")
+        {
+            flowerMgmt105 = GetComponent<FlowMgmt105>();
+
+            flowerMgmt105.FlowerTopUp();
         }
 
         else if (levelNo == "201")
