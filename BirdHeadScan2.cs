@@ -93,6 +93,13 @@ public class BirdHeadScan2 : MonoBehaviour
             scanInit = birdScript.birdScan;
         }
 
+        else if(levelStr == "105")
+        {
+            BMove105_2 birdScript = bird.GetComponent<BMove105_2>();
+            scanInit = birdScript.birdScan;
+        }
+
+
 
 
         if (scanInit == true)

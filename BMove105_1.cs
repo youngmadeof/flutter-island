@@ -8,6 +8,7 @@ public class BMove105_1 : MonoBehaviour
     public GameObject birdHead;
     private bool gotYerButt;
     private float birdRotPos;
+    public int speed;
 
     public bool birdScan;
 
@@ -18,7 +19,6 @@ public class BMove105_1 : MonoBehaviour
     public int rotTurn;
 
     private bool scanDone;
-
 
     Animator animator;
 
@@ -89,7 +89,7 @@ public class BMove105_1 : MonoBehaviour
 
                 if(System.Math.Round(pos01Angle,2) != System.Math.Round(currentAngle,2))
                 {
-                    transform.Rotate(0, 0, 1 * 20 * Time.fixedDeltaTime);
+                    transform.Rotate(0, 0, -1 * speed * Time.fixedDeltaTime);
                 }
 
                 else
@@ -106,7 +106,7 @@ public class BMove105_1 : MonoBehaviour
                 if (System.Math.Round(pos02Angle, 2) != System.Math.Round(currentAngle, 2))
                 {
 
-                    transform.Rotate(0, 0, 1 * 20 * Time.fixedDeltaTime);
+                    transform.Rotate(0, 0, -1 * speed * Time.fixedDeltaTime);
 
                 }
 
@@ -116,26 +116,26 @@ public class BMove105_1 : MonoBehaviour
 
                 }
 
+            }
+
+            if (rotTurn == 3)
+            {
+                if (System.Math.Round(pos03Angle, 2) != System.Math.Round(currentAngle, 2))
+                {
+                    transform.Rotate(0, 0, -1 * speed * Time.fixedDeltaTime);
+                }
+
+                else
+                {
+                    curState = (int)State.scan;
+                }
             }
 
             if (rotTurn == 4)
             {
-                if (System.Math.Round(pos03Angle, 2) != System.Math.Round(currentAngle, 2))
-                {
-                    transform.Rotate(0, 0, 1 * 20 * Time.fixedDeltaTime);
-                }
-
-                else
-                {
-                    curState = (int)State.scan;
-                }
-            }
-
-            if (rotTurn == 5)
-            {
                 if (System.Math.Round(pos04Angle, 2) != System.Math.Round(currentAngle, 2))
                 {
-                    transform.Rotate(0, 0, 1 * 20 * Time.fixedDeltaTime);
+                    transform.Rotate(0, 0, -1 * speed * Time.fixedDeltaTime);
                 }
 
                 else
@@ -155,7 +155,7 @@ public class BMove105_1 : MonoBehaviour
 
             if (scanDone == true)
             {
-                if (rotTurn == 5)
+                if (rotTurn == 4)
                 {
                     rotTurn = 1;
                     curState = (int)State.turn;
