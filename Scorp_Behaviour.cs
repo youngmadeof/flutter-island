@@ -20,7 +20,10 @@ public class Scorp_Behaviour : MonoBehaviour
     public GameObject sect0302;
     public GameObject sect0303;
 
-    
+    public GameObject cact01;
+    public GameObject cact02;
+
+    private int directionDistance;
 
     private Vector3 pos0101;
     private Vector3 pos0102;
@@ -31,6 +34,9 @@ public class Scorp_Behaviour : MonoBehaviour
     private Vector3 pos0301;
     private Vector3 pos0302;
     private Vector3 pos0303;
+
+    private Vector3 posCact01;
+    private Vector3 posCact02;
 
     private Vector3 currentPos;
     private Vector3 retPos;
@@ -49,9 +55,12 @@ public class Scorp_Behaviour : MonoBehaviour
     public bool boolSect2;
     public bool boolSect3;
 
-    private bool boolRestRot;
+    public bool boolRestRot;
 
     private float speed;
+    public float restSpeed;
+    public float patrolSpeed;
+    public float attackSpeed;
     public int intSect;
 
     public float distJ;
@@ -72,10 +81,20 @@ public class Scorp_Behaviour : MonoBehaviour
     public int curMainState;
     public int curSubState;
 
+    //Use these variables to parse through to Rotation script
+    public float dxPos;
+    public float dyPos;
+
+    private Collider2D collide;
+
+    private int direction;
+
+    LayerMask cactusLayer;
+
     public enum MainState
     {
-        idle,
-        agro,
+        patrol,
+        attack,
         ret,
         rest
     }
@@ -87,33 +106,14 @@ public class Scorp_Behaviour : MonoBehaviour
         inSect3
     }
 
-    //TODO: This is on the wrong object. Should be attached to each sector
-    /*public void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.gameObject == sector1)
-        {
-            curSubState = (int)SubState.inSect1;
-            intSect = 1;
-        }
-
-        if(collision.gameObject == sector2)
-        {
-            curSubState = (int)SubState.inSect2;
-            intSect = 2;
-        }
-
-        if(collision.gameObject == sector3)
-        {
-            curSubState = (int)SubState.inSect3;
-            intSect = 3;
-        }
-    }*/
 
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        speed = 0.02f;
+        collide = GetComponent<Collider2D>();
+
+        speed = patrolSpeed;
         pos0101 = sect0101.transform.position;
         pos0102 = sect0102.transform.position;
         pos0103 = sect0103.transform.position;
@@ -123,11 +123,19 @@ public class Scorp_Behaviour : MonoBehaviour
         pos0301 = sect0301.transform.position;
         pos0302 = sect0302.transform.position;
         pos0303 = sect0303.transform.position;
+
+        posCact01 = cact01.transform.position;
+        posCact02 = cact02.transform.position;
+
+        directionDistance = 5;
+
         toPos0101 = true;
         intSect = 1;
         boolSect1 = true;
         boolRestRot = false;
 
+        
+        //cactusLayer = LayerMask.GetMask("Cactus");
     }
 
     // Update is called once per frame
@@ -140,8 +148,9 @@ public class Scorp_Behaviour : MonoBehaviour
         SectThreeCol sectThreeScript = sector3.GetComponent<SectThreeCol>();
         boolSect3 = sectThreeScript.boolSect;
 
-        
-        if(boolSect1 == true)
+
+
+        if (boolSect1 == true)
         {
             curSubState = (int)SubState.inSect1;
         }
@@ -166,8 +175,10 @@ public class Scorp_Behaviour : MonoBehaviour
 
 
 
-        if(curMainState == (int)MainState.idle)
+        if(curMainState == (int)MainState.patrol)
         {
+            
+            collide.isTrigger = true;
             animator.SetBool("Agro", false);
             animator.SetBool("Rest", false);
 
@@ -199,6 +210,7 @@ public class Scorp_Behaviour : MonoBehaviour
 
                     if (Vector3.Distance(currentPos, pos0101) <= 0.1f)
                     {
+                        speed = restSpeed;
 
                         transform.Rotate(0, 0, 1 * 37 * Time.fixedDeltaTime);
 
@@ -207,8 +219,9 @@ public class Scorp_Behaviour : MonoBehaviour
                         
                     
 
-                    if (System.Math.Round(currentAngle,2) == System.Math.Round(pos02Angle,2))
+                    if (System.Math.Round(currentAngle,1) == System.Math.Round(pos02Angle,1))
                     {
+                        speed = patrolSpeed;
 
                         animator.SetBool("Rest", false);
                         toPos0101 = false;
@@ -229,14 +242,17 @@ public class Scorp_Behaviour : MonoBehaviour
 
                     if (Vector3.Distance(currentPos, pos0102) <= 0.1f)
                     {
+                        speed = restSpeed;
+
                         transform.Rotate(0, 0, 1 * 37 * Time.fixedDeltaTime);
 
                         animator.SetBool("Rest", true);
                     }
 
 
-                    if (System.Math.Round(currentAngle, 2) == System.Math.Round(pos03Angle, 2))
+                    if (System.Math.Round(currentAngle, 1) == System.Math.Round(pos03Angle, 1))
                     {
+                        speed = patrolSpeed;
                         animator.SetBool("Rest", false);
 
                         toPos0102 = false;
@@ -253,14 +269,16 @@ public class Scorp_Behaviour : MonoBehaviour
 
                     if (Vector3.Distance(currentPos, pos0103) <= 0.1f)
                     {
+                        speed = restSpeed;
                         transform.Rotate(0, 0, 1 * 37 * Time.fixedDeltaTime);
 
                         animator.SetBool("Rest", true);
                     }
 
 
-                    if (System.Math.Round(currentAngle, 2) == System.Math.Round(pos01Angle, 2))
+                    if (System.Math.Round(currentAngle, 1) == System.Math.Round(pos01Angle, 1))
                     {
+                        speed = patrolSpeed;
                         animator.SetBool("Rest", false);
 
                         toPos0103 = false;
@@ -297,15 +315,18 @@ public class Scorp_Behaviour : MonoBehaviour
 
                     if (Vector3.Distance(currentPos, pos0201) <= 0.1f)
                     {
+                        speed = restSpeed;
                         transform.Rotate(0, 0, -1 * 37 * Time.fixedDeltaTime);
+
 
                         animator.SetBool("Rest", true);
                     }
 
 
 
-                    if (System.Math.Round(currentAngle, 2) == System.Math.Round(pos02Angle, 2))
+                    if (System.Math.Round(currentAngle, 1) == System.Math.Round(pos02Angle, 1))
                     {
+                        speed = patrolSpeed;
                         animator.SetBool("Rest", false);
 
                         toPos0201 = false;
@@ -326,14 +347,16 @@ public class Scorp_Behaviour : MonoBehaviour
 
                     if (Vector3.Distance(currentPos, pos0202) <= 0.1f)
                     {
+                        speed = restSpeed;
                         transform.Rotate(0, 0, -1 * 37 * Time.fixedDeltaTime);
 
                         animator.SetBool("Rest", true);
                     }
 
 
-                    if (System.Math.Round(currentAngle, 2) == System.Math.Round(pos03Angle, 2))
+                    if (System.Math.Round(currentAngle, 1) == System.Math.Round(pos03Angle, 1))
                     {
+                        speed = patrolSpeed;
                         animator.SetBool("Rest", false);
 
                         toPos0202 = false;
@@ -350,14 +373,16 @@ public class Scorp_Behaviour : MonoBehaviour
 
                     if (Vector3.Distance(currentPos, pos0203) <= 0.5f)
                     {
+                        speed = restSpeed;
                         transform.Rotate(0, 0, 1 * -37 * Time.fixedDeltaTime);
 
                         animator.SetBool("Rest", true);
                     }
 
 
-                    if (System.Math.Round(currentAngle, 2) == System.Math.Round(pos01Angle, 2))
+                    if (System.Math.Round(currentAngle, 1) == System.Math.Round(pos01Angle, 1))
                     {
+                        speed = patrolSpeed;
                         animator.SetBool("Rest", false);
 
                         toPos0203 = false;
@@ -390,6 +415,7 @@ public class Scorp_Behaviour : MonoBehaviour
 
                     if (Vector3.Distance(currentPos, pos0301) <= 0.1f)
                     {
+                        speed = restSpeed;
                         transform.Rotate(0, 0, 1 * 37 * Time.fixedDeltaTime);
 
                         animator.SetBool("Rest", true);
@@ -397,8 +423,9 @@ public class Scorp_Behaviour : MonoBehaviour
 
 
 
-                    if (System.Math.Round(currentAngle, 2) == System.Math.Round(pos02Angle, 2))
+                    if (System.Math.Round(currentAngle, 1) == System.Math.Round(pos02Angle, 1))
                     {
+                        speed = patrolSpeed;
                         animator.SetBool("Rest", false);
 
                         toPos0301 = false;
@@ -419,14 +446,16 @@ public class Scorp_Behaviour : MonoBehaviour
 
                     if (Vector3.Distance(currentPos, pos0302) <= 0.1f)
                     {
+                        speed = restSpeed;
                         transform.Rotate(0, 0, 1 * 37 * Time.fixedDeltaTime);
 
                         animator.SetBool("Rest", true);
                     }
 
 
-                    if (System.Math.Round(currentAngle, 2) == System.Math.Round(pos03Angle, 2))
+                    if (System.Math.Round(currentAngle, 1) == System.Math.Round(pos03Angle, 1))
                     {
+                        speed = patrolSpeed;
                         animator.SetBool("Rest", false);
 
                         toPos0302 = false;
@@ -443,14 +472,16 @@ public class Scorp_Behaviour : MonoBehaviour
 
                     if (Vector3.Distance(currentPos, pos0303) <= 0.5f)
                     {
+                        speed = restSpeed;
                         transform.Rotate(0, 0, 1 * 37 * Time.fixedDeltaTime);
 
                         animator.SetBool("Rest", true);
                     }
 
 
-                    if (System.Math.Round(currentAngle, 2) == System.Math.Round(pos01Angle, 2))
+                    if (System.Math.Round(currentAngle, 1) == System.Math.Round(pos01Angle, 1))
                     {
+                        speed = patrolSpeed;
                         animator.SetBool("Rest", false);
 
                         toPos0303 = false;
@@ -461,7 +492,7 @@ public class Scorp_Behaviour : MonoBehaviour
             }
         }
   
-        if(curMainState == (int)MainState.agro)
+        if(curMainState == (int)MainState.attack)
         {
             animator.SetBool("Rest", false);
             animator.SetBool("Agro", true);
@@ -471,17 +502,28 @@ public class Scorp_Behaviour : MonoBehaviour
 
             float buttAngle = Mathf.Atan2(by, bx);
 
-            speed = 0.045f;
-            transform.position += (butt.transform.position - currentPos).normalized * speed;
+            speed = attackSpeed;
+            //transform.position += (butt.transform.position - currentPos).normalized * speed;
+
+    
+            float dist = Vector3.Distance(posCact01, transform.position);
+            //Debug.Log(dist);
+            Vector3 newPos = transform.position += (butt.transform.position - currentPos).normalized * speed;
+            rb2d.MovePosition(newPos);
+            //rb2d.velocity = (butt.transform.position - currentPos);
 
             Vector3 relativePos = currentPos - butt.transform.position;
 
             Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.forward);
             rotation.x = 0.0f;
             rotation.y = 0.0f;
-            transform.rotation = rotation;
+            //transform.rotation = rotation;
+            rb2d.MoveRotation(rotation);           
+            
 
             timeCapt = true;
+
+            collide.isTrigger = false;
 
   
 
@@ -489,70 +531,70 @@ public class Scorp_Behaviour : MonoBehaviour
 
         if(curMainState == (int)MainState.ret)
         {
-            speed = 0.02f;
+            speed = patrolSpeed;
 
             animator.SetBool("Agro", false);
             animator.SetBool("Rest", false);
 
+            //Debug.Log("Return");
 
-            transform.position += (retPos - currentPos).normalized * 0.02f;
+            transform.position += (retPos - currentPos).normalized * speed;
 
-            Debug.Log("Return");
-
-
-            if (Vector3.Distance(currentPos, retPos) <= 0.3f)
+            if(Vector3.Distance(currentPos, retPos) <= 0.1f)
             {
                 if (index == 0)
-                {
-                    toPos0102 = true;
-                }
-
-                else if (index == 1)
-                {
-                    toPos0103 = true;
-                }
-
-                else if (index == 2)
                 {
                     toPos0101 = true;
                 }
 
+                else if (index == 1)
+                {
+                    toPos0102 = true;
+                }
+
+                else if (index == 2)
+                {
+                    toPos0103 = true;
+                }
+
                 else if (index == 3)
-                {
-                    toPos0202 = true;
-                }
-
-                else if (index == 4)
-                {
-                    toPos0203 = true;
-                }
-
-                else if (index == 5)
                 {
                     toPos0201 = true;
                 }
 
+                else if (index == 4)
+                {
+                    toPos0202 = true;
+                }
+
+                else if (index == 5)
+                {
+                    toPos0203 = true;
+                }
+
                 else if (index == 6)
+                {
+                    toPos0301 = true;
+                }
+
+                else if (index == 7)
                 {
                     toPos0302 = true;
                 }
 
-                else if(index == 7)
+                else if (index == 8)
                 {
                     toPos0303 = true;
                 }
-
-                else if (index == 8)
-                {
-                    toPos0301 = true;
-                }
-                curMainState = (int)MainState.idle;
+                curMainState = (int)MainState.patrol;
             }
 
            
+               
+
         }
 
-        if(curMainState == (int)MainState.rest)
+        if (curMainState == (int)MainState.rest)
         {
             animator.SetBool("Agro", false);
             animator.SetBool("Rest", true);
@@ -561,6 +603,10 @@ public class Scorp_Behaviour : MonoBehaviour
             float dyRet = retPos.y - transform.position.y;
 
             float posRetAngle = Mathf.Atan2(dyRet, dxRet);
+            float angBetweenPoints = Mathf.Atan2(dyRet,dxRet) * Mathf.Rad2Deg;
+
+            dxPos = retPos.x;
+            dxPos = retPos.y;
 
             if (timeCapt == true)
             {
@@ -576,22 +622,43 @@ public class Scorp_Behaviour : MonoBehaviour
                 boolRestRot = true;
             }
 
-            if(boolRestRot == true)
+            //ScorpRot scorRotScrpt = GetComponent<ScorpRot>();
+
+            if(boolRestRot)
             {
                 transform.Rotate(0, 0, -1 * 37 * Time.fixedDeltaTime);
+            }
 
-                if (System.Math.Round(currentAngle, 2) == System.Math.Round(posRetAngle, 2))
+
+
+
+            if (System.Math.Round(currentAngle, 1) == System.Math.Round(posRetAngle, 1))
+            {
+                curMainState = (int)MainState.ret;
+                boolRestRot = false;
+
+                //cactusLayer = 1 << LayerMask.NameToLayer("Cactus");
+                cactusLayer = LayerMask.GetMask("Cactus");
+                Debug.Log(cactusLayer);
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 1.0f, cactusLayer);
+
+                Debug.DrawRay(transform.position, transform.up * 1.0f, Color.red, 40f);
+
+                if (hit.collider != null)
                 {
-                    curMainState = (int)MainState.ret;
-                    boolRestRot = false;
+                    Debug.Log("Cactus look " + hit.collider.gameObject.name);
                 }
+
 
             }
 
-        }
-       
-    }
+            //}
 
+
+        }
+
+    }
+    
     public void GetNextPos()
     {
         toPos0101 = false;
@@ -634,7 +701,7 @@ public class Scorp_Behaviour : MonoBehaviour
         for(int k = 0; k < posArray.Length; k++)
         {
 
-            Debug.Log(posArray[k] + " posArray " + k);
+            //Debug.Log(posArray[k] + " posArray " + k);
             if(k == index)
             {
                 retPos = posArray[k];

@@ -152,9 +152,14 @@ public class BFly_Collision : MonoBehaviour {
 
         if(subCollision == true)
         {
+            //TODO: Put in Scorp Script here
             FishControl fishScript = subEnemyObj.GetComponent<FishControl>();
             doColl = fishScript.collEnabled;
             damageVal = fishScript.damageVal;
+
+            ScorpDmgCol scorpScript = subEnemyObj.GetComponent<ScorpDmgCol>();
+            doColl = scorpScript.collEnabled;
+            damageVal = scorpScript.damageVal;
 
             CountdownTimer timer = slidTime.GetComponent<CountdownTimer>();
 
@@ -163,7 +168,7 @@ public class BFly_Collision : MonoBehaviour {
                 doDamageCol = true;
                 Debug.Log(doDamageCol + " dodamage BFLY COLL");
                 damageTime = Time.fixedTime;
-                Debug.Log("Fish Hit!");
+                //Debug.Log("Fish Hit!");
                 subCollision = false;
                 timer.count = 0;
                
