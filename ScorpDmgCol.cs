@@ -18,6 +18,8 @@ public class ScorpDmgCol : MonoBehaviour
         {
             Debug.Log("damage");
             collEnabled = true;
+            Scorp_Behaviour scorpScript = gameObject.GetComponentInParent<Scorp_Behaviour>();
+            scorpScript.curMainState = 3;
 
         }
     }

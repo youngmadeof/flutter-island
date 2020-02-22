@@ -5,7 +5,8 @@ public class Flower_Anim : MonoBehaviour
 {
     public GameObject butt;
     private Rigidbody2D rb2d;
-    private bool hit;
+    public bool hit;
+    public static bool blInteract;
     private bool set;
     
     //Bring in the Nectar Timer
@@ -72,6 +73,7 @@ public class Flower_Anim : MonoBehaviour
             if (flowerDrained == false)
             {
                 hit = true;
+                blInteract = true;
                 flowerDrained = false;
                 //Debug.Log("Flower Drained Anim " + flowerDrained);
                 BFly_Control buttScript = butt.GetComponent<BFly_Control>();
@@ -89,6 +91,7 @@ public class Flower_Anim : MonoBehaviour
         if (Other.gameObject == butt)
         {
             hit = false;
+            blInteract = false;
             //set = false;
             BFly_Control buttScript = butt.GetComponent<BFly_Control>();
             buttScript.speed = 80;
@@ -139,6 +142,7 @@ public class Flower_Anim : MonoBehaviour
                 if (setFlowerStatus == true)
                 {                    
                     flowerDrained = true;
+                    blInteract = false;
                     setFlowerStatus = false;
                     animator = GetComponent<Animator>();
                     BFly_Control buttScript = butt.GetComponent<BFly_Control>();

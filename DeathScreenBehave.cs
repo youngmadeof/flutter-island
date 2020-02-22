@@ -40,6 +40,8 @@ public class DeathScreenBehave : MonoBehaviour {
         BFly_Collision buttScript = butt.GetComponent<BFly_Collision>();
         buttState = buttScript.curState;
 
+        //Debug.Log(buttState + " buttState");
+
         if (buttState == 1)
         {
 

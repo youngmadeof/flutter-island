@@ -26,6 +26,7 @@ public class Scorp_Behaviour : MonoBehaviour
     private int directionDistance;
 
     private Vector3 pos0101;
+    //private Vector3 locPos0101;
     private Vector3 pos0102;
     private Vector3 pos0103;
     private Vector3 pos0201;
@@ -35,11 +36,19 @@ public class Scorp_Behaviour : MonoBehaviour
     private Vector3 pos0302;
     private Vector3 pos0303;
 
+    public int tripCount;
+
+    private Vector3 relativePos;
+    private Transform transPos;
+    private float relPosX;
+
     private Vector3 posCact01;
     private Vector3 posCact02;
 
     private Vector3 currentPos;
     private Vector3 retPos;
+    private Vector3 retPosAlt;
+    private Vector3 nextPos;
 
     public bool toPos0101;
     public bool toPos0102;
@@ -56,6 +65,9 @@ public class Scorp_Behaviour : MonoBehaviour
     public bool boolSect3;
 
     public bool boolRestRot;
+    private bool boolGoToNext;
+
+    private bool getRel;
 
     private float speed;
     public float restSpeed;
@@ -66,8 +78,13 @@ public class Scorp_Behaviour : MonoBehaviour
     public float distJ;
     public float distL;
     public int index;
+    public int indexAlt;
+    public bool goToAltPos;
 
     private float floatNearest;
+    private float dxRet;
+    private float dyRet;
+    private int rotDir;
 
     private bool timeCapt;
     private float timeStart;
@@ -96,7 +113,8 @@ public class Scorp_Behaviour : MonoBehaviour
         patrol,
         attack,
         ret,
-        rest
+        rest,
+        nextSect
     }
 
     public enum SubState
@@ -123,6 +141,9 @@ public class Scorp_Behaviour : MonoBehaviour
         pos0301 = sect0301.transform.position;
         pos0302 = sect0302.transform.position;
         pos0303 = sect0303.transform.position;
+
+
+        //locPos0101 = sect0101.transform.localPosition;
 
         posCact01 = cact01.transform.position;
         posCact02 = cact02.transform.position;
@@ -182,7 +203,6 @@ public class Scorp_Behaviour : MonoBehaviour
             animator.SetBool("Agro", false);
             animator.SetBool("Rest", false);
 
-            //speed = 0.02f;
 
             if (curSubState == (int)SubState.inSect1)
             {
@@ -238,8 +258,6 @@ public class Scorp_Behaviour : MonoBehaviour
                     
                     transform.position += (pos0102 - currentPos).normalized * speed;
 
-                    //transform.Rotate(0, 0, 1 * 20 * Time.fixedDeltaTime);
-
                     if (Vector3.Distance(currentPos, pos0102) <= 0.1f)
                     {
                         speed = restSpeed;
@@ -258,6 +276,7 @@ public class Scorp_Behaviour : MonoBehaviour
                         toPos0102 = false;
                         toPos0103 = true;
                         t = 0;
+                        tripCount += 1;
                     }
 
                 }
@@ -265,17 +284,34 @@ public class Scorp_Behaviour : MonoBehaviour
                 if (toPos0103 == true)
                 {
                    
-                    transform.position += (pos0103 - currentPos).normalized * speed;
-
+                    transform.position += (pos0103 - currentPos).normalized * speed;                  
+                                       
+                   
                     if (Vector3.Distance(currentPos, pos0103) <= 0.1f)
                     {
-                        speed = restSpeed;
-                        transform.Rotate(0, 0, 1 * 37 * Time.fixedDeltaTime);
+                        if (tripCount == 2)
+                        {
+                            curMainState = (int)MainState.nextSect;
+                            nextPos = pos0201;
+                            toPos0201 = true;
+                            toPos0103 = false;
+                            boolGoToNext = false;
+                            rotDir = 1;
+                            tripCount = 0;
 
-                        animator.SetBool("Rest", true);
+                        }
+
+                        else
+                        {
+                            speed = restSpeed;
+                            transform.Rotate(0, 0, 1 * 37 * Time.fixedDeltaTime);
+
+                            animator.SetBool("Rest", true);
+                        }
+                            
+
+
                     }
-
-
                     if (System.Math.Round(currentAngle, 1) == System.Math.Round(pos01Angle, 1))
                     {
                         speed = patrolSpeed;
@@ -285,7 +321,10 @@ public class Scorp_Behaviour : MonoBehaviour
                         toPos0101 = true;
                         t = 0;
                     }
-       
+
+                    
+
+
                 }
 
 
@@ -343,8 +382,6 @@ public class Scorp_Behaviour : MonoBehaviour
 
                     transform.position += (pos0202 - currentPos).normalized * speed;
 
-                    //transform.Rotate(0, 0, 1 * 20 * Time.fixedDeltaTime);
-
                     if (Vector3.Distance(currentPos, pos0202) <= 0.1f)
                     {
                         speed = restSpeed;
@@ -362,6 +399,7 @@ public class Scorp_Behaviour : MonoBehaviour
                         toPos0202 = false;
                         toPos0203 = true;
                         t = 0;
+                        tripCount += 1;
                     }
 
                 }
@@ -373,10 +411,26 @@ public class Scorp_Behaviour : MonoBehaviour
 
                     if (Vector3.Distance(currentPos, pos0203) <= 0.5f)
                     {
-                        speed = restSpeed;
-                        transform.Rotate(0, 0, 1 * -37 * Time.fixedDeltaTime);
 
-                        animator.SetBool("Rest", true);
+                        if (tripCount == 1)
+                        {
+                            curMainState = (int)MainState.nextSect;
+                            nextPos = pos0302;
+                            toPos0302 = true;
+                            toPos0203 = false;
+                            rotDir = -1;
+                            boolGoToNext = false;
+                            tripCount = 0;
+
+                        }
+
+                        else
+                        {
+                            speed = restSpeed;
+                            transform.Rotate(0, 0, -1 * 37 * Time.fixedDeltaTime);
+
+                            animator.SetBool("Rest", true);
+                        }
                     }
 
 
@@ -415,10 +469,26 @@ public class Scorp_Behaviour : MonoBehaviour
 
                     if (Vector3.Distance(currentPos, pos0301) <= 0.1f)
                     {
-                        speed = restSpeed;
-                        transform.Rotate(0, 0, 1 * 37 * Time.fixedDeltaTime);
+                        
 
-                        animator.SetBool("Rest", true);
+                        if (tripCount == 1)
+                        {
+                            curMainState = (int)MainState.nextSect;
+                            nextPos = pos0101;
+                            toPos0101 = true;
+                            toPos0301 = false;
+                            boolGoToNext = false;
+                            rotDir = 1;
+                            tripCount = 0;
+
+                        }
+
+                        else
+                        {
+                            speed = restSpeed;
+                            transform.Rotate(0, 0, 1 * 37 * Time.fixedDeltaTime);
+                            animator.SetBool("Rest", true);
+                        }
                     }
 
 
@@ -442,8 +512,6 @@ public class Scorp_Behaviour : MonoBehaviour
 
                     transform.position += (pos0302 - currentPos).normalized * speed;
 
-                    //transform.Rotate(0, 0, 1 * 20 * Time.fixedDeltaTime);
-
                     if (Vector3.Distance(currentPos, pos0302) <= 0.1f)
                     {
                         speed = restSpeed;
@@ -461,6 +529,7 @@ public class Scorp_Behaviour : MonoBehaviour
                         toPos0302 = false;
                         toPos0303 = true;
                         t = 0;
+                        tripCount += 1;
                     }
 
                 }
@@ -470,7 +539,7 @@ public class Scorp_Behaviour : MonoBehaviour
 
                     transform.position += (pos0303 - currentPos).normalized * speed;
 
-                    if (Vector3.Distance(currentPos, pos0303) <= 0.5f)
+                    if (Vector3.Distance(currentPos, pos0303) <= 0.1f)
                     {
                         speed = restSpeed;
                         transform.Rotate(0, 0, 1 * 37 * Time.fixedDeltaTime);
@@ -494,6 +563,8 @@ public class Scorp_Behaviour : MonoBehaviour
   
         if(curMainState == (int)MainState.attack)
         {
+            boolGoToNext = false;
+            tripCount = 0;
             animator.SetBool("Rest", false);
             animator.SetBool("Agro", true);
 
@@ -538,59 +609,123 @@ public class Scorp_Behaviour : MonoBehaviour
 
             //Debug.Log("Return");
 
-            transform.position += (retPos - currentPos).normalized * speed;
-
-            if(Vector3.Distance(currentPos, retPos) <= 0.1f)
+            if(goToAltPos)
             {
-                if (index == 0)
+                transform.position += (retPosAlt - currentPos).normalized * speed;
+
+                if (Vector3.Distance(currentPos, retPosAlt) <= 0.1f)
                 {
-                    toPos0101 = true;
+                    if (indexAlt == 0)
+                    {
+                        toPos0101 = true;
+                    }
+
+                    else if (indexAlt == 1)
+                    {
+                        toPos0102 = true;
+                    }
+
+                    else if (indexAlt == 2)
+                    {
+                        toPos0103 = true;
+                    }
+
+                    else if (indexAlt == 3)
+                    {
+                        toPos0201 = true;
+                    }
+
+                    else if (indexAlt == 4)
+                    {
+                        toPos0202 = true;
+                    }
+
+                    else if (indexAlt == 5)
+                    {
+                        toPos0203 = true;
+                    }
+
+                    else if (indexAlt == 6)
+                    {
+                        toPos0301 = true;
+                    }
+
+                    else if (indexAlt == 7)
+                    {
+                        toPos0302 = true;
+                    }
+
+                    else if (indexAlt == 8)
+                    {
+                        toPos0303 = true;
+                    }
+                    curMainState = (int)MainState.patrol;
+
+                    goToAltPos = false;
                 }
 
-                else if (index == 1)
-                {
-                    toPos0102 = true;
-                }
-
-                else if (index == 2)
-                {
-                    toPos0103 = true;
-                }
-
-                else if (index == 3)
-                {
-                    toPos0201 = true;
-                }
-
-                else if (index == 4)
-                {
-                    toPos0202 = true;
-                }
-
-                else if (index == 5)
-                {
-                    toPos0203 = true;
-                }
-
-                else if (index == 6)
-                {
-                    toPos0301 = true;
-                }
-
-                else if (index == 7)
-                {
-                    toPos0302 = true;
-                }
-
-                else if (index == 8)
-                {
-                    toPos0303 = true;
-                }
-                curMainState = (int)MainState.patrol;
             }
 
-           
-               
+            else
+            {
+                transform.position += (retPos - currentPos).normalized * speed;
+
+                if (Vector3.Distance(currentPos, retPos) <= 0.1f)
+                {
+                   // Debug.Log(index + " index");
+                    if (index == 0)
+                    {
+                        toPos0101 = true;
+                    }
+
+                    else if (index == 1)
+                    {
+                        toPos0102 = true;
+                    }
+
+                    else if (index == 2)
+                    {
+                        toPos0103 = true;
+                    }
+
+                    else if (index == 3)
+                    {
+                        toPos0201 = true;
+                    }
+
+                    else if (index == 4)
+                    {
+                        toPos0202 = true;
+                    }
+
+                    else if (index == 5)
+                    {
+                        toPos0203 = true;
+                    }
+
+                    else if (index == 6)
+                    {
+                        toPos0301 = true;
+                    }
+
+                    else if (index == 7)
+                    {
+                        toPos0302 = true;
+                    }
+
+                    else if (index == 8)
+                    {
+                        toPos0303 = true;
+                    }
+                    curMainState = (int)MainState.patrol;
+                }
+
+            }
+
+
+
+
+
 
         }
 
@@ -599,14 +734,53 @@ public class Scorp_Behaviour : MonoBehaviour
             animator.SetBool("Agro", false);
             animator.SetBool("Rest", true);
 
-            float dxRet = retPos.x - transform.position.x;
-            float dyRet = retPos.y - transform.position.y;
+
+
+            if(goToAltPos)
+            {
+                dxRet = retPosAlt.x - transform.position.x;
+                dyRet = retPosAlt.y - transform.position.y;
+
+                
+                
+                dxPos = retPosAlt.x;
+                dxPos = retPosAlt.y;
+            }
+
+            else
+            {
+                dxRet = retPos.x - transform.position.x;
+                dyRet = retPos.y - transform.position.y;
+
+                //TODO: use localposition to determine which way to turn
+
+                GameObject[] posObjArray = new[] { sect0101, sect0102, sect0103, sect0201, sect0202, sect0203, sect0301, sect0302, sect0303 };
+
+                if(getRel)
+                {
+                    for (int i = 0; i <= posObjArray.Length; i++)
+                    {
+                        if (i == index)
+                        {
+                            transPos = posObjArray[i].transform;
+
+                            Vector3 relativePos = transPos.InverseTransformDirection(transform.up);
+                            
+                            relPosX = relativePos.x;
+                        }
+                    }
+
+                    getRel = false;
+                }
+
+                          
+
+                
+                dxPos = retPos.x;
+                dxPos = retPos.y;
+            }
 
             float posRetAngle = Mathf.Atan2(dyRet, dxRet);
-            float angBetweenPoints = Mathf.Atan2(dyRet,dxRet) * Mathf.Rad2Deg;
-
-            dxPos = retPos.x;
-            dxPos = retPos.y;
 
             if (timeCapt == true)
             {
@@ -614,19 +788,29 @@ public class Scorp_Behaviour : MonoBehaviour
                 timeCapt = false;
                
             }
-
-            
+                        
 
             if(Mathf.Round(timeStart) + 3 == Mathf.Round(Time.fixedTime))
             {                
                 boolRestRot = true;
             }
 
-            //ScorpRot scorRotScrpt = GetComponent<ScorpRot>();
 
             if(boolRestRot)
             {
-                transform.Rotate(0, 0, -1 * 37 * Time.fixedDeltaTime);
+                //Debug.Log(Mathf.Round(relativePos.x));
+                if(relPosX < 0f)
+                {
+                    transform.Rotate(0, 0, 1 * 37 * Time.fixedDeltaTime);
+
+                    //Debug.Log("Rotate anti-clock");  
+                }
+
+                else
+                {
+                    transform.Rotate(0, 0, -1 * 37 * Time.fixedDeltaTime);
+                }
+                
             }
 
 
@@ -634,26 +818,63 @@ public class Scorp_Behaviour : MonoBehaviour
 
             if (System.Math.Round(currentAngle, 1) == System.Math.Round(posRetAngle, 1))
             {
-                curMainState = (int)MainState.ret;
-                boolRestRot = false;
+                
 
-                //cactusLayer = 1 << LayerMask.NameToLayer("Cactus");
                 cactusLayer = LayerMask.GetMask("Cactus");
-                Debug.Log(cactusLayer);
+                //Debug.Log(cactusLayer);
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 1.0f, cactusLayer);
 
-                Debug.DrawRay(transform.position, transform.up * 1.0f, Color.red, 40f);
+                //Debug.DrawRay(transform.position, transform.up * 1.0f, Color.red, 1f);
 
                 if (hit.collider != null)
                 {
-                    Debug.Log("Cactus look " + hit.collider.gameObject.name);
+                    //Debug.Log("Cactus look " + hit.collider.gameObject.name);
+                    goToAltPos = true;
                 }
 
+                else
+                {
+                    curMainState = (int)MainState.ret;
+                    boolRestRot = false;
+                }
 
             }
 
-            //}
+            
 
+
+        }
+
+        if(curMainState == (int)MainState.nextSect)
+        {
+            float dxNext = nextPos.x - transform.position.x;
+            float dyNext = nextPos.y - transform.position.y;
+
+            float nextPosAngle = Mathf.Atan2(dyNext, dxNext);           
+
+            if(boolGoToNext == false)
+            {
+                speed = restSpeed;
+                transform.Rotate(0, 0, rotDir * 37 * Time.fixedDeltaTime);
+
+                if (System.Math.Round(currentAngle, 1) == System.Math.Round(nextPosAngle, 1))
+                {
+                    speed = patrolSpeed;
+                    animator.SetBool("Rest", false);
+                    boolGoToNext = true;
+
+                }
+            }
+
+            else
+            {
+                transform.position += (nextPos - currentPos).normalized * speed;
+
+                if (Vector3.Distance(currentPos, nextPos) <= 0.1f)
+                {
+                    curMainState = (int)MainState.patrol;
+                }
+            }
 
         }
 
@@ -673,47 +894,49 @@ public class Scorp_Behaviour : MonoBehaviour
 
         Vector3[] posArray = new[] { pos0101, pos0102, pos0103, pos0201, pos0202, pos0203, pos0301, pos0302, pos0303 };
 
-
+        //Add all distancces to array
         for (int i = 0; i < posArray.Length; i++)
         {
             floatNearest = Vector3.Distance(currentPos, posArray[i]);
 
             nearDistArray.Add(floatNearest);            
 
-            //Debug.Log(floatNearest + " distance " + posArray[i] + " | " + i);
 
         }
-
-
+        
         float minVal = nearDistArray[0];
 
+        //go through all the distances and pick minmnum
         for (int j = 1; j < nearDistArray.Count; j++)
         {
             if(nearDistArray[j]<minVal)
             {
                 minVal = nearDistArray[j];
                 index = j;
+                indexAlt = j - 1;
             }
         }
 
-        //Debug.Log(posArray.Length + " posArray Length");
 
         for(int k = 0; k < posArray.Length; k++)
         {
 
-            //Debug.Log(posArray[k] + " posArray " + k);
             if(k == index)
             {
                 retPos = posArray[k];
             }
+
+            if(k == indexAlt)
+            {
+                retPosAlt = posArray[k];
+            }
         }
 
-    
-        //Debug.Log(minVal);
-        //Debug.Log(index);
 
 
         nearDistArray.Clear();
+
+        getRel = true;
 
     }
 

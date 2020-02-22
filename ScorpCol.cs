@@ -6,14 +6,17 @@ public class ScorpCol : MonoBehaviour
 {
 
     public GameObject butt;
-    public GameObject scorp;
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject == butt)
         {
-            Scorp_Behaviour scorpScript = scorp.GetComponent<Scorp_Behaviour>();
-            scorpScript.curMainState = 1;
+            if(Flower_Anim.blInteract == false)
+            {
+                Scorp_Behaviour scorpScript = GetComponentInParent<Scorp_Behaviour>();
+                scorpScript.curMainState = 1;
+            }
+            
         }
     }
 
@@ -21,10 +24,9 @@ public class ScorpCol : MonoBehaviour
     {
         if (collision.gameObject == butt)
         {
-            Scorp_Behaviour scorpScript = scorp.GetComponent<Scorp_Behaviour>();
-            //scorpScript.curMainState = 0;
+            Scorp_Behaviour scorpScript = GetComponentInParent<Scorp_Behaviour>();
             scorpScript.GetNextPos();
-            scorpScript.curMainState = 2;
+            scorpScript.curMainState = 3;
         }
     }
 

@@ -8,7 +8,11 @@ public class BFly_Collision : MonoBehaviour {
     public GameObject cloud;
     public GameObject enemyObj;
     public GameObject enemyObj2;
+    public GameObject enemyObj3;
     public GameObject subEnemyObj;
+    public GameObject cactObj1;
+    public GameObject cactObj2;
+    public GameObject cactObj3;
 
     public GameObject buttExp;
 
@@ -58,7 +62,6 @@ public class BFly_Collision : MonoBehaviour {
                 coneCollision = true;
             }
 
-
         }
 
         if(collision.gameObject == subEnemyObj)
@@ -86,12 +89,23 @@ public class BFly_Collision : MonoBehaviour {
         }
     }
 
-   
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject == cactObj1 || collision.gameObject == cactObj2 || collision.gameObject == cactObj3)
+        {
+            if(Flower_Anim.blInteract == false)
+            {
+                coneCollision = true;
+            }
+            
+        }
+    }
 
     // Update is called once per frame
     void Update ()
 
     {
+
         if (coneCollision == true && cloudCollision == false)
         {
             curState = (int)State.dead;
@@ -142,7 +156,7 @@ public class BFly_Collision : MonoBehaviour {
         if (curState == (int)State.dead)
         {
             //gameObject.SetActive(false);
-            Vector3 buttPos = transform.position;
+            Vector3 buttPos = transform.position;   
             ButtExplosion getButtBang = buttExp.GetComponent<ButtExplosion>();
             getButtBang.buttGoBang(buttPos);
             DestroyObject();
@@ -154,12 +168,23 @@ public class BFly_Collision : MonoBehaviour {
         {
             //TODO: Put in Scorp Script here
             FishControl fishScript = subEnemyObj.GetComponent<FishControl>();
-            doColl = fishScript.collEnabled;
-            damageVal = fishScript.damageVal;
-
             ScorpDmgCol scorpScript = subEnemyObj.GetComponent<ScorpDmgCol>();
-            doColl = scorpScript.collEnabled;
-            damageVal = scorpScript.damageVal;
+
+            if(subEnemyObj == GameObject.Find("AttackCol"))
+            {
+                doColl = scorpScript.collEnabled;
+                damageVal = scorpScript.damageVal;
+            }
+
+            else
+            {
+                doColl = fishScript.collEnabled;
+                damageVal = fishScript.damageVal;
+            }
+            
+
+            
+            
 
             CountdownTimer timer = slidTime.GetComponent<CountdownTimer>();
 
